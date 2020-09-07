@@ -6,11 +6,14 @@
       dark
     >
     <v-row>
-      <v-col lg="10">
-        <AppIcon/>
+      <v-col lg="1">
+        <AppIcon class="ma-3"/>
       </v-col>
-      <v-col>
-        <PersonIcon/>
+      <v-col lg="9">
+        <h1 class="ma-4">Zdrowa Dieta</h1>
+      </v-col>
+      <v-col lg="1">
+        <PersonIcon class="ma-3"/>
       </v-col>
     </v-row>
     </v-app-bar>
@@ -53,6 +56,14 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+h1 {
+  font-family: 'Dancing Script', cursive;
+  color: #c51162;
+}
+
+
 .theme--dark.v-application {
   background-color: var(--v-background-base, #121212) !important;
 }
