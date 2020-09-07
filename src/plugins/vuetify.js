@@ -15,8 +15,7 @@ export default new Vuetify({
           background: '#F3D9B1'
         },
         light: {
-          background: '#F3D9B1',
-          menuColor: '#121212'
+          background: '#F3D9B1'
         }
       }
     }
