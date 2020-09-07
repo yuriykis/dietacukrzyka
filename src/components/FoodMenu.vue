@@ -21,7 +21,7 @@
           </v-sheet>
       </v-row>
 
-      <v-container v-for="day in days" :key="day">
+      <v-container v-for="(day, i) in days" :key="i">
           <v-row class="mb-4 no-gutters"
           no-gutters>
           <v-sheet
@@ -31,10 +31,10 @@
         >
         <v-row>
             <v-col>
-                <h3 class="ml-5">{{day}}</h3>
+                <h3 class="ml-5">{{ day }}</h3>
             </v-col>
             <v-col>
-              <h5 class="mt-4">10.08.2020</h5>
+              <h5 class="mt-4">{{i + 10}}.08.2020</h5>
             </v-col>
         </v-row>
                 <v-slide-group
