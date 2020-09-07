@@ -20,163 +20,49 @@
                 </v-row>
           </v-sheet>
       </v-row>
-      <v-row class="mb-4 no-gutters"
-      no-gutters>
-       <v-sheet
-      class="mx-auto rounded-corner"
-      elevation="8"
-      max-width="800"
-    >
-    <v-row>
-        <v-col>
-            <h3 class="ml-5">Poniedziałek</h3>
-        </v-col>
-        <v-col>
-           <h5 class="mt-4">10.08.2020</h5>
-        </v-col>
-    </v-row>
-      <v-slide-group
-        v-model="model"
-        class="mb-4"
-        :prev-icon="prevIcon ? 'mdi-minus' : undefined"
-        :next-icon="nextIcon ? 'mdi-plus' : undefined"
-        :multiple="multiple"
-        :mandatory="mandatory"
-        :show-arrows="showArrows"
-        :center-active="centerActive"
-      >
-        <v-slide-item
-          v-for="i in 9"
-          :key="i"
+
+      <v-container v-for="day in days" :key="day">
+          <v-row class="mb-4 no-gutters"
+          no-gutters>
+          <v-sheet
+          class="mx-auto rounded-corner"
+          elevation="8"
+          max-width="800"
         >
-          <v-card
-            class="ma-4"
-            height="100"
-            width="200"
-          >
-          <v-img :src="require(`../assets/image${i%3+1}.jpg`)"/>
-          </v-card>
-        </v-slide-item>
-      </v-slide-group>
-    </v-sheet>
-      </v-row> 
-      <v-row class="mb-4" no-gutters>
-       <v-sheet
-      class="mx-auto rounded-corner"
-      elevation="8"
-      max-width="800"
-    >
-    <v-row>
-        <v-col>
-            <h3 class="ml-5">Wtorek</h3>
-        </v-col>
-        <v-col>
-           <h5 class="mt-4">11.08.2020</h5>
-        </v-col>
-    </v-row>
-      <v-slide-group
-        v-model="model"
-        class="mb-4"
-        :prev-icon="prevIcon ? 'mdi-minus' : undefined"
-        :next-icon="nextIcon ? 'mdi-plus' : undefined"
-        :multiple="multiple"
-        :mandatory="mandatory"
-        :show-arrows="showArrows"
-        :center-active="centerActive"
-      >
-        <v-slide-item
-          v-for="i in 9"
-          :key="i"
-        >
-          <v-card
-            class="ma-4"
-            height="100"
-            width="200"
-          >
-          <v-img :src="require(`../assets/image${i%3+1}.jpg`)"/>
-          </v-card>
-        </v-slide-item>
-      </v-slide-group>
-    </v-sheet>
-      </v-row>
-       <v-row  class="mb-4" no-gutters>
-       <v-sheet
-      class="mx-auto rounded-corner"
-      elevation="8"
-      max-width="800"
-    >
-    <v-row>
-        <v-col>
-            <h3 class="ml-5">Środa</h3>
-        </v-col>
-        <v-col>
-           <h5 class="mt-4">12.08.2020</h5>
-        </v-col>
-    </v-row>
-      <v-slide-group
-        v-model="model"
-        class="mb-4"
-        :prev-icon="prevIcon ? 'mdi-minus' : undefined"
-        :next-icon="nextIcon ? 'mdi-plus' : undefined"
-        :multiple="multiple"
-        :mandatory="mandatory"
-        :show-arrows="showArrows"
-        :center-active="centerActive"
-      >
-        <v-slide-item
-          v-for="i in 9"
-          :key="i"
-        >
-          <v-card
-            class="ma-4"
-            height="100"
-            width="200"
-          >
-          <v-img :src="require(`../assets/image${i%3+1}.jpg`)"/>
-          </v-card>
-        </v-slide-item>
-      </v-slide-group>
-    </v-sheet>
-      </v-row>
-       <v-row no-gutters>
-       <v-sheet
-      class="mx-auto rounded-corner"
-      elevation="8"
-      max-width="800"
-    >
-    <v-row>
-        <v-col>
-            <h3 class="ml-5">Czwartek</h3>
-        </v-col>
-        <v-col>
-           <h5 class="mt-4">13.08.2020</h5>
-        </v-col>
-    </v-row>
-      <v-slide-group
-        v-model="model"
-        class="mb-4"
-        :prev-icon="prevIcon ? 'mdi-minus' : undefined"
-        :next-icon="nextIcon ? 'mdi-plus' : undefined"
-        :multiple="multiple"
-        :mandatory="mandatory"
-        :show-arrows="showArrows"
-        :center-active="centerActive"
-      >
-        <v-slide-item
-          v-for="i in 9"
-          :key="i"
-        >
-          <v-card
-            class="ma-4"
-            height="100"
-            width="200"
-          >
-          <v-img :src="require(`../assets/image${i%3+1}.jpg`)"/>
-          </v-card>
-        </v-slide-item>
-      </v-slide-group>
-    </v-sheet>
-      </v-row>
+        <v-row>
+            <v-col>
+                <h3 class="ml-5">{{day}}</h3>
+            </v-col>
+            <v-col>
+              <h5 class="mt-4">10.08.2020</h5>
+            </v-col>
+        </v-row>
+                <v-slide-group
+                  v-model="model"
+                  class="mb-4"
+                  :prev-icon="prevIcon ? 'mdi-minus' : undefined"
+                  :next-icon="nextIcon ? 'mdi-plus' : undefined"
+                  :multiple="multiple"
+                  :mandatory="mandatory"
+                  :show-arrows="showArrows"
+                  :center-active="centerActive"
+                >
+                  <v-slide-item
+                    v-for="i in 9"
+                    :key="i"
+                  >
+                    <v-card
+                      class="ma-4"
+                      height="100"
+                      width="200"
+                    >
+                    <v-img :src="require(`../assets/image${i%3+1}.jpg`)"/>
+                    </v-card>
+                  </v-slide-item>
+               </v-slide-group>
+            </v-sheet>
+          </v-row>
+    </v-container>
   </v-container>
 </template>
 
@@ -184,7 +70,7 @@
   export default {
     name: 'Menu',
     data: () => ({
-
+      days: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']
     })
   }
 </script>
