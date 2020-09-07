@@ -4,23 +4,24 @@
       app
       color="#BBD274"
       dark
+      depressed
     >
     <v-row>
       <v-col lg="1">
-        <AppIcon class="ma-3"/>
+        <AppIcon/>
       </v-col>
       <v-col lg="9">
-        <h1 class="ma-4">Zdrowa Dieta</h1>
+        <h1>Zdrowa Dieta</h1>
       </v-col>
       <v-col lg="1">
-        <PersonIcon class="ma-3"/>
+        <PersonIcon/>
       </v-col>
     </v-row>
     </v-app-bar>
 
     <v-main>
       <v-row>
-        <v-col lg="2">
+        <v-col lg="2" class="pt-0 pb-0">
            <Menu/>
         </v-col>
          <v-col>
@@ -49,9 +50,7 @@ export default {
     PersonIcon
   },
 
-  data: () => ({
-    //
-  }),
+  data: () => ({}),
 };
 </script>
 
