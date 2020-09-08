@@ -21,3 +21,15 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+# VS Code folder
+.vscode
+
+# Python Virtual Environment
+env
+*.sublime-workspace
+
+# dev database
+db.sqlite3
+
+# Python Cache files
+*.pyc
