@@ -24,7 +24,7 @@
         <v-col lg="3" class="pt-0 pb-0">
            <Menu/>
         </v-col>
-         <v-col lg="5">
+         <v-col>
            <FoodMenu/>
         </v-col>
          <v-col lg="2">

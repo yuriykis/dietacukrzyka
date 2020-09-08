@@ -38,11 +38,11 @@
     data: () => ({
       drawer: true,
         items: [
-          { title: 'Dieta na ten tydzień', icon: 'mdi-home-city' },
+          { title: 'Dieta na ten tydzień', icon: 'mdi-silverware-fork-knife' },
           { title: 'Przepisy', icon: 'mdi-food-apple' },
-          { title: 'Porady', icon: 'mdi-food-apple' },
+          { title: 'Porady', icon: 'mdi-account-details-outline' },
           { title: 'Konto', icon: 'mdi-account' },
-          { title: 'Ustawienia', icon: 'mdi-account' },
+          { title: 'Ustawienia', icon: 'mdi-cog' },
         ],
         mini: true,
     }),
