@@ -23,8 +23,7 @@
       </v-row>
   </v-container>
       <v-container v-for="(day, i) in days" :key="i">
-          <v-row class="mb-1 no-gutters"
-          no-gutters>
+          <v-row class="mb-1 no-gutters">
           <v-sheet
           class="mx-auto rounded-corner"
           elevation="8"
