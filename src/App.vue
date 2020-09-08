@@ -21,10 +21,10 @@
 
     <v-main>
       <v-row>
-        <v-col lg="2" class="pt-0 pb-0">
+        <v-col lg="3" class="pt-0 pb-0">
            <Menu/>
         </v-col>
-         <v-col>
+         <v-col lg="5">
            <FoodMenu/>
         </v-col>
          <v-col lg="2">

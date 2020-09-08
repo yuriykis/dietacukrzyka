@@ -5,7 +5,6 @@
           <v-sheet
             class="mx-auto rounded-corner"
             elevation="8"
-            width="800"
             max-height="80"
             >
                 <v-row>

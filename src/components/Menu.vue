@@ -3,6 +3,7 @@
       v-model="drawer"
       :mini-variant.sync="mini"
       color="#F3D9B1"
+      width=350
     >
       <v-list-item class="px-2">
         <v-btn
@@ -23,7 +24,7 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
-          <v-list-item-content class="ma-0">
+          <v-list-item-content>
             <v-btn>{{ item.title }}</v-btn>
           </v-list-item-content>
         </v-list-item>
@@ -37,9 +38,11 @@
     data: () => ({
       drawer: true,
         items: [
-          { title: 'Strona Domowa', icon: 'mdi-home-city' },
-          { title: 'Mój Profil', icon: 'mdi-account' },
+          { title: 'Dieta na ten tydzień', icon: 'mdi-home-city' },
           { title: 'Przepisy', icon: 'mdi-food-apple' },
+          { title: 'Porady', icon: 'mdi-food-apple' },
+          { title: 'Konto', icon: 'mdi-account' },
+          { title: 'Ustawienia', icon: 'mdi-account' },
         ],
         mini: true,
     }),
