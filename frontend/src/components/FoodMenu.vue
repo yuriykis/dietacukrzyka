@@ -28,6 +28,7 @@
           class="mx-auto rounded-corner"
           elevation="8"
           max-width="800"
+          @click="seeDetails()"
         >
         <v-row>
             <v-col>
@@ -71,7 +72,14 @@
     name: 'Menu',
     data: () => ({
       days: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']
-    })
+    }),
+    methods: {
+      seeDetails () {
+        this.$router.push({
+          path: '/details'
+        })
+      }
+    }
   }
 </script>
 
