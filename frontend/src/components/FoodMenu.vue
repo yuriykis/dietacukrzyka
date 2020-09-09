@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container @click="seeDetails">
   <v-container>
       <v-row class="mb-2 no-gutters">
           <v-sheet
@@ -71,7 +71,12 @@
     name: 'Menu',
     data: () => ({
       days: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']
-    })
+    }),
+    methods: {
+      seeDetails () {
+        this.$router.push({ path: '/details' })
+      }
+    }
   }
 </script>
 
