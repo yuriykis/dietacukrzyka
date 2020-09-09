@@ -9,7 +9,7 @@
         >
         <v-row>
             <v-col>
-                <h3 class="ml-5">{{ day }}</h3>
+                <h3 class="ml-5"></h3>
             </v-col>
             <v-col>
               <h5 class="mt-4"></h5>
@@ -46,13 +46,8 @@
       meals: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
       day: ''
     }),
-    created () {
-        this.getDay()
-    },
     methods: {
-        getDay(){
-            this.day = this.$route.query.day
-        }
+  
     }
   }
 </script>

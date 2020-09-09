@@ -76,10 +76,7 @@
     methods: {
       seeDetails (day) {
         this.$router.push({
-          path: '/details', 
-          query : {
-            day
-          }
+          path: '/details'
         })
       }
     }
