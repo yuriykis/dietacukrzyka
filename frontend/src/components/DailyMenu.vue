@@ -43,8 +43,7 @@
   export default {
     name: 'Menu',
     data: () => ({
-      meals: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
-      day: ''
+      meals: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja']
     }),
     methods: {
   
