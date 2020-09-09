@@ -9,12 +9,14 @@ Vue.use(VueRouter)
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    props: true
   },
   {
     path: '/details',
     name: 'DailyMenu',
-    component: DailyMenu
+    component: DailyMenu,
+    props: true 
   }
 ]
 

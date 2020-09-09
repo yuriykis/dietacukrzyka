@@ -1,18 +1,36 @@
 <template>
   <v-container>
-      <v-container v-for="(day, i) in days" :key="i">
+       <v-container>
           <v-row class="mb-1 no-gutters">
           <v-sheet
           class="mx-auto rounded-corner"
           elevation="8"
-          max-width="800"
+          width="800"
         >
         <v-row>
             <v-col>
                 <h3 class="ml-5">{{ day }}</h3>
             </v-col>
             <v-col>
-              <h5 class="mt-4">{{i + 10}}.08.2020</h5>
+              <h5 class="mt-4"></h5>
+            </v-col>
+        </v-row>
+            </v-sheet>
+          </v-row>
+    </v-container>
+      <v-container v-for="(meal, i) in meals" :key="i">
+          <v-row class="mb-1 no-gutters">
+          <v-sheet
+          class="mx-auto rounded-corner"
+          elevation="8"
+          width="800"
+        >
+        <v-row>
+            <v-col>
+                <h3 class="ml-5">{{ meal }}</h3>
+            </v-col>
+            <v-col>
+                <h5 class="mt-4">{{ date }}</h5>
             </v-col>
         </v-row>
             </v-sheet>
@@ -24,13 +42,18 @@
 <script>
   export default {
     name: 'Menu',
-    props: [
-        'day',
-        'date'
-    ],
     data: () => ({
-      days: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']
-    })
+      meals: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
+      day: ''
+    }),
+    created () {
+        this.getDay()
+    },
+    methods: {
+        getDay(){
+            this.day = this.$route.query.day
+        }
+    }
   }
 </script>
 

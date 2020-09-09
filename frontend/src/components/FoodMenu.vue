@@ -1,5 +1,5 @@
 <template>
-  <v-container @click="seeDetails">
+  <v-container>
   <v-container>
       <v-row class="mb-2 no-gutters">
           <v-sheet
@@ -28,6 +28,7 @@
           class="mx-auto rounded-corner"
           elevation="8"
           max-width="800"
+          @click="seeDetails(day)"
         >
         <v-row>
             <v-col>
@@ -73,8 +74,13 @@
       days: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']
     }),
     methods: {
-      seeDetails () {
-        this.$router.push({ path: '/details' })
+      seeDetails (day) {
+        this.$router.push({
+          path: '/details', 
+          query : {
+            day
+          }
+        })
       }
     }
   }

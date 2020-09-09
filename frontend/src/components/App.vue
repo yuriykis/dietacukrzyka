@@ -8,7 +8,7 @@
     >
     <v-row>
       <v-col lg="1">
-        <AppIcon/>
+        <AppIcon @click="goToHome"/>
       </v-col>
       <v-col lg="9">
         <h1>Zdrowa Dieta</h1>
@@ -48,6 +48,11 @@ export default {
     AppIcon,
     PersonIcon
   },
+  methods: {
+    goToHome () {
+        this.$router.push({ path: '/' })
+      }
+  }
 }
 </script>
 
