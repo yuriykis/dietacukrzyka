@@ -28,7 +28,7 @@
           class="mx-auto rounded-corner"
           elevation="8"
           max-width="800"
-          @click="seeDetails(day)"
+          @click="seeDetails()"
         >
         <v-row>
             <v-col>
@@ -74,7 +74,7 @@
       days: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']
     }),
     methods: {
-      seeDetails (day) {
+      seeDetails () {
         this.$router.push({
           path: '/details'
         })
