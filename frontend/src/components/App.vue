@@ -24,10 +24,10 @@
         <v-col lg="3" class="pt-0 pb-0">
            <Menu/>
         </v-col>
-         <v-col>
-           <FoodMenu/>
+        <v-col lg="7">
+           <router-view/>
         </v-col>
-         <v-col lg="2">
+        <v-col lg="2">
         </v-col>
       </v-row>
     </v-main>
@@ -35,10 +35,10 @@
 </template>
 
 <script>
-import AppIcon from './assets/logo.svg';
-import PersonIcon from './assets/person-circle.svg';
-import Menu from './components/Menu';
-import FoodMenu from './components/FoodMenu';
+// @ is an alias to /src
+import AppIcon from '@/assets/logo.svg';
+import PersonIcon from '@/assets/person-circle.svg';
+import Menu from '@/components/Menu';
 
 export default {
   name: 'App',
@@ -46,12 +46,9 @@ export default {
   components: {
     Menu,
     AppIcon,
-    FoodMenu,
     PersonIcon
   },
-
-  data: () => ({}),
-};
+}
 </script>
 
 <style>
