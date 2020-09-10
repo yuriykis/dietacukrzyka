@@ -66,6 +66,20 @@ class Ingredient(models.Model):
     def __str__(self):
         return self.name
 
+class PreferredIngredient(models.Model):
+    ingredient = models.ForeignKey(
+        Ingredient,
+        on_delete=models.CASCADE
+        )
+    client = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE
+        )
+
+    def __str__(self):
+        return self.ingredient + self.allergen
+
+
 class Allergen(models.Model):
     name = models.CharField("Name", default = "", max_length = 255, null = False)
 
