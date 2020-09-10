@@ -31,7 +31,8 @@ class Client(models.Model):
     name = models.CharField("Name", default = "", max_length = 255, null = False)
     last_name = models.CharField("Last Name", default = "", max_length = 255, null = False)
     weight = models.DecimalField("Weight", max_digits=5, decimal_places=2, default = 0, null = False)
-    height = models.DecimalField("Height", max_digits=5, decimal_places=2, default = 0, null = False) 
+    height = models.DecimalField("Height", max_digits=5, decimal_places=2, default = 0, null = False)
+    age = models.IntegerField("Age", default = 0, null = False) 
     
     def __str__(self):
         return self.name + self.last_name
