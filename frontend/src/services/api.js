@@ -12,6 +12,6 @@ const api = Axios.create({
   
 
 export async function getUser () {
-    return api.get('/home/users')
+    return api.get('/home/clients')
   }
   
