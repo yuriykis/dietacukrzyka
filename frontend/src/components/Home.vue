@@ -6,7 +6,7 @@
 
 <script>
 import FoodMenu from '@/components/FoodMenu';
-
+import { getUser } from '@/services/api'
 export default {
   name: 'Home',
 
@@ -14,7 +14,18 @@ export default {
     FoodMenu,
   },
 
-  data: () => ({}),
+  data: () => ({
+    user: {}
+  }),
+  created () {
+    this.getUserData()
+  },
+  methods: {
+    getUserData () {
+      this.user = getUser()
+      console.log(this.user)
+    }
+  }
 };
 </script>
 
