@@ -1,7 +1,13 @@
 from django.db import models
+from django.contrib.auth.models import User as MainUser
 import datetime
 
 class User(models.Model):
+    user = models.OneToOneField(
+        MainUser, 
+        on_delete=models.CASCADE,
+        primary_key=True
+    )
     login = models.CharField("Login", default = "", max_length = 50, null = False)
     password = models.CharField("Password", default = "", max_length = 255, null = False)
     isDietician = models.BooleanField("IsDietician", default = False)
