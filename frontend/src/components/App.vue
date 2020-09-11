@@ -7,14 +7,20 @@
       depressed
     >
     <v-row>
-      <v-col lg="1">
+      <v-col cols="1">
         <AppIcon @click="goToHome"/>
       </v-col>
-      <v-col lg="9">
+      <v-col cols="7">
         <h1>Zdrowa Dieta</h1>
       </v-col>
-      <v-col lg="1">
+      <v-col cols="1">
         <PersonIcon/>
+      </v-col>
+      <v-col cols="1">
+        <v-btn color="light-green darken-4" class="ma-3" @click="login">{{ 'Logowanie' }}</v-btn>
+      </v-col>
+      <v-col cols="1">
+        <v-btn color="light-green darken-4" class="ma-3" @click="register">{{ 'Rejestracja' }}</v-btn>
       </v-col>
     </v-row>
     </v-app-bar>
@@ -51,7 +57,13 @@ export default {
   methods: {
     goToHome () {
         this.$router.push({ path: '/' })
-      }
+      },
+    register () {
+      this.$router.push({ path: '/register' })
+    },
+    login () {
+      this.$router.push({ path: '/login' })
+    }
   }
 }
 </script>

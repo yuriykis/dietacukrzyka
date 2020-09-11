@@ -30,8 +30,8 @@ class Client(models.Model):
     )
     name = models.CharField("Name", default = "", max_length = 255, null = False)
     last_name = models.CharField("Last Name", default = "", max_length = 255, null = False)
-    weight = models.DecimalField("Weight", max_digits=5, decimal_places=2, default = 0, null = False)
-    height = models.DecimalField("Height", max_digits=5, decimal_places=2, default = 0, null = False)
+    weight = models.DecimalField("Weight", max_digits=6, decimal_places=3, default = 0, null = False)
+    height = models.DecimalField("Height", max_digits=6, decimal_places=3, default = 0, null = False)
     age = models.IntegerField("Age", default = 0, null = False) 
     
     def __str__(self):
@@ -61,8 +61,8 @@ class Ingredient(models.Model):
     name = models.CharField("Name", default = "", max_length = 255, null = False)
     calories = models.IntegerField("Calories", default = 0, null = False)
     proteins = models.DecimalField("Proteins", max_digits=3, decimal_places=2, default = 0, null = False)
-    fats = models.DecimalField("Fats", max_digits=3, decimal_places=2, default = 0, null = False) 
-    carbs = models.DecimalField("Carbs", max_digits=3, decimal_places=2, default = 0, null = False) 
+    fats = models.DecimalField("Fats", max_digits=6, decimal_places=3, default = 0, null = False) 
+    carbs = models.DecimalField("Carbs", max_digits=6, decimal_places=3, default = 0, null = False) 
     
     def __str__(self):
         return self.name
@@ -119,7 +119,7 @@ class RecipeIngredient(models.Model):
         on_delete=models.CASCADE
         )
 
-    weight = models.DecimalField("Weight", max_digits=5, decimal_places=2, default = 0, null = False)
+    weight = models.DecimalField("Weight", max_digits=6, decimal_places=3, default = 0, null = False)
     
     def __str__(self):
         return self.ingredient + self.recipe

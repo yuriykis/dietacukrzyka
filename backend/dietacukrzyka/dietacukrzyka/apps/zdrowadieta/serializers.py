@@ -1,10 +1,14 @@
 from rest_framework import serializers
-
+from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 from .models import Client
 
-class ClientSerializer(serializers.ModelSerializer):
-    """Client"""
+class RegistrationSerializer(serializers.Serializer):
+    """Registration"""
 
-    class Meta:
-        model = Client
-        fields = ("user_id", "name", "last_name", "weight", "height")
+    name = serializers.CharField()
+    last_name = serializers.CharField()
+    age = serializers.IntegerField()
+    login = serializers.CharField()
+    password = serializers.CharField()
+
+

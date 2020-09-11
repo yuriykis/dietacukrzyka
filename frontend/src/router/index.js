@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/components/Home.vue'
 import DailyMenu from '@/components/DailyMenu.vue'
+import Register from '@/components/Register.vue'
+import Login from '@/components/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +17,16 @@ Vue.use(VueRouter)
     path: '/details',
     name: 'DailyMenu',
     component: DailyMenu
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   }
 ]
 
