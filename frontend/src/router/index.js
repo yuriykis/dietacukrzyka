@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/components/Home.vue'
+import Start from '@/components/Start.vue'
 import DailyMenu from '@/components/DailyMenu.vue'
 import Register from '@/components/Register.vue'
 import Login from '@/components/Login.vue'
@@ -10,6 +11,11 @@ Vue.use(VueRouter)
   const routes = [
   {
     path: '/',
+    name: 'Start',
+    component: Start
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home
   },

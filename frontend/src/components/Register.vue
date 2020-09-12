@@ -2,7 +2,7 @@
    <v-container>         
         <v-row>
             <v-col class="mt-10" cols=12  align="center" justify="center">
-                <h1>Zarestruj się</h1>
+                <h1>Rejestracja</h1>
                 <v-container class="ma-10" style="width: 50%">
                     <div v-for="(field, i) in fields" :key="i">
                         <v-text-field
@@ -16,7 +16,7 @@
                         >
                         </v-text-field>
                     </div>
-                    <v-btn color="light-green darken-4" class="ma-3 white--text" @click="registerUser">{{ 'Rejestracja' }}</v-btn>
+                    <v-btn color="light-green darken-4" class="ma-3 white--text" @click="registerUser">{{ 'Rejestruj' }}</v-btn>
                 </v-container>
             </v-col>
         </v-row>
@@ -35,7 +35,7 @@ export default {
     user: {
         name: '',
         last_name: '',
-        age: 0,
+        age: '',
         login: '',
         password: ''
     },
@@ -51,7 +51,6 @@ export default {
   },
   methods: {
     registerUser () {
-      console.log(this.user)
       register(this.user)
     }
   }

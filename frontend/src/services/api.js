@@ -10,15 +10,11 @@ const api = Axios.create({
     }
   })
   
-
-export async function getUser () {
-    return api.get('/home/clients')
-  }
   
 export async function register (user_data) {
     return api.post('/app/register', user_data)
   }
 
-export async function login () {
-    return api.post('/app/login')
+export async function login (user) {
+    return api.post('/api/token/', { username: user.login, password: user.password })
   }
