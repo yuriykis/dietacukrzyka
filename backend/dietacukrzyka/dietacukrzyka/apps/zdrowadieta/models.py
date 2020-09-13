@@ -64,7 +64,7 @@ class UserDisease(models.Model):
 class Ingredient(models.Model):
     name = models.CharField("Name", default = "", max_length = 255, null = False)
     calories = models.IntegerField("Calories", default = 0, null = False)
-    proteins = models.DecimalField("Proteins", max_digits=3, decimal_places=2, default = 0, null = False)
+    proteins = models.DecimalField("Proteins", max_digits=6, decimal_places=3, default = 0, null = False)
     fats = models.DecimalField("Fats", max_digits=6, decimal_places=3, default = 0, null = False) 
     carbs = models.DecimalField("Carbs", max_digits=6, decimal_places=3, default = 0, null = False) 
     
