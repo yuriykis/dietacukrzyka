@@ -72,10 +72,6 @@ class Ingredient(models.Model):
         return self.name
 
 class PreferredIngredient(models.Model):
-    ingredient = models.ForeignKey(
-        Ingredient,
-        on_delete=models.CASCADE
-        )
     client = models.ForeignKey(
         Client,
         on_delete=models.CASCADE
@@ -135,6 +131,20 @@ class Menu(models.Model):
 
     def __str__(self):
         return str(self.date_from)
+
+class ClientMenu(models.Model):
+    menu = models.OneToOneField(
+        Menu, 
+        on_delete=models.CASCADE,
+        primary_key=True
+    )
+    client = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE
+        )
+
+    def __str__(self):
+        return str(self.menu.date_from)
 
 class MenuRecipe(models.Model):
     menu = models.ForeignKey(
