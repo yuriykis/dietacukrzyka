@@ -1,0 +1,55 @@
+
+import jwtDecode from 'jwt-decode'
+import { refresh } from '@/services/api'
+
+
+export function getAccessToken () {
+  return localStorage.getItem('access')
+}
+
+export function getRefreshToken () {
+  return localStorage.getItem('refresh')
+}
+
+
+export function setLocalStorageTokens (tokens) {
+    if (tokens.access) {
+      localStorage.setItem('access', tokens.access)
+    }
+    if (tokens.refresh) {
+      localStorage.setItem('refresh', tokens.refresh)
+    }
+  }
+  
+
+  export function removeLocalStorageTokens () {
+    localStorage.removeItem('access')
+    localStorage.removeItem('refresh')
+  }
+
+  export function isValidAccessToken () {
+    return checkTokenValidity('access', getAccessToken())
+  }
+
+  export function checkTokenValidity (name, token) {
+      if (!token) {
+        return false
+      }
+      const expToken = jwtDecode(token)
+      console.log(expToken)
+      return true
+  }
+
+
+  export function updateAccessToken () {
+    const token = getAccessToken()
+    if (token){
+      const refToken = getRefreshToken()
+      refresh(refToken).then((response) => {
+        if (checkTokenValidity(response.data.access)){
+          setLocalStorageTokens(response.data)
+        }
+      })
+    }
+  }
+  

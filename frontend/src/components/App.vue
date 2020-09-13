@@ -6,15 +6,36 @@
       dark
       depressed
     >
-    <v-row>
-      <v-col lg="1">
+    <v-row v-if="isUserLogin">
+      <v-col cols="1">
         <AppIcon @click="goToHome"/>
       </v-col>
-      <v-col lg="9">
+      <v-col cols="7">
         <h1>Zdrowa Dieta</h1>
       </v-col>
-      <v-col lg="1">
+      <v-col cols="1">
         <PersonIcon/>
+      </v-col>
+      <v-col cols="1">
+        <v-btn color="light-green darken-4" class="ma-3" @click="logout">{{ 'Wyloguj' }}</v-btn>
+      </v-col>
+      <v-col cols="1">
+      </v-col>
+    </v-row>
+    <v-row v-else>
+      <v-col cols="1">
+        <AppIcon @click="goToHome"/>
+      </v-col>
+      <v-col cols="7">
+        <h1>Zdrowa Dieta</h1>
+      </v-col>
+      <v-col cols="1">
+      </v-col>
+      <v-col cols="1">
+        <v-btn color="light-green darken-4" class="ma-3" @click="login">{{ 'Logowanie' }}</v-btn>
+      </v-col>
+      <v-col cols="1">
+        <v-btn color="light-green darken-4" class="ma-3" @click="register">{{ 'Rejestracja' }}</v-btn>
       </v-col>
     </v-row>
     </v-app-bar>
@@ -22,7 +43,7 @@
     <v-main>
       <v-row>
         <v-col lg="3" class="pt-0 pb-0">
-           <Menu/>
+           <Menu v-if="isUserLogin"/>
         </v-col>
         <v-col lg="7">
            <router-view/>
@@ -39,10 +60,13 @@
 import AppIcon from '@/assets/logo.svg';
 import PersonIcon from '@/assets/person-circle.svg';
 import Menu from '@/components/Menu';
+import { updateAccessToken, isValidAccessToken, removeLocalStorageTokens } from '@/services/auth'
 
 export default {
   name: 'App',
-
+  data: () => ({
+    isUserLogin: false
+  }),
   components: {
     Menu,
     AppIcon,
@@ -50,8 +74,32 @@ export default {
   },
   methods: {
     goToHome () {
-        this.$router.push({ path: '/' })
-      }
+        this.$router.push({ path: '/home' })
+      },
+    register () {
+      this.$router.push({ path: '/register' })
+    },
+    login () {
+      this.$router.push({ path: '/login' })
+    },
+    logout () {
+      removeLocalStorageTokens()
+      this.$router.push({ path: '/login' })
+      location.reload()
+    },
+    ifUserLogin () {
+      this.isUserLogin = isValidAccessToken()
+    }
+  },
+  mounted () {
+        this.$nextTick(function () {
+            window.setInterval(() => {
+                updateAccessToken()
+            },100000)
+        })
+  },
+  created () {
+    this.ifUserLogin()
   }
 }
 </script>

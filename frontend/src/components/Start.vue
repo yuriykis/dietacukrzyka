@@ -1,16 +1,13 @@
 <template>
-   <v-container>         
-          <FoodMenu/>      
+   <v-container>             
       </v-container>
 </template>
 
 <script>
-import FoodMenu from '@/components/FoodMenu';
 export default {
-  name: 'Home',
+  name: 'Start',
 
   components: {
-    FoodMenu,
   },
 
   data: () => ({

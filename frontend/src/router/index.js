@@ -1,13 +1,26 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/components/Home.vue'
+import Start from '@/components/Start.vue'
 import DailyMenu from '@/components/DailyMenu.vue'
+import Register from '@/components/Register.vue'
+import Login from '@/components/Login.vue'
+import { isValidAccessToken } from '@/services/auth'
 
 Vue.use(VueRouter)
+
 
   const routes = [
   {
     path: '/',
+    name: 'Start',
+    component: Start,
+    meta: {
+      allowAnonymous: true
+    }
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home
   },
@@ -15,6 +28,22 @@ Vue.use(VueRouter)
     path: '/details',
     name: 'DailyMenu',
     component: DailyMenu
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+    meta: {
+      allowAnonymous: true
+    }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    meta: {
+      allowAnonymous: true
+    }
   }
 ]
 
@@ -23,5 +52,20 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.allowAnonymous)) {
+    return next()
+  }
+  if (!isValidAccessToken()) {
+    next({
+      path: '/login',
+      query: { redirect: to.fullPath }
+    })
+  } else {
+    next()
+  }
+})
+
 
 export default router
