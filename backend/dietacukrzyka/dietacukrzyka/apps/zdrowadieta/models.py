@@ -8,13 +8,11 @@ class User(models.Model):
         on_delete=models.CASCADE,
         primary_key=True
     )
-    login = models.CharField("Login", default = "", max_length = 50, null = False)
-    password = models.CharField("Password", default = "", max_length = 255, null = False)
     isDietician = models.BooleanField("IsDietician", default = False)
     isAdmin = models.BooleanField("IsAdmin", default = False)
 
     def __str__(self):
-        return self.login
+        return self.user.username
 
 class Dietician(models.Model):
     user = models.OneToOneField(

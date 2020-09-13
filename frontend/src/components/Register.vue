@@ -3,7 +3,15 @@
         <v-row>
             <v-col class="mt-10" cols=12  align="center" justify="center">
                 <h1>Rejestracja</h1>
-                <v-container class="ma-10" style="width: 50%">
+                <v-container v-if="loading">
+                  <Loader/>
+                </v-container>
+                <v-container v-else-if="completed">
+                  <Checkmark/>
+                  <h2>Rejestracja przepiegła pomyślnie!</h2>
+                  <v-btn color="light-green darken-4" class="mt-10 white--text" @click="login">{{ 'Przejdź do strony logowania' }}</v-btn>
+                </v-container>
+                <v-container v-else class="ma-10" style="width: 50%">
                     <v-text-field
                         background-color="light-green lighten-1"
                         color="light-green darken-4"
@@ -12,7 +20,7 @@
                         rounded
                         label= "Imię"
                         :rules="[rules.required]"
-                        :v-model="user.name"
+                        v-model="user.name"
                         >
                       </v-text-field>
                     <v-text-field
@@ -23,7 +31,7 @@
                         rounded
                         label= "Nazwisko"
                         :rules="[rules.required]"
-                        :v-model="user.last_name"
+                        v-model="user.last_name"
                         >
                       </v-text-field>
                     <v-text-field
@@ -38,7 +46,7 @@
                             minValue(user.age, 1),
                             maxValue(user.age, 150)
                         ]"
-                        :v-model="user.age"
+                        v-model="user.age"
                         >
                       </v-text-field>
                     <v-text-field
@@ -49,7 +57,7 @@
                         rounded
                         label= "Login"
                         :rules="[rules.required]"
-                        :v-model="user.login"
+                        v-model="user.username"
                         >
                       </v-text-field>
                     <v-text-field
@@ -60,7 +68,7 @@
                         rounded
                         label= "Hasło"
                         :rules="[rules.required]"
-                        :v-model="user.password"
+                        v-model="user.password"
                         >
                       </v-text-field>
                     <v-text-field
@@ -70,11 +78,12 @@
                         filled
                         rounded
                         label= "Powtórz hasło"
-                        :rules="[rules.required]"
-                        :v-model="password2"
+                        :rules="[rules.required, checkPassword(password2, user.password)]"
+                        v-model="password2"
                         >
                       </v-text-field>                      
                     <v-btn color="light-green darken-4" class="ma-3 white--text" @click="registerUser">{{ 'Rejestruj' }}</v-btn>
+                    <h6 v-if="notAllData" style="color: red;">Proszę podać wszystkie dane</h6>
                 </v-container>
             </v-col>
         </v-row>
@@ -83,10 +92,14 @@
 
 <script>
 import { register } from '@/services/api'
+import Loader from '@/components/Loader';
+import Checkmark from '@/components/Checkmark';
 export default {
   name: 'Home',
 
   components: {
+    Loader,
+    Checkmark
   },
 
   data: () => ({
@@ -94,20 +107,41 @@ export default {
         name: '',
         last_name: '',
         age: '',
-        login: '',
+        username: '',
         password: ''
     },
     password2: '',
     rules: {
         required: value1 => !!value1 || 'Pole wymagane'
-      }
-
+      },
+    loading: false,
+    completed: false,
+    notAllData: false
   }),
   created () {
   },
   methods: {
     registerUser () {
-      register(this.user)
+      this.loading = true
+      this.notAllData = false
+      let canRegister = true
+      for (let field in this.user) {
+        if (this.user[field] === '') {
+          canRegister = false
+          this.notAllData = true
+          break
+        }
+      }
+      if (canRegister) {
+          register(this.user).then(() => {
+          this.loading = false
+          this.completed = true
+        })
+      }
+      this.loading = false
+    },
+    login () {
+      this.$router.push({ path: '/login' })
     },
     minValue: function (v, min) {
       return v => v >= min || 'Wartość nie może być mniejsza niż ' + Math.round(min * 1000) / 1000
@@ -115,7 +149,9 @@ export default {
     maxValue: function (v, max) {
       return v => v <= max || 'Wartość nie może być większa niż ' + Math.round(max * 1000) / 1000
     },
-
+    checkPassword: function (v, pass) {
+      return v => v === pass || 'Wprowadzone hasło nie jest zgodne z poprzednim'
+    }
   }
 };
 </script>
@@ -123,6 +159,9 @@ export default {
 <style>
 h1 {
   font-family: 'Dancing Script', cursive;
+  color: #c51162;
+}
+h2 {
   color: #c51162;
 }
 .my-text-style >>> .v-text-field__slot input {

@@ -14,16 +14,17 @@ class RegistrationView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
+        print(request.data)
         serializer = RegistrationSerializer(request.data)
         name = serializer.data.get('name')
         last_name = serializer.data.get('last_name')
         age = serializer.data.get('age')
-        login = serializer.data.get('login')
+        username = serializer.data.get('username')
         password = serializer.data.get('password')
         
-        if (User.objects.filter(login = login).count() == 0):
-            user = MainUser.objects.create_user(username = login, password = password)
-            new_user = User(user = user, login = login, password = password)
+        if (MainUser.objects.filter(username = username).count() == 0):
+            user = MainUser.objects.create_user(username = username, password = password)
+            new_user = User(user = user)
             new_user.save()
 
             new_client = Client(user = new_user, name = name, last_name = last_name, age = age)
