@@ -26,6 +26,7 @@
                         height=40
                         filled
                         rounded
+                        type="password"
                         label= 'Hasło'
                         v-model="user.password"
                         >
