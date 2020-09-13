@@ -57,7 +57,7 @@
     }),
     methods: {
       goToHome () {
-        this.$router.push({ path: '/' })
+        this.$router.push({ path: '/home' })
       }
     }
   }

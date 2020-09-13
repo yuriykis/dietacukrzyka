@@ -64,6 +64,7 @@ export default {
           setLocalStorageTokens(response.data)
           this.loading = false
           this.$router.push({ path: '/home' })
+          location.reload()
         }
       }).catch(() => {
         this.loading = false
