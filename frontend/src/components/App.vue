@@ -46,7 +46,9 @@
            <Menu v-if="isUserLogin"/>
         </v-col>
         <v-col lg="7">
-           <router-view/>
+          <transition name="fade">
+            <router-view/>
+          </transition>
         </v-col>
         <v-col lg="2">
         </v-col>
@@ -118,5 +120,18 @@ h1 {
 }
 .theme--light.v-application {
   background-color: var(--v-background-base, white) !important;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition-property: opacity;
+  transition-duration: .25s;
+}
+
+.fade-enter-active {
+  transition-delay: .25s;
+}
+
+.fade-enter, .fade-leave-active {
+  opacity: 0
 }
 </style>
