@@ -57,4 +57,3 @@ class ClientMenuView(APIView):
         }
 
         return Response(response)
-       

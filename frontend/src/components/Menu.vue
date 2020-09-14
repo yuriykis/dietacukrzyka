@@ -24,7 +24,20 @@
           <v-list-item-content>
             <v-btn @click="goToHome">{{ 'Dieta na ten tydzień' }}</v-btn>
           </v-list-item-content>
+
+          </v-list-item>
+
+          <v-list-item>
+            
+          <v-list-item-icon class="my-5">
+            <v-icon>{{ 'mdi-food-apple' }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-btn @click="goToFeaturedRecipes">{{ 'Przepisy' }}</v-btn>
+          </v-list-item-content>
           
+        
         </v-list-item>
         <v-list-item
           v-for="item in items"
@@ -48,7 +61,6 @@
     data: () => ({
       drawer: true,
         items: [
-          { title: 'Przepisy', icon: 'mdi-food-apple' },
           { title: 'Porady', icon: 'mdi-account-details-outline' },
           { title: 'Konto', icon: 'mdi-account' },
           { title: 'Ustawienia', icon: 'mdi-cog' },
@@ -58,6 +70,9 @@
     methods: {
       goToHome () {
         this.$router.push({ path: '/home' })
+      },
+      goToFeaturedRecipes () {
+        this.$router.push({ path: '/featured_recipes' })
       }
     }
   }

@@ -5,6 +5,7 @@ import Start from '@/components/Start.vue'
 import DailyMenu from '@/components/DailyMenu.vue'
 import Register from '@/components/Register.vue'
 import Login from '@/components/Login.vue'
+import FeaturedRecipes from '@/components/FeaturedRecipes.vue'
 import { isValidAccessToken } from '@/services/auth'
 
 Vue.use(VueRouter)
@@ -44,9 +45,18 @@ Vue.use(VueRouter)
     meta: {
       allowAnonymous: true
     }
+  },
+  {
+    path: '/featured_recipes',
+    name: 'FeaturedRecipes',
+    component: FeaturedRecipes
+  },
+  {
+    path: '/recipes_details',
+    name: 'FeaturedRecipes',
+    component: FeaturedRecipes
   }
 ]
-
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
