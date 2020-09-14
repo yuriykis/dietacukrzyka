@@ -10,5 +10,3 @@ class RegistrationSerializer(serializers.Serializer):
     age = serializers.IntegerField()
     username = serializers.CharField()
     password = serializers.CharField()
-
-

@@ -129,7 +129,7 @@ class Menu(models.Model):
     date_from = models.DateField("Name", default=datetime.date.today, null = False)
     date_to= models.DateField("Name", default=datetime.date.today, null = False)
     calories = models.IntegerField("Calories", default = 0, null = False)
-
+    
     def __str__(self):
         return str(self.date_from)
 
@@ -161,4 +161,4 @@ class Meal(models.Model):
     date = models.DateField("Name", default=datetime.date.today, null = False)
 
     def __str__(self):
-        return self.menu + self.recipe
+        return self.recipe.type
