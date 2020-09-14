@@ -1,4 +1,5 @@
 import * as Axios from 'axios'
+import { getAccessToken } from '@/services/auth'
 
 var apiHost = 'http://127.0.0.1:8000'
 
@@ -9,6 +10,12 @@ const api = Axios.create({
       'Content-Type': 'application/json'
     }
   })
+  
+const authenticationHeader = () => {
+    return {
+      Authorization: `Bearer ${getAccessToken()}`
+    }
+  }
   
   
 export async function register (user_data) {
@@ -21,4 +28,8 @@ export async function login (user) {
 
 export async function refresh (refToken) {
     return api.post('/api/token/refresh/', { refresh: refToken })
+  }
+
+  export async function getClientMenu () {
+    return api.post('/app/menu/', { headers: authenticationHeader() })
   }

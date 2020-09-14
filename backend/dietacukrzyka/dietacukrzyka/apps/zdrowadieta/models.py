@@ -59,7 +59,7 @@ class UserDisease(models.Model):
         )
 
     def __str__(self):
-        return self.user + self.disease
+        return 'Disease'
 
 class Ingredient(models.Model):
     name = models.CharField("Name", default = "", max_length = 255, null = False)
@@ -104,6 +104,7 @@ class Recipe(models.Model):
     name = models.CharField("Name", default = "", max_length = 255, null = False)
     method = models.TextField("Method", default = "", null = False)
     calories = models.IntegerField("Calories", default = 0, null = False)
+    type = models.CharField("Name", default = "", max_length = 255, null = False)
 
     def __str__(self):
         return self.name
@@ -119,7 +120,7 @@ class RecipeIngredient(models.Model):
         on_delete=models.CASCADE
         )
 
-    weight = models.DecimalField("Weight", max_digits=6, decimal_places=3, default = 0, null = False)
+    massFraction = models.DecimalField("Weight", max_digits=6, decimal_places=3, default = 0, null = False)
     
     def __str__(self):
         return self.ingredient + self.recipe
@@ -146,7 +147,7 @@ class ClientMenu(models.Model):
     def __str__(self):
         return str(self.menu.date_from)
 
-class MenuRecipe(models.Model):
+class Meal(models.Model):
     menu = models.ForeignKey(
         Menu,
         on_delete=models.CASCADE
@@ -156,7 +157,8 @@ class MenuRecipe(models.Model):
         on_delete=models.CASCADE
         )
 
+    calories = models.IntegerField("Calories", default = 0, null = False)
     date = models.DateField("Name", default=datetime.date.today, null = False)
-    
+
     def __str__(self):
         return self.menu + self.recipe

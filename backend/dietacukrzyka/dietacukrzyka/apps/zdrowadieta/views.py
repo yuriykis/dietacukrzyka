@@ -14,7 +14,6 @@ class RegistrationView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
-        print(request.data)
         serializer = RegistrationSerializer(request.data)
         name = serializer.data.get('name')
         last_name = serializer.data.get('last_name')
@@ -32,3 +31,15 @@ class RegistrationView(APIView):
             return Response(status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_409_CONFLICT)
+
+
+class ClientMenuView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        client_menu = ClientMenu.objects.filter(user = request.user)
+        print(client_menu)
+
+        return Response(status=status.HTTP_200_OK)
+       
