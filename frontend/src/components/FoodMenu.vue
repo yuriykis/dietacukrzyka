@@ -7,6 +7,7 @@
             elevation="8"
             width="800"
             max-height="80"
+            color= "rgba(116,34,60,0.8)"
             >
                 <v-row>
                     <v-col>
@@ -28,7 +29,7 @@
           class="mx-auto rounded-corner"
           elevation="8"
           max-width="800"
-          @click="seeDetails()"
+          color= "rgba(28,29,30,0.8)"
         >
         <v-row>
             <v-col>
@@ -57,7 +58,7 @@
                       height="100"
                       width="200"
                     >
-                    <v-img :src="require(`../assets/image${i%3+1}.jpg`)"/>
+                    <v-img @click="seeDetails()" :src="require(`../assets/image${i%3+1}.jpg`)"/>
                     </v-card>
                   </v-slide-item>
                </v-slide-group>
@@ -86,5 +87,8 @@
 <style scoped>
 .rounded-corner{
     border-radius:20px;
+}
+h3, h5 {
+  color: white;
 }
 </style>

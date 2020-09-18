@@ -14,6 +14,7 @@
           elevation="8"
           max-width="800"
           @click="seeDetails()"
+          color= "rgba(28,29,30,0.8)"
         >
         <v-row>
             <v-col>
@@ -38,6 +39,7 @@
           elevation="8"
           max-width="800"
           @click="seeDetails()"
+          color= "rgba(28,29,30,0.8)"
         >
         <v-row>
             <v-col>
@@ -62,6 +64,7 @@
           elevation="8"
           max-width="800"
           @click="seeDetails()"
+          color= "rgba(28,29,30,0.8)"
         >
         <v-row>
             <v-col>
@@ -116,5 +119,8 @@ import { getClientMenu } from '@/services/api'
 <style scoped>
 .rounded-corner{
     border-radius:20px;
+}
+h3, h5 {
+  color: white;
 }
 </style>
