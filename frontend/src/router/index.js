@@ -72,6 +72,7 @@ router.beforeEach((to, from, next) => {
       path: '/login',
       query: { redirect: to.fullPath }
     })
+    location.reload()
   } else {
     next()
   }

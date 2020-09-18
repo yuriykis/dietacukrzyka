@@ -2,6 +2,13 @@
 import jwtDecode from 'jwt-decode'
 import { refresh } from '@/services/api'
 
+import {
+  isValid,
+  toDate,
+  isBefore,
+} from 'date-fns'
+
+
 
 export function getAccessToken () {
   return localStorage.getItem('access')
@@ -32,12 +39,21 @@ export function setLocalStorageTokens (tokens) {
   }
 
   export function checkTokenValidity (name, token) {
+    try {  
       if (!token) {
+          return false
+        }
+        const expToken = jwtDecode(token).exp
+        const expMoment = toDate(expToken * 1000)
+        if (isValid(expMoment)) {
+          const res = isBefore(new Date(), expMoment)
+          return res
+        }
+        return true
+      } catch (e) {
         return false
-      }
-      const expToken = jwtDecode(token)
-      console.log(expToken)
-      return true
+    }
+  
   }
 
 
@@ -48,6 +64,7 @@ export function setLocalStorageTokens (tokens) {
       refresh(refToken).then((response) => {
         if (checkTokenValidity(response.data.access)){
           setLocalStorageTokens(response.data)
+          console.log('Token updated')
         }
       })
     }
