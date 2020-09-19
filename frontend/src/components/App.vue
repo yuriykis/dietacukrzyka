@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar
       app
-      color="#BBD274"
+      color="#1C1D1F"
       dark
       depressed
     >
@@ -17,7 +17,7 @@
         <PersonIcon/>
       </v-col>
       <v-col cols="1">
-        <v-btn color="light-green darken-4" class="ma-3" @click="logout">{{ 'Wyloguj' }}</v-btn>
+        <v-btn color="#98AF4F" class="ma-3" @click="logout">{{ 'Wyloguj' }}</v-btn>
       </v-col>
       <v-col cols="1">
       </v-col>
@@ -32,18 +32,18 @@
       <v-col cols="1">
       </v-col>
       <v-col cols="1">
-        <v-btn color="light-green darken-4" class="ma-3" @click="login">{{ 'Logowanie' }}</v-btn>
+        <v-btn color="#98AF4F" class="ma-3" @click="login">{{ 'Logowanie' }}</v-btn>
       </v-col>
       <v-col cols="1">
-        <v-btn color="light-green darken-4" class="ma-3" @click="register">{{ 'Rejestracja' }}</v-btn>
+        <v-btn color="#98AF4F" class="ma-3" @click="register">{{ 'Rejestracja' }}</v-btn>
       </v-col>
     </v-row>
     </v-app-bar>
 
-    <v-main>
+    <v-main class="set-background">
       <v-row>
-        <v-col lg="3" class="pt-0 pb-0">
-           <Menu v-if="isUserLogin"/>
+        <v-col lg="3">
+           <Menu style="position: fixed; padding-top: 4%;" v-if="isUserLogin"/>
         </v-col>
         <v-col lg="7">
           <transition name="fade">
@@ -117,9 +117,11 @@ h1 {
 
 .theme--dark.v-application {
   background-color: var(--v-background-base, #121212) !important;
+  background-image: url('../assets/background.jpg')
 }
 .theme--light.v-application {
   background-color: var(--v-background-base, white) !important;
+  background-image: url('../assets/background.jpg')
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -133,5 +135,11 @@ h1 {
 
 .fade-enter, .fade-leave-active {
   opacity: 0
+}
+
+.set-background {
+  background-image: url("../assets/background.jpg");
+  background-attachment: fixed;
+  background-size: 1700px;
 }
 </style>

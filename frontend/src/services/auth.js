@@ -35,10 +35,10 @@ export function setLocalStorageTokens (tokens) {
   }
 
   export function isValidAccessToken () {
-    return checkTokenValidity('access', getAccessToken())
+    return checkTokenValidity(getAccessToken())
   }
 
-  export function checkTokenValidity (name, token) {
+  export function checkTokenValidity (token) {
     try {  
       if (!token) {
           return false

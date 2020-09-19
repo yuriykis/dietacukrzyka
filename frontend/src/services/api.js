@@ -30,7 +30,7 @@ export async function refresh (refToken) {
     return api.post('/api/token/refresh/', { refresh: refToken })
   }
 
-  export async function getClientMenu (menu_type) {
-    return api.get(`/app/menu/${menu_type}`, { headers: authenticationHeader() })
+  export async function getClientMenu (meal_type) {
+    return api.get(`/app/menu/${meal_type}`, { headers: authenticationHeader() })
   }
   
