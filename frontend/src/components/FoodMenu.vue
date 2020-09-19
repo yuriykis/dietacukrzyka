@@ -58,7 +58,14 @@
                       height="200"
                       width="300"
                     >
-                    <v-img @click="seeDetails()" :src="require(`../assets/image${i%3+1}.jpg`)"><h3 class="ma-3"><span>{{ meal_types[i - 1] }}</span></h3></v-img>
+                    <v-img @click="seeDetails()" :src="require(`../assets/image${i%3+1}.jpg`)">
+                      <h3 class="ma-3">
+                        <span>{{ meal_types[i - 1] }}</span>
+                      </h3>
+                      <h3 class="ml-3">
+                        <span>{{ recipes[i - 1].name }}</span>
+                      </h3>
+                    </v-img>
                     </v-card>
                   </v-slide-item>
                </v-slide-group>
@@ -69,18 +76,31 @@
 </template>
 
 <script>
+import { getClientMenu } from '@/services/api'
   export default {
     name: 'Menu',
     data: () => ({
       days: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela'],
-      meal_types: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja']
+      meal_types: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
+      recipes: []
     }),
     methods: {
       seeDetails () {
         this.$router.push({
           path: '/details'
         })
+      },
+      fetchData (i) {
+         getClientMenu(i).then((response) => {
+             this.recipes.push(response.data)
+             if (i < 5) {
+                 this.fetchData(++i)
+             }
+         })
       }
+    },
+    mounted () {
+        this.fetchData(0)
     }
   }
 </script>

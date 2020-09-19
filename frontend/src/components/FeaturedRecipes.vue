@@ -26,7 +26,7 @@
         </v-row>
                     <v-card
                       class="ma-4"
-                      height=300
+                      height="300"
                       width="700"
                     >
                     <v-img height=300 :src="require(`../assets/image1.jpg`)"/>
