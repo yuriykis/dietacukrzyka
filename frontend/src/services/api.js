@@ -34,3 +34,11 @@ export async function refresh (refToken) {
     return api.get(`/app/menu/${meal_type}`, { headers: authenticationHeader() })
   }
   
+  
+  export async function getClientData () {
+    return api.get('/app/client/get', { headers: authenticationHeader() })
+  }
+
+  export async function saveClientData (user_data) {
+    return api.put('/app/client/save', user_data, { headers: authenticationHeader() })
+  }

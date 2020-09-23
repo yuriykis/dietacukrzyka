@@ -6,6 +6,7 @@ import DailyMenu from '@/components/DailyMenu.vue'
 import Register from '@/components/Register.vue'
 import Login from '@/components/Login.vue'
 import FeaturedRecipes from '@/components/FeaturedRecipes.vue'
+import Profile from '@/components/Profile.vue'
 import { isValidAccessToken } from '@/services/auth'
 
 Vue.use(VueRouter)
@@ -55,6 +56,11 @@ Vue.use(VueRouter)
     path: '/recipes_details',
     name: 'FeaturedRecipes',
     component: FeaturedRecipes
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile
   }
 ]
 const router = new VueRouter({

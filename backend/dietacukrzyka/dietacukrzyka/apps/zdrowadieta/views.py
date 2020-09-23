@@ -38,7 +38,7 @@ class ClientMenuView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, meal_type):
-        if(int(meal_type) > 4):
+        if(int(meal_type) > 5):
             return Response(status=status.HTTP_404_NOT_FOUND)
         main_user = MainUser.objects.get(username = request.user)
         user = User.objects.get(user = main_user)
@@ -57,3 +57,54 @@ class ClientMenuView(APIView):
         }
 
         return Response(response)
+
+
+class ClientDataGetView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        main_user = MainUser.objects.get(username = request.user)
+        user = User.objects.get(user = main_user)
+        client = Client.objects.get(user = user)
+
+        response = {
+            'login': main_user.username,
+            'email': main_user.email,
+            'name': client.name,
+            'last_name': client.last_name,
+            'weight': client.weight,
+            'height': client.height
+        }
+
+        return Response(response)
+
+class ClientDataSaveView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def put(self, request):
+        serializer = ClientDataSerializer(request.data)
+        email = serializer.data.get('email')
+        name = serializer.data.get('name')
+        last_name = serializer.data.get('last_name')
+        weight = serializer.data.get('weight')
+        height = serializer.data.get('height')
+
+        main_user = MainUser.objects.get(username = request.user)
+        user = User.objects.get(user = main_user)
+        client = Client.objects.get(user = user)
+
+        if (email and MainUser.objects.filter(email = email).count() != 0):
+            return Response(status=status.HTTP_409_CONFLICT)
+        else:
+            main_user.email = email
+            client.name = name
+            client.last_name = last_name
+            client.weight = weight
+            client.height = height
+
+            main_user.save()
+            client.save()
+
+            return Response(status=status.HTTP_200_OK)
