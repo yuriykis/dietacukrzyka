@@ -74,7 +74,8 @@ class ClientDataGetView(APIView):
             'name': client.name,
             'last_name': client.last_name,
             'weight': client.weight,
-            'height': client.height
+            'height': client.height,
+            'age': client.age
         }
 
         return Response(response)
@@ -90,6 +91,7 @@ class ClientDataSaveView(APIView):
         last_name = serializer.data.get('last_name')
         weight = serializer.data.get('weight')
         height = serializer.data.get('height')
+        age = serializer.data.get('age')
 
         main_user = MainUser.objects.get(username = request.user)
         user = User.objects.get(user = main_user)
@@ -103,6 +105,7 @@ class ClientDataSaveView(APIView):
             client.last_name = last_name
             client.weight = weight
             client.height = height
+            client.age = age
 
             main_user.save()
             client.save()

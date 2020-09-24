@@ -19,3 +19,4 @@ class ClientDataSerializer(serializers.Serializer):
     email = serializers.CharField()
     weight = serializers.IntegerField()
     height = serializers.IntegerField()
+    age = serializers.IntegerField()

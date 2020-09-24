@@ -58,7 +58,8 @@
                         height=40
                         filled
                         rounded
-                        label= "Numer telefonu"
+                        label= "Wiek"
+                        v-model="data.age"
                         >
                       </v-text-field>
                       <v-text-field
