@@ -10,3 +10,13 @@ class RegistrationSerializer(serializers.Serializer):
     age = serializers.IntegerField()
     username = serializers.CharField()
     password = serializers.CharField()
+
+
+class ClientDataSerializer(serializers.Serializer):
+
+    name = serializers.CharField()
+    last_name = serializers.CharField()
+    email = serializers.CharField()
+    weight = serializers.IntegerField()
+    height = serializers.IntegerField()
+    age = serializers.IntegerField()

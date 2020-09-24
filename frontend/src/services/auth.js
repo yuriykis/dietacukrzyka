@@ -1,6 +1,6 @@
 
 import jwtDecode from 'jwt-decode'
-import { refresh } from '@/services/api'
+// import { refresh } from '@/services/api'
 
 import {
   isValid,
@@ -44,7 +44,7 @@ export function setLocalStorageTokens (tokens) {
           return false
         }
         const expToken = jwtDecode(token).exp
-        const expMoment = toDate(expToken * 1000)
+        const expMoment = toDate(expToken * 100000)
         if (isValid(expMoment)) {
           const res = isBefore(new Date(), expMoment)
           return res
@@ -60,13 +60,13 @@ export function setLocalStorageTokens (tokens) {
   export function updateAccessToken () {
     const token = getAccessToken()
     if (token){
-      const refToken = getRefreshToken()
-      refresh(refToken).then((response) => {
-        if (checkTokenValidity(response.data.access)){
-          setLocalStorageTokens(response.data)
-          console.log('Token updated')
-        }
-      })
+      // const refToken = getRefreshToken()
+      // refresh(refToken).then((response) => {
+      //   if (checkTokenValidity(response.data.access)){
+      //     setLocalStorageTokens(response.data)
+      //     console.log('Token updated')
+      //   }
+      // })
     }
   }
   

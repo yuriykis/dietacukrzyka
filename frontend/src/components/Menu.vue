@@ -39,18 +39,46 @@
           
         
         </v-list-item>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-        >
+
+        <v-list-item>
+            
           <v-list-item-icon class="my-5">
-            <v-icon color="#98AF4F">{{ item.icon }}</v-icon>
+            <v-icon color="#98AF4F">{{ 'mdi-account-details-outline' }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-btn color= "rgba(28,29,30,0.9)"><h4>{{ item.title }}</h4></v-btn>
+            <v-btn color= "rgba(28,29,30,0.9)"><h4>Porady</h4></v-btn>
           </v-list-item-content>
+          
+        
         </v-list-item>
+
+        <v-list-item>
+            
+          <v-list-item-icon class="my-5">
+            <v-icon color="#98AF4F">{{ 'mdi-account' }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-btn @click="goToProfile" color= "rgba(28,29,30,0.9)"><h4>Konto</h4></v-btn>
+          </v-list-item-content>
+          
+        
+        </v-list-item>
+
+        <v-list-item>
+            
+          <v-list-item-icon class="my-5">
+            <v-icon color="#98AF4F">{{ 'mdi-cog' }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-btn color= "rgba(28,29,30,0.9)"><h4>Ustawienia</h4></v-btn>
+          </v-list-item-content>
+          
+        
+        </v-list-item>
+
       </v-list>
     </v-navigation-drawer>
 </template>
@@ -60,12 +88,7 @@
     name: 'Menu',
     data: () => ({
       drawer: true,
-        items: [
-          { title: 'Porady', icon: 'mdi-account-details-outline' },
-          { title: 'Konto', icon: 'mdi-account' },
-          { title: 'Ustawienia', icon: 'mdi-cog' },
-        ],
-        mini: true,
+      mini: true,
     }),
     methods: {
       goToHome () {
@@ -73,6 +96,9 @@
       },
       goToFeaturedRecipes () {
         this.$router.push({ path: '/featured_recipes' })
+      },
+      goToProfile () {
+        this.$router.push({ path: '/profile' })
       }
     }
   }

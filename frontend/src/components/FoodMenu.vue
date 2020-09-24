@@ -93,7 +93,7 @@ import { getClientMenu } from '@/services/api'
       fetchData (i) {
          getClientMenu(i).then((response) => {
              this.recipes.push(response.data)
-             if (i < 5) {
+             if (i < 4) {
                  this.fetchData(++i)
              }
          })
