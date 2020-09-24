@@ -1,64 +1,62 @@
 <template>
   <v-container>
-       <v-container>
-          <v-row class="mb-1 no-gutters">
-          <v-sheet
+    <v-container>
+      <v-row class="mb-1 no-gutters">
+        <v-sheet
           class="mx-auto rounded-corner"
           elevation="8"
           width="800"
           color= "rgba(116,34,60,0.8)"
         >
-        <v-row>
-            <v-col>
-                <h2 class="ma-4">Poniedziałek </h2>
-            </v-col>
-            <v-col>
-              <h5 class="mt-4"></h5>
-            </v-col>
-        </v-row>
-            </v-sheet>
+          <v-row>
+              <v-col>
+                  <h2 class="ma-4">Poniedziałek </h2>
+              </v-col>
+              <v-col>
+                <h5 class="mt-4"></h5>
+              </v-col>
           </v-row>
+        </v-sheet>
+      </v-row>
     </v-container>
-      <v-container v-for="(meal, i) in meals" :key="i">
-          <v-row class="mb-1 no-gutters">
-          <v-sheet
-          class="mx-auto rounded-corner"
-          elevation="8"
-          width="800"
-          color= "rgba(28,29,30,0.8)"
+    <v-container v-for="(meal, i) in meals" :key="i">
+      <v-row class="mb-1 no-gutters">
+        <v-sheet
+        class="mx-auto rounded-corner"
+        elevation="8"
+        width="800"
+        color= "rgba(28,29,30,0.8)"
         >
-        <v-row>
-            <v-col cols="6">
-               <v-row
-          :align='center'
-          :justify='end'
-          style="height: 300px;"
-        >
-                <h2 class="ml-5">{{ meal }}</h2>
-                  <v-img 
+          <v-col cols="12">
+            <v-row>
+              <h2 class="ml-5">{{ meal }}</h2>
+            </v-row>
+            <v-row>
+              <v-col>
+                <h3 class="mr- ma-3" >
+                  {{ mealData[i].name }}
+                </h3>
+                <!-- <h4 class="ml-3">
+                  {{ mealData[i].ingedients }}
+                </h4> -->
+                <h4 class="ma-3">
+                  {{ mealData[i].method }}
+                </h4>
+              </v-col>
+              <v-card
+              class="mr-n12 mx-auto mr-xs-2 rounded-corner"
+              max-width="450">
 
-                  
-
-                  @click="seeDetails()" :src="require(`../assets/image${i%3+1}.jpg`)">
-                    <h3 class="ma-3">
-                      {{ mealData[i].name }}
-                    </h3>
-                    <!-- <h4 class="ml-3">
-                      {{ mealData[i].ingedients }}
-                    </h4> -->
-                    <h4 class="ma-3">
-                      {{ mealData[i].method }}
-                    </h4>
-                  </v-img>
-              </v-row>
-            </v-col>
-            <v-col>
-                <h5 class="mt-4">{{ date }}</h5>
-            </v-col>
-            
-        </v-row>
-            </v-sheet>
-          </v-row>
+                <v-img
+                  :src="require(`../assets/image${i%3+1}.jpg`)"
+                  max-height="300"
+                >
+                </v-img>
+              </v-card>
+            </v-row>
+          </v-col>
+        </v-sheet>
+      </v-row>
     </v-container>
   </v-container>
 </template>
@@ -69,7 +67,8 @@
     name: 'Menu',
     data: () => ({
       meals: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
-      mealData: []
+      mealData: [],
+      backgroundUrl: ["../assets/image1.jpg", "../assets/image2.jpg", "../assets/image3.jpg"]
     }),
     methods: {
       fetchData (i) {
