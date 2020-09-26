@@ -27,7 +27,7 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/details',
+    path: '/details/:day',
     name: 'DailyMenu',
     component: DailyMenu
   },

@@ -58,7 +58,7 @@
                       height="200"
                       width="300"
                     >
-                    <v-img @click="seeDetails()" :src="require(`../assets/image${i%3+1}.jpg`)">
+                    <v-img @click="seeDetails(day)" :src="require(`../assets/image${i%3+1}.jpg`)">
                       <h3 class="ma-3">
                         <span>{{ meal_types[i - 1] }}</span>
                       </h3>
@@ -85,9 +85,9 @@ import { getClientMenu } from '@/services/api'
       recipes: []
     }),
     methods: {
-      seeDetails () {
+      seeDetails (day) {
         this.$router.push({
-          path: '/details'
+          path: `/details/${day}`
         })
       },
       fetchData (i) {

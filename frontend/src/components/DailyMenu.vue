@@ -10,7 +10,7 @@
         >
           <v-row>
               <v-col>
-                  <h2 class="ma-4">Poniedziałek </h2>
+                  <h2 class="ma-4">{{ day }} </h2>
               </v-col>
               <v-col>
                 <h5 class="mt-4"></h5>
@@ -70,7 +70,8 @@
     data: () => ({
       meals: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
       mealData: [],
-      backgroundUrl: ["../assets/image1.jpg", "../assets/image2.jpg", "../assets/image3.jpg"]
+      backgroundUrl: ["../assets/image1.jpg", "../assets/image2.jpg", "../assets/image3.jpg"],
+      day: ''
     }),
     methods: {
       fetchData (i) {
@@ -86,7 +87,7 @@
     },
     mounted () {
         this.fetchData(0)
-        console.log(this.mealData)
+        this.day = this.$route.params.day
     }
   }
 </script>
