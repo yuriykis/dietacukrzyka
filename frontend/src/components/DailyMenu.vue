@@ -36,23 +36,25 @@
                 <h3 class="mr- ma-3" >
                   {{ mealData[i].name }}
                 </h3>
-                <!-- <h4 class="ml-3">
-                  {{ mealData[i].ingedients }}
-                </h4> -->
+                <h4 class="ml-3">
+                  {{ mealData[i].ingredients }}
+                </h4>
                 <h4 class="ma-3">
                   {{ mealData[i].method }}
                 </h4>
               </v-col>
-              <v-card
-              class="mr-n12 mx-auto mr-xs-2 rounded-corner"
-              max-width="450">
-
+              <v-col>
+                 <v-card
+              class="rounded-corner"
+              max-width="300">
                 <v-img
                   :src="require(`../assets/image${i%3+1}.jpg`)"
                   max-height="300"
+                  max-width= "300"
                 >
                 </v-img>
               </v-card>
+              </v-col>
             </v-row>
           </v-col>
         </v-sheet>
