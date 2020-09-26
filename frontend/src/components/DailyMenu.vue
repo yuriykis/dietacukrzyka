@@ -36,9 +36,6 @@
                 <h3 class="mr- ma-3" >
                   {{ mealData[i].name }}
                 </h3>
-                <h4 class="ml-3">
-                  {{ mealData[i].ingredients }}
-                </h4>
                 <h4 class="ma-3">
                   {{ mealData[i].method }}
                 </h4>
@@ -78,7 +75,7 @@
         
         getClientMenu(i).then((response) => {
           this.mealData.push(response.data)
-             if (i < 5) {
+             if (i < 4) {
                  this.fetchData(++i)
              }
           });
