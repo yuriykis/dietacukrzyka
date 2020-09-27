@@ -5,7 +5,7 @@
           <v-sheet
           class="mx-auto rounded-corner"
           elevation="8"
-          width="800"
+          width="100%"
           color= "rgba(116,34,60,0.8)"
         >
         <v-row>
@@ -21,7 +21,7 @@
           <v-sheet
           class="mx-auto rounded-corner"
           elevation="8"
-          width="800"
+          width="100%"
           color= "rgba(28,29,30,0.8)"
         >
               <v-row>

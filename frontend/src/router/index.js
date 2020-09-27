@@ -7,6 +7,7 @@ import Register from '@/components/Register.vue'
 import Login from '@/components/Login.vue'
 import FeaturedRecipes from '@/components/FeaturedRecipes.vue'
 import Profile from '@/components/Profile.vue'
+import MealDetails from '@/components/MealDetails.vue'
 import { isValidAccessToken } from '@/services/auth'
 
 Vue.use(VueRouter)
@@ -30,6 +31,11 @@ Vue.use(VueRouter)
     path: '/details/:day',
     name: 'DailyMenu',
     component: DailyMenu
+  },
+  {
+    path: '/meal_details/:meal_id',
+    name: 'MealDetails',
+    component: MealDetails
   },
   {
     path: '/register',

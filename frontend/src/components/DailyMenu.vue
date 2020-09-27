@@ -5,15 +5,16 @@
         <v-sheet
           class="mx-auto rounded-corner"
           elevation="8"
-          width="800"
+          width="100%"
           color= "rgba(116,34,60,0.8)"
         >
           <v-row>
               <v-col>
                   <h2 class="ma-4">{{ day }} </h2>
               </v-col>
-              <v-col>
-                <h5 class="mt-4"></h5>
+             
+            <v-col>
+                <h2 class="ma-6">{{ total_calories }} kcal</h2>
               </v-col>
           </v-row>
         </v-sheet>
@@ -24,8 +25,9 @@
         <v-sheet
         class="mx-auto rounded-corner"
         elevation="8"
-        width="800"
+        width="100%"
         color= "rgba(28,29,30,0.8)"
+        @click="goToMealDetails(i)"
         >
           <v-col cols="12">
             <v-row>
@@ -33,7 +35,7 @@
             </v-row>
             <v-row>
               <v-col>
-                <h3 class="mr- ma-3" >
+                <h3 class="ma-3" >
                   {{ mealData[i].name }}
                 </h3>
                 <h4 class="ma-3">
@@ -68,18 +70,29 @@
       meals: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
       mealData: [],
       backgroundUrl: ["../assets/image1.jpg", "../assets/image2.jpg", "../assets/image3.jpg"],
-      day: ''
+      day: '',
+      total_calories: 0
     }),
     methods: {
-      fetchData (i) {
-        
+      async fetchData (i) {   
         getClientMenu(i).then((response) => {
           this.mealData.push(response.data)
              if (i < 4) {
                  this.fetchData(++i)
+             } else {
+               this.calcTotalDayilyCalories()
              }
           });
-
+      },
+      goToMealDetails (i) {
+         this.$router.push({
+          path: `/meal_details/${i}`
+        })
+      },
+      calcTotalDayilyCalories () {
+        this.mealData.forEach((meal) => {
+          this.total_calories += meal.calories
+        })
       }
     },
     mounted () {
