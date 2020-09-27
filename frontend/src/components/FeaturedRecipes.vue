@@ -12,7 +12,7 @@
           <v-sheet
           class="mx-auto rounded-corner"
           elevation="8"
-          max-width="800"
+          width="100%"
           @click="seeDetails()"
           color= "rgba(28,29,30,0.8)"
         >
@@ -37,7 +37,7 @@
           <v-sheet
           class="mx-auto rounded-corner"
           elevation="8"
-          max-width="800"
+          width="100%"
           @click="seeDetails()"
           color= "rgba(28,29,30,0.8)"
         >

@@ -5,7 +5,7 @@
           <v-sheet
           class="mx-auto rounded-corner"
           elevation="8"
-          width="800"
+          width="100%"
           color= "rgba(116,34,60,0.8)"
         >
         <v-row>
@@ -21,7 +21,7 @@
           <v-sheet
           class="mx-auto rounded-corner"
           elevation="8"
-          width="800"
+          width="100%"
           color= "rgba(28,29,30,0.8)"
         >
               <v-row>
@@ -194,8 +194,19 @@
                      </v-card>
                    </v-tab-item>
                    </v-tabs-items>
-                   <v-row lign="center" justify="center">                   
-                       <v-btn color="#98AF4F" class="ma-3 white--text" @click="saveNewDetails">{{ 'Zapisz' }}</v-btn>
+                   <v-row> 
+                     <v-col>
+                     <v-row align="center" justify="center" v-if="loading">
+                      <Loader />
+                    </v-row>
+                    <v-row align="center" justify="center" v-else>
+                      <v-btn color="#98AF4F" class="ma-3 white--text" @click="saveNewDetails">{{ 'Zapisz' }}</v-btn>
+                    </v-row>
+                    <v-row align="center" justify="center">
+                      <h5 v-if="complete_ok" style="color: green;"><span>Dane zostały pomyślnie zaktualizowane</span></h5>
+                      <h5 v-if="fail_mail" style="color: red;"><span>Adres email nie jest dostępny</span></h5>
+                    </v-row>
+                     </v-col>
                      </v-row>
                   </v-col>
               </v-row>
@@ -207,15 +218,32 @@
 
 <script>
 import { getClientData, saveClientData } from "@/services/api"
+import Loader from "@/components/Loader"
   export default {
     name: 'Menu',
     data: () => ({
       tabs: null,
-      data: {}
+      data: {},
+      loading: false,
+      complete_ok: false,
+      fail_mail: false
     }),
+    components: {
+      Loader
+    },
     methods: {
       saveNewDetails () {
-        saveClientData(this.data)
+        this.loading = true
+        saveClientData(this.data).then(() => {
+          this.loading = false
+          this.complete_ok = true,
+          this.fail_mail = false
+        })
+        .catch(() => {
+          this.loading = false
+          this.complete_ok = false
+          this.fail_mail = true
+        })
       },
       fetchData () {
         getClientData().then((response) => {

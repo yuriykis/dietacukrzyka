@@ -139,7 +139,7 @@ h1 {
 
 .set-background {
   background-image: url("../assets/background.jpg");
-  background-attachment: scroll; /*fixed;*/
+  background-attachment: fixed; /*fixed;*/
   background-size: 1700px;
 }
 </style>

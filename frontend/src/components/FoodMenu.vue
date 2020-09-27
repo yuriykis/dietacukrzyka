@@ -5,7 +5,7 @@
           <v-sheet
             class="mx-auto rounded-corner"
             elevation="8"
-            width="800"
+            width="100%"
             max-height="80"
             color= "rgba(116,34,60,0.8)"
             >
@@ -14,7 +14,7 @@
                         <h2 class="ma-4">Dieta na ten tydzień</h2>
                     </v-col>
                     <v-col>
-                        <h4 class="ma-6">1500 kcal</h4>
+                        <h3 class="ma-6">{{ total_calories }} kcal</h3>
                     </v-col>
                     <v-col>
                         <h4 class="ma-6">10.08.2020 - 16.08.2020</h4>
@@ -28,7 +28,7 @@
           <v-sheet
           class="mx-auto rounded-corner"
           elevation="8"
-          max-width="800"
+          width="100%"
           color= "rgba(28,29,30,0.8)"
         >
         <v-row class="mb-2">
@@ -58,7 +58,7 @@
                       height="200"
                       width="300"
                     >
-                    <v-img @click="seeDetails()" :src="require(`../assets/image${i%3+1}.jpg`)">
+                    <v-img @click="seeDetails(day)" :src="require(`../assets/image${i%3+1}.jpg`)">
                       <h3 class="ma-3">
                         <span>{{ meal_types[i - 1] }}</span>
                       </h3>
@@ -82,12 +82,13 @@ import { getClientMenu } from '@/services/api'
     data: () => ({
       days: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela'],
       meal_types: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
-      recipes: []
+      recipes: [],
+      total_calories: 0
     }),
     methods: {
-      seeDetails () {
+      seeDetails (day) {
         this.$router.push({
-          path: '/details'
+          path: `/details/${day}`
         })
       },
       fetchData (i) {
@@ -95,8 +96,16 @@ import { getClientMenu } from '@/services/api'
              this.recipes.push(response.data)
              if (i < 4) {
                  this.fetchData(++i)
+             } else {
+               this.calcTotalDayilyCalories()
              }
          })
+      },
+      calcTotalDayilyCalories () {
+        this.recipes.forEach((meal) => {
+          this.total_calories += meal.calories
+        })
+        this.total_calories *= 7
       }
     },
     mounted () {
@@ -114,6 +123,9 @@ h2, h4 {
 }
 h3 span {
   background-color: rgba(116,34,60,0.8);
+  color: white;
+}
+h3 {
   color: white;
 }
 </style>
