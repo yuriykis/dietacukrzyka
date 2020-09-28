@@ -71,14 +71,15 @@
       mealData: [],
       backgroundUrl: ["../assets/image1.jpg", "../assets/image2.jpg", "../assets/image3.jpg"],
       day: '',
-      total_calories: 0
+      total_calories: 0,
+      dates: ['2020-10-12', '2020-10-13']
     }),
     methods: {
-      async fetchData (i) {   
-        getClientMenu(i).then((response) => {
+      async fetchData (i, date) {   
+        getClientMenu(i, date).then((response) => {
           this.mealData.push(response.data)
              if (i < 4) {
-                 this.fetchData(++i)
+                 this.fetchData(++i, date)
              } else {
                this.calcTotalDayilyCalories()
              }
@@ -96,7 +97,7 @@
       }
     },
     mounted () {
-        this.fetchData(0)
+        this.fetchData(0, this.dates[0])
         this.day = this.$route.params.day
     }
   }

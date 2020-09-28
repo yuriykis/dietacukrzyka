@@ -83,7 +83,8 @@ import { getClientMenu } from '@/services/api'
       days: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela'],
       meal_types: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
       recipes: [],
-      total_calories: 0
+      total_calories: 0,
+      dates: ['2020-10-12', '2020-10-13']
     }),
     methods: {
       seeDetails (day) {
@@ -91,11 +92,12 @@ import { getClientMenu } from '@/services/api'
           path: `/details/${day}`
         })
       },
-      fetchData (i) {
-         getClientMenu(i).then((response) => {
+      fetchData (i, date) {
+         getClientMenu(i, date).then((response) => {
              this.recipes.push(response.data)
+             console.log(this.recipes)
              if (i < 4) {
-                 this.fetchData(++i)
+                 this.fetchData(++i, date)
              } else {
                this.calcTotalDayilyCalories()
              }
@@ -109,7 +111,7 @@ import { getClientMenu } from '@/services/api'
       }
     },
     mounted () {
-        this.fetchData(0)
+        this.fetchData(0, this.dates[0])
     }
   }
 </script>

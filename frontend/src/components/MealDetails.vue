@@ -76,17 +76,18 @@ import { getClientMenu } from '@/services/api'
   export default {
     name: 'Menu',
     data: () => ({
-      recipes: []
+      recipes: [],
+      dates: ['2020-10-12', '2020-10-13']
     }),
     methods: {
-      fetchData (i) {
-         getClientMenu(i).then((response) => {
+      fetchData (i, date) {
+         getClientMenu(i, date).then((response) => {
              this.recipes.push(response.data)
          })
       }
     },
     mounted () {
-        this.fetchData(this.$route.params.meal_id)
+        this.fetchData(this.$route.params.meal_id, this.dates[0])
         console.log(this.recipes)
     }
   }

@@ -5,5 +5,5 @@ urlpatterns = [
     path('register', views.RegistrationView.as_view()),
     path('client/get', views.ClientDataGetView.as_view()),
     path('client/save', views.ClientDataSaveView.as_view()),
-    path('menu/<meal_type>/', views.ClientMenuView.as_view())
+    path('menu/<meal_type>/<menu_date>/', views.ClientMenuView.as_view())
 ]

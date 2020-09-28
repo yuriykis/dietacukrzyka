@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import permission_classes
 from rest_framework import permissions, status
 from django.contrib.auth.models import User as MainUser
-
+from datetime import datetime
 
 from .models import *
 from .serializers import *
@@ -37,7 +37,7 @@ class ClientMenuView(APIView):
 
     permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request, meal_type):
+    def get(self, request, meal_type, menu_date):
         if(int(meal_type) > 5):
             return Response(status=status.HTTP_404_NOT_FOUND)
         main_user = MainUser.objects.get(username = request.user)
@@ -45,7 +45,7 @@ class ClientMenuView(APIView):
         client = Client.objects.get(user = user)
         client_menu = ClientMenu.objects.get(client = client)
         menu = Menu.objects.get(id = client_menu.menu_id)
-        meals = list(Meal.objects.filter(menu = menu))
+        meals = list(Meal.objects.filter(menu = menu, date = datetime.datetime.strptime(menu_date, '%Y-%m-%d').date()))
         recipe = Recipe.objects.get(id = meals[int(meal_type)].recipe_id)
 
         response = {
