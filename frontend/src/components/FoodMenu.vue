@@ -17,7 +17,7 @@
                         <h3 class="ma-6">{{ total_calories }} kcal</h3>
                     </v-col>
                     <v-col>
-                        <h4 class="ma-6">10.08.2020 - 16.08.2020</h4>
+                        <h4 class="ma-6">12.10.2020 - 19.10.2020</h4>
                     </v-col>
                 </v-row>
           </v-sheet>
@@ -36,7 +36,7 @@
                 <h2 class="ml-5">{{ day }}</h2>
             </v-col>
             <v-col>
-              <h4 class="mt-2">{{i + 10}}.08.2020</h4>
+              <h4 class="mt-2">{{i + 12}}.10.2020</h4>
             </v-col>
         </v-row>
                 <v-slide-group
@@ -50,20 +50,20 @@
                   :center-active="centerActive"
                 >
                   <v-slide-item
-                    v-for="i in 5"
-                    :key="i"
+                    v-for="j in 5"
+                    :key="j"
                   >
                     <v-card
                       class="ma-4"
                       height="200"
                       width="300"
                     >
-                    <v-img @click="seeDetails(day)" :src="require(`../assets/image${i%3+1}.jpg`)">
+                    <v-img @click="seeDetails(day, i)" :src="require(`../assets/image${j%3+1}.jpg`)">
                       <h3 class="ma-3">
-                        <span>{{ meal_types[i - 1] }}</span>
+                        <span>{{ meal_types[j - 1] }}</span>
                       </h3>
                       <h3 class="ml-3">
-                        <span>{{ recipes[i - 1].name }}</span>
+                        <span>{{ recipes[5 * (i%2) + j - 1].name }}</span>
                       </h3>
                     </v-img>
                     </v-card>
@@ -87,19 +87,24 @@ import { getClientMenu } from '@/services/api'
       dates: ['2020-10-12', '2020-10-13']
     }),
     methods: {
-      seeDetails (day) {
+      seeDetails (day, i) {
         this.$router.push({
-          path: `/details/${day}`
+          path: `/details/${day}/${i}`
         })
       },
-      fetchData (i, date) {
-         getClientMenu(i, date).then((response) => {
+      fetchData (i, dates, j) {
+         getClientMenu(i, dates[j]).then((response) => {
              this.recipes.push(response.data)
-             console.log(this.recipes)
              if (i < 4) {
-                 this.fetchData(++i, date)
+                 this.fetchData(++i, dates, j)
              } else {
-               this.calcTotalDayilyCalories()
+               if (j === 0) {
+                 i = 0
+                 j++
+                 this.fetchData(i, dates, j)
+              } else {
+                this.calcTotalDayilyCalories()
+              }
              }
          })
       },
@@ -107,11 +112,11 @@ import { getClientMenu } from '@/services/api'
         this.recipes.forEach((meal) => {
           this.total_calories += meal.calories
         })
-        this.total_calories *= 7
+        this.total_calories *= 3
       }
     },
     mounted () {
-        this.fetchData(0, this.dates[0])
+        this.fetchData(0, this.dates, 0)
     }
   }
 </script>

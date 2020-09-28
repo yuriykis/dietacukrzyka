@@ -75,19 +75,19 @@
       dates: ['2020-10-12', '2020-10-13']
     }),
     methods: {
-      async fetchData (i, date) {   
-        getClientMenu(i, date).then((response) => {
-          this.mealData.push(response.data)
+       fetchData (i, dates, j) {
+         getClientMenu(i, dates[j]).then((response) => {
+             this.mealData.push(response.data)
              if (i < 4) {
-                 this.fetchData(++i, date)
-             } else {
-               this.calcTotalDayilyCalories()
+                 this.fetchData(++i, dates, j)
+             } else {       
+                this.calcTotalDayilyCalories()
              }
-          });
+         })
       },
       goToMealDetails (i) {
          this.$router.push({
-          path: `/meal_details/${i}`
+          path: `/meal_details/${i}/${this.$route.params.i%2}`
         })
       },
       calcTotalDayilyCalories () {
@@ -97,7 +97,7 @@
       }
     },
     mounted () {
-        this.fetchData(0, this.dates[0])
+        this.fetchData(0, this.dates, this.$route.params.i%2)
         this.day = this.$route.params.day
     }
   }

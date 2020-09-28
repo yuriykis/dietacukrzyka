@@ -80,15 +80,19 @@ import { getClientMenu } from '@/services/api'
       dates: ['2020-10-12', '2020-10-13']
     }),
     methods: {
-      fetchData (i, date) {
-         getClientMenu(i, date).then((response) => {
+      fetchData (i, dates, j) {
+         getClientMenu(i, dates[j]).then((response) => {
              this.recipes.push(response.data)
+             if (i < 4) {
+                 this.fetchData(++i, dates, j)
+             } else {       
+                this.calcTotalDayilyCalories()
+             }
          })
-      }
+      },
     },
     mounted () {
-        this.fetchData(this.$route.params.meal_id, this.dates[0])
-        console.log(this.recipes)
+        this.fetchData(this.$route.params.meal_id, this.dates, this.$route.params.menu_id)
     }
   }
 </script>
