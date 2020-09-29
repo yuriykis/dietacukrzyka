@@ -37,7 +37,9 @@
                 height="300"
                 >
                 <h3 class="ma-1" >Składniki:</h3>
-                <h3 class="ma-1" >{{ recipes[0].ingredients }}</h3>
+                <div v-for="ingredient in ingredients" :key="ingredient">
+                  <h3 class="ma-1" >* {{ ingredient }}</h3>
+                </div>
                 </v-sheet>
             </v-col>
             <v-col cols="6">
@@ -72,11 +74,12 @@
 </template>
 
 <script>
-import { getClientMenu } from '@/services/api'
+import { getClientMenu, getClientMenuIngredients } from '@/services/api'
   export default {
     name: 'Menu',
     data: () => ({
       recipes: [],
+      ingredients: [],
       dates: ['2020-10-12', '2020-10-13']
     }),
     methods: {
@@ -90,9 +93,16 @@ import { getClientMenu } from '@/services/api'
              }
          })
       },
+       fetchIngredients (i, dates, j) {
+         getClientMenuIngredients(i, dates[j]).then((response) => {
+             this.ingredients = [...JSON.parse(response.data)]
+             console.log(this.ingredients)       
+         })
+      },
     },
     mounted () {
         this.fetchData(this.$route.params.meal_id, this.dates, this.$route.params.menu_id)
+        this.fetchIngredients(this.$route.params.meal_id, this.dates, this.$route.params.menu_id)
     }
   }
 </script>
