@@ -123,7 +123,7 @@ class RecipeIngredient(models.Model):
     massFraction = models.DecimalField("Weight", max_digits=6, decimal_places=3, default = 0, null = False)
     
     def __str__(self):
-        return self.ingredient + self.recipe
+        return "IngredientRecipe"
 
 class Menu(models.Model):
     date_from = models.DateField("Name", default=datetime.date.today, null = False)

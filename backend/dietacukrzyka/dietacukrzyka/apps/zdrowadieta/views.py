@@ -7,7 +7,7 @@ from datetime import datetime
 
 from .models import *
 from .serializers import *
-
+import json
 
 class RegistrationView(APIView):
 
@@ -47,6 +47,10 @@ class ClientMenuView(APIView):
         menu = Menu.objects.get(id = client_menu.menu_id)
         meals = list(Meal.objects.filter(menu = menu, date = datetime.datetime.strptime(menu_date, '%Y-%m-%d').date()))
         recipe = Recipe.objects.get(id = meals[int(meal_type)].recipe_id)
+        rec_ingredient = RecipeIngredient.objects.filter(recipe = recipe)
+        ingredients = []
+        for i in rec_ingredient:
+            ingredients.append(i.ingredient.name)
 
         response = {
             'name': recipe.name,
@@ -55,8 +59,27 @@ class ClientMenuView(APIView):
             'calories': meals[int(meal_type)].calories,
             'date': meals[int(meal_type)].date
         }
-
         return Response(response)
+
+class ClientMenuIngredientsView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, meal_type, menu_date):
+        if(int(meal_type) > 5):
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        main_user = MainUser.objects.get(username = request.user)
+        user = User.objects.get(user = main_user)
+        client = Client.objects.get(user = user)
+        client_menu = ClientMenu.objects.get(client = client)
+        menu = Menu.objects.get(id = client_menu.menu_id)
+        meals = list(Meal.objects.filter(menu = menu, date = datetime.datetime.strptime(menu_date, '%Y-%m-%d').date()))
+        recipe = Recipe.objects.get(id = meals[int(meal_type)].recipe_id)
+        rec_ingredient = RecipeIngredient.objects.filter(recipe = recipe)
+        ingredients = []
+        for i in rec_ingredient:
+            ingredients.append(i.ingredient.name)
+
+        return Response(json.dumps(ingredients))
 
 
 class ClientDataGetView(APIView):
