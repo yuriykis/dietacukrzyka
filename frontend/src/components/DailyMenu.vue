@@ -20,7 +20,12 @@
         </v-sheet>
       </v-row>
     </v-container>
-    <v-container v-for="(meal, i) in meals" :key="i">
+    <v-container v-if="loading">
+    <v-row align="center" justify="center" v-if="loading">
+              <Loader />
+            </v-row>
+  </v-container>
+    <v-container v-else v-for="(meal, i) in meals" :key="i">
       <v-row class="mb-1 no-gutters">
         <v-sheet
         class="mx-auto rounded-corner"
@@ -64,6 +69,7 @@
 
 <script>
   import { getClientMenu } from '@/services/api'
+  import Loader from "@/components/Loader"
   export default {
     name: 'Menu',
     data: () => ({
@@ -72,8 +78,12 @@
       backgroundUrl: ["../assets/image1.jpg", "../assets/image2.jpg", "../assets/image3.jpg"],
       day: '',
       total_calories: 0,
-      dates: ['2020-10-12', '2020-10-13']
+      dates: ['2020-10-12', '2020-10-13'],
+      loading: true
     }),
+    components: {
+      Loader
+    },
     methods: {
        fetchData (i, dates, j) {
          getClientMenu(i, dates[j]).then((response) => {
@@ -82,6 +92,7 @@
                  this.fetchData(++i, dates, j)
              } else {       
                 this.calcTotalDayilyCalories()
+                this.loading = false
              }
          })
       },
