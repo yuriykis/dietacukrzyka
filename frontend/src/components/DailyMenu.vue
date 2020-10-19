@@ -12,7 +12,9 @@
               <v-col>
                   <h2 class="ma-4">{{ day }} </h2>
               </v-col>
-             
+             <v-col>
+                  <h2 class="ma-4">{{ date }} </h2>
+              </v-col>
             <v-col>
                 <h2 class="ma-6">{{ total_calories }} kcal</h2>
               </v-col>
@@ -36,7 +38,14 @@
         >
           <v-col cols="12">
             <v-row>
+              <v-col cols="10">
               <h2 class="ml-5">{{ meal }}</h2>
+              </v-col>
+              <v-col>
+              <h2 class="ml-5">
+                  {{ mealData[i].calories }} kcal
+              </h2>
+              </v-col>
             </v-row>
             <v-row>
               <v-col>
@@ -52,7 +61,7 @@
               class="rounded-corner"
               max-width="300">
                 <v-img
-                  :src="require(`../assets/image${i%3+1}.jpg`)"
+                  :src="require(`../assets/Dania/${mealData[i].name.replaceAll(' ', '_').replaceAll(',', '')}.jpg`)"
                   max-height="300"
                   max-width= "300"
                 >
@@ -75,21 +84,20 @@
     data: () => ({
       meals: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
       mealData: [],
-      backgroundUrl: ["../assets/image1.jpg", "../assets/image2.jpg", "../assets/image3.jpg"],
+      date: '',
       day: '',
       total_calories: 0,
-      dates: ['2020-10-12', '2020-10-13'],
       loading: true
     }),
     components: {
       Loader
     },
     methods: {
-       fetchData (i, dates, j) {
-         getClientMenu(i, dates[j]).then((response) => {
+       fetchData (i, date) {
+         getClientMenu(i, date).then((response) => {
              this.mealData.push(response.data)
              if (i < 4) {
-                 this.fetchData(++i, dates, j)
+                 this.fetchData(++i, date)
              } else {       
                 this.calcTotalDayilyCalories()
                 this.loading = false
@@ -98,7 +106,7 @@
       },
       goToMealDetails (i) {
          this.$router.push({
-          path: `/meal_details/${i}/${this.$route.params.i%2}`
+          path: `/meal_details/${this.date}/${i}/`
         })
       },
       calcTotalDayilyCalories () {
@@ -108,7 +116,8 @@
       }
     },
     mounted () {
-        this.fetchData(0, this.dates, this.$route.params.i%2)
+        this.fetchData(0, this.$route.params.date)
+        this.date = this.$route.params.date
         this.day = this.$route.params.day
     }
   }

@@ -48,7 +48,7 @@
                 width="95%"
                 height="300">
                 <v-img
-                  :src="require('../assets/image1.jpg')"
+                  :src="require(`../assets/Dania/${recipes[0].name.replaceAll(' ', '_').replaceAll(',', '')}.jpg`)"
                   max-height="100%"
                 >
                 </v-img>
@@ -79,30 +79,29 @@ import { getClientMenu, getClientMenuIngredients } from '@/services/api'
     name: 'Menu',
     data: () => ({
       recipes: [],
-      ingredients: [],
-      dates: ['2020-10-12', '2020-10-13']
+      ingredients: []
     }),
     methods: {
-      fetchData (i, dates, j) {
-         getClientMenu(i, dates[j]).then((response) => {
+      fetchData (i, date) {
+         getClientMenu(i, date).then((response) => {
              this.recipes.push(response.data)
              if (i < 4) {
-                 this.fetchData(++i, dates, j)
+                 this.fetchData(++i, date)
              } else {       
                 this.calcTotalDayilyCalories()
              }
          })
       },
-       fetchIngredients (i, dates, j) {
-         getClientMenuIngredients(i, dates[j]).then((response) => {
+       fetchIngredients (i, date) {
+         getClientMenuIngredients(i, date).then((response) => {
              this.ingredients = [...JSON.parse(response.data)]
              console.log(this.ingredients)       
          })
       },
     },
     mounted () {
-        this.fetchData(this.$route.params.meal_id, this.dates, this.$route.params.menu_id)
-        this.fetchIngredients(this.$route.params.meal_id, this.dates, this.$route.params.menu_id)
+        this.fetchData(this.$route.params.meal_id, this.$route.params.date)
+        this.fetchIngredients(this.$route.params.meal_id, this.$route.params.date)
     }
   }
 </script>
