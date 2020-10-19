@@ -28,12 +28,12 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/details/:day/:i',
+    path: '/details/:date/:day/',
     name: 'DailyMenu',
     component: DailyMenu
   },
   {
-    path: '/meal_details/:meal_id/:menu_id',
+    path: '/meal_details/:date/:meal_id',
     name: 'MealDetails',
     component: MealDetails
   },

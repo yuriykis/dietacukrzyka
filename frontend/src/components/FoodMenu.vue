@@ -14,10 +14,7 @@
                         <h2 class="ma-4">Dieta na ten tydzień</h2>
                     </v-col>
                     <v-col>
-                        <h3 class="ma-6">{{ total_calories }} kcal</h3>
-                    </v-col>
-                    <v-col>
-                        <h4 class="ma-6">12.10.2020 - 19.10.2020</h4>
+                        <h4 class="ma-6">12.10.2020 - 18.10.2020</h4>
                     </v-col>
                 </v-row>
           </v-sheet>
@@ -28,7 +25,7 @@
               <Loader />
             </v-row>
   </v-container>
-      <v-container v-else v-for="(day, i) in days" :key="i">
+      <v-container v-else v-for="(date, i) in dates" :key="i">
           <v-row class="mb-1 no-gutters">
           <v-sheet
           class="mx-auto rounded-corner"
@@ -38,10 +35,13 @@
         >
         <v-row class="mb-2">
             <v-col cols=3>
-                <h2 class="ml-5">{{ day }}</h2>
+                <h2 class="ml-5">{{ days[i] }}</h2>
             </v-col>
             <v-col>
-              <h4 class="mt-2">{{i + 12}}.10.2020</h4>
+              <h4 class="mt-2">{{ date }}</h4>
+            </v-col>
+            <v-col>
+              <h4 class="mt-2">{{ total_daily_calories[i] }} kcal</h4>
             </v-col>
         </v-row>
                 <v-slide-group
@@ -63,12 +63,12 @@
                       height="200"
                       width="300"
                     >
-                    <v-img @click="seeDetails(day, i)" :src="require(`../assets/image${j%3+1}.jpg`)">
+                    <v-img @click="seeDetails(date, days[i])" :src="require(`../assets/Dania/${recipes[5 * i + j - 1].name.replaceAll(' ', '_').replaceAll(',', '')}.jpg`)">
                       <h3 class="ma-3">
                         <span>{{ meal_types[j - 1] }}</span>
                       </h3>
                       <h3 class="ml-3">
-                        <span>{{ recipes[5 * (i%2) + j - 1].name }}</span>
+                        <span>{{ recipes[5 * i + j - 1].name }}</span>
                       </h3>
                     </v-img>
                     </v-card>
@@ -89,17 +89,17 @@ import Loader from "@/components/Loader"
       days: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela'],
       meal_types: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
       recipes: [],
-      total_calories: 0,
-      dates: ['2020-10-12', '2020-10-13'],
+      total_daily_calories: [],
+      dates: ['2020-10-12', '2020-10-13', '2020-10-14', '2020-10-15', '2020-10-16', '2020-10-17', '2020-10-18'],
       loading: true
     }),
     components: {
       Loader
     },
     methods: {
-      seeDetails (day, i) {
+      seeDetails (date, day) {
         this.$router.push({
-          path: `/details/${day}/${i}`
+          path: `/details/${date}/${day}`
         })
       },
       fetchData (i, dates, j) {
@@ -108,7 +108,7 @@ import Loader from "@/components/Loader"
              if (i < 4) {
                  this.fetchData(++i, dates, j)
              } else {
-               if (j === 0) {
+               if (j < 6) {
                  i = 0
                  j++
                  this.fetchData(i, dates, j)
@@ -120,10 +120,17 @@ import Loader from "@/components/Loader"
          })
       },
       calcTotalDayilyCalories () {
-        this.recipes.forEach((meal) => {
-          this.total_calories += meal.calories
-        })
-        this.total_calories *= 3
+        let daily_total_calories = 0;
+        for (let i = 0, j = 0; i < 35; i++) {
+          if (((i + 1) % 5 === 0) && (i !== 0)) {
+            daily_total_calories += this.recipes[i].calories
+            this.total_daily_calories[j] = daily_total_calories
+            daily_total_calories = 0
+            j++
+          } else {
+            daily_total_calories += this.recipes[i].calories
+          }
+        }
       }
     },
     mounted () {
