@@ -45,3 +45,7 @@ export async function refresh (refToken) {
   export async function saveClientData (user_data) {
     return api.put('/app/client/save', user_data, { headers: authenticationHeader() })
   }
+
+  export async function generateClientIngredientsWeight (meal_type) {
+    return api.put(`/app/client/${meal_type}/ingredients_weight`, { headers: authenticationHeader() })
+  }

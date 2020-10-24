@@ -74,12 +74,13 @@
 </template>
 
 <script>
-import { getClientMenu, getClientMenuIngredients } from '@/services/api'
+import { getClientMenu, getClientMenuIngredients, generateClientIngredientsWeight } from '@/services/api'
   export default {
     name: 'Menu',
     data: () => ({
       recipes: [],
-      ingredients: []
+      ingredients: [],
+      ingredients_weight: {}
     }),
     methods: {
       fetchData (i, date) {
@@ -98,6 +99,13 @@ import { getClientMenu, getClientMenuIngredients } from '@/services/api'
              console.log(this.ingredients)       
          })
       },
+      getIngredietsWeight() {
+        generateClientIngredientsWeight().then(
+          response => {
+            this.ingredients_weight = JSON.parse(JSON.stringify(response.data))
+          }
+        )
+      }
     },
     mounted () {
         this.fetchData(this.$route.params.meal_id, this.$route.params.date)
