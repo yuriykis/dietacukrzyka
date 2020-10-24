@@ -81,6 +81,11 @@ class ClientMenuIngredientsView(APIView):
 
         return Response(json.dumps(ingredients))
 
+class ClientGenerateIngredientsWeight(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, meal_type):
+        pass
 
 class ClientDataGetView(APIView):
 
