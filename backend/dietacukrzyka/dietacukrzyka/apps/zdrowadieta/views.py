@@ -6,6 +6,8 @@ from rest_framework.decorators import permission_classes
 from rest_framework import permissions, status
 from django.contrib.auth.models import User as MainUser
 from datetime import datetime
+from django.http import FileResponse
+from django.conf import settings
 
 from .models import *
 from .serializers import *
@@ -173,3 +175,16 @@ class ClientDataSaveView(APIView):
             client.save()
 
             return Response(status=status.HTTP_200_OK)
+
+
+class FileDownloader(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, file):
+        try:
+            meals_folder = os.path.join(settings.IMAGES_DIR, "Dania")
+            results_folder = os.path.join(meals_folder, file)
+            return FileResponse(open(results_folder, 'rb'))
+        except FileNotFoundError:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)

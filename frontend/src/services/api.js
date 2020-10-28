@@ -49,3 +49,8 @@ export async function refresh (refToken) {
   export async function generateClientIngredientsWeight (meal_type, date) {
     return api.get(`/app/client/${meal_type}/ingredients_weight/${date}`, { headers: authenticationHeader() })
   }
+
+  export async function getFile (fileName) {
+    return api.get(`/app/client/${fileName}`, { responseType: 'arraybuffer', headers: authenticationHeader() })
+  }
+  

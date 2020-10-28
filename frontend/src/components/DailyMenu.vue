@@ -57,11 +57,8 @@
               <v-col>
                 <v-card class="rounded-corner" max-width="300">
                   <v-img
-                    :src="
-                      require(`../assets/Dania/${mealData[i].name
-                        .replaceAll(' ', '_')
-                        .replaceAll(',', '')}.jpg`)
-                    "
+                    @click="seeDetails(date, days[i])"
+                    :src="images[i]"
                     max-height="300"
                     max-width="300"
                   >
@@ -77,7 +74,11 @@
 </template>
 
 <script>
-import { getClientMenu, generateClientIngredientsWeight } from '@/services/api'
+import {
+  getClientMenu,
+  generateClientIngredientsWeight,
+  getFile,
+} from '@/services/api'
 import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
@@ -89,7 +90,7 @@ export default {
     loading: true,
     calorific_values: [],
     total_calories: 0,
-    semafor: false,
+    images: [],
   }),
   components: {
     Loader,
@@ -117,7 +118,7 @@ export default {
           if (i < 4) {
             this.fetchData(++i, date)
           } else {
-            this.loading = false
+            this.fetchAllImages(0)
           }
         })
       })
@@ -126,6 +127,29 @@ export default {
       this.$router.push({
         path: `/meal_details/${this.date}/${i}/`,
       })
+    },
+    fetchFile(fileName) {
+      return getFile(fileName).then(async (response) => {
+        const image = Buffer.from(response.data, 'binary').toString('base64')
+        const data = `data:${response.headers[
+          'content-type'
+        ].toLowerCase()};base64,${image}`
+        return data
+      })
+    },
+    fetchAllImages(index) {
+      const fileName = this.mealData[index].name
+        .replaceAll(' ', '_')
+        .replaceAll(',', '')
+      this.fetchFile(fileName + '.jpg')
+        .then((data) => {
+          this.images.push(data)
+          this.fetchAllImages(++index)
+        })
+        .catch((e) => {
+          console.log(e)
+          this.loading = false
+        })
     },
   },
   mounted() {
