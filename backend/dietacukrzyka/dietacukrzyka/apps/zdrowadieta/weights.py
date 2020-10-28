@@ -6,7 +6,6 @@ def main(calories, massFractions, gender, meal_type):
     gender = gender  # male/female
 
     caloric_demand = 9.99 * weight + 6.25 * height - 4.92 * age
-
     if gender == "male":
         caloric_demand += 5
     else:
@@ -25,7 +24,6 @@ def main(calories, massFractions, gender, meal_type):
         if this_meal == TYPES_OF_MEALS[i]:
             # calorific value of the whole meal
             cx = CALORIC_PER_MEAL[meal_type] * caloric_demand
-
     cal = calories  # calorific value of each ingredient
     mf = massFractions  # mass fraction of each ingredient
     length = len(cal)
@@ -41,9 +39,12 @@ def main(calories, massFractions, gender, meal_type):
     for i in range(length):
         denominator += mf[i] * cal[i] / 100
 
-    mealWeight = cx / float(denominator)  # weight of the whole meal
+    denominator = float(denominator)
+    if (denominator > 1):
+        mealWeight = cx / denominator  # weight of the whole meal
+    else:
+        mealWeight = cx * denominator
     ingredientsWeights = list()  # weight of each ingredient
-
     for i in range(length):
         ingredientsWeights.append(float(mf[i])*mealWeight)
 

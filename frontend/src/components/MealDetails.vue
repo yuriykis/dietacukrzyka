@@ -99,8 +99,6 @@ export default {
         this.recipes.push(response.data)
         if (i < 4) {
           this.fetchData(++i, date)
-        } else {
-          this.calcTotalDayilyCalories()
         }
       })
     },
