@@ -41,7 +41,7 @@
               <h4 class="mt-2">{{ date }}</h4>
             </v-col>
             <v-col>
-              <h4 class="mt-2">{{ total_daily_calories[i] }} kcal</h4>
+              <h4 class="mt-2">{{ total_calories[i] }} kcal</h4>
             </v-col>
           </v-row>
           <v-slide-group
@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { getClientMenu } from '@/services/api'
+import { getClientMenu, generateClientIngredientsWeight } from '@/services/api'
 import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
@@ -114,6 +114,7 @@ export default {
       '2020-10-18',
     ],
     loading: true,
+    total_calories: [0, 0, 0, 0, 0, 0, 0],
   }),
   components: {
     Loader,
@@ -127,32 +128,32 @@ export default {
     fetchData(i, dates, j) {
       getClientMenu(i, dates[j]).then((response) => {
         this.recipes.push(response.data)
-        if (i < 4) {
-          this.fetchData(++i, dates, j)
-        } else {
-          if (j < 6) {
-            i = 0
-            j++
-            this.fetchData(i, dates, j)
+
+        generateClientIngredientsWeight(i, dates[j]).then((response) => {
+          this.ingredients_weight = response.data
+          this.ingredients_weight = this.ingredients_weight
+            .replaceAll(' ', '')
+            .replaceAll('[', '')
+            .replaceAll(']', '')
+            .split(',')
+          let calorific_value = this.ingredients_weight[
+            this.ingredients_weight.length - 1
+          ]
+          calorific_value = Math.round(parseFloat(calorific_value) * 1) / 1
+          this.total_calories[j] += calorific_value
+
+          if (i < 4) {
+            this.fetchData(++i, dates, j)
           } else {
-            this.calcTotalDayilyCalories()
-            this.loading = false
+            if (j < 6) {
+              i = 0
+              this.fetchData(i, dates, ++j)
+            } else {
+              this.loading = false
+            }
           }
-        }
+        })
       })
-    },
-    calcTotalDayilyCalories() {
-      let daily_total_calories = 0
-      for (let i = 0, j = 0; i < 35; i++) {
-        if ((i + 1) % 5 === 0 && i !== 0) {
-          daily_total_calories += this.recipes[i].calories
-          this.total_daily_calories[j] = daily_total_calories
-          daily_total_calories = 0
-          j++
-        } else {
-          daily_total_calories += this.recipes[i].calories
-        }
-      }
     },
   },
   mounted() {

@@ -1,9 +1,9 @@
-def main(calories, massFractions, gender, meal_type):
+def main(calories, massFractions, client_info, meal_type):
     meal_type = int(meal_type)
-    age = 51
-    height = 170
-    weight = 85
-    gender = gender  # male/female
+    age = float(client_info[0])
+    weight = float(client_info[1])
+    height = float(client_info[2])
+    gender = client_info[3]  # male/female
 
     caloric_demand = 9.99 * weight + 6.25 * height - 4.92 * age
     if gender == "male":
@@ -28,7 +28,6 @@ def main(calories, massFractions, gender, meal_type):
     mf = massFractions  # mass fraction of each ingredient
     length = len(cal)
     length2 = len(mf)
-
     try:
         if length != length2:
             raise DataBaseException

@@ -110,8 +110,13 @@ class ClientGenerateIngredientsWeight(APIView):
         for i in rec_ingredient:
             ingredients_cal.append(i.ingredient.calories)
             ingredients_mass_factors.append(i.massFraction)
+        client_info = []
+        client_info.append(client.age)
+        client_info.append(client.weight)
+        client_info.append(client.height)
+        client_info.append(client.gender)
         weights_info = weights.main(
-            ingredients_cal, ingredients_mass_factors, client.gender, meal_type)
+            ingredients_cal, ingredients_mass_factors, client_info, meal_type)
         return Response(json.dumps(weights_info))
 
 

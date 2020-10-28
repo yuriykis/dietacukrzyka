@@ -11,7 +11,7 @@
         >
           <v-row>
             <v-col cols="8">
-              <h2 class="ma-4">{{ recipes[0].name }}</h2>
+              <h2 class="ma-4">{{ recipes.name }}</h2>
             </v-col>
             <v-col>
               <h4 class="ma-6">{{ calorific_value }} kcal</h4>
@@ -54,7 +54,7 @@
               <v-sheet class="mt-4" width="95%" height="300">
                 <v-img
                   :src="
-                    require(`../assets/Dania/${recipes[0].name
+                    require(`../assets/Dania/${recipes.name
                       .replaceAll(' ', '_')
                       .replaceAll(',', '')}.jpg`)
                   "
@@ -68,7 +68,7 @@
             <v-col>
               <v-sheet class="mx-4" color="rgba(116,34,60,0.8)" height="300">
                 <h4 class="ma-1">Przygotowanie:</h4>
-                <h4 class="ma-1">{{ recipes[0].method }}</h4>
+                <h4 class="ma-1">{{ recipes.method }}</h4>
               </v-sheet>
             </v-col>
           </v-row>
@@ -87,7 +87,7 @@ import {
 export default {
   name: 'Menu',
   data: () => ({
-    recipes: [],
+    recipes: {},
     ingredients: [],
     ingredients_weight: {},
     meal_mass: 0,
@@ -96,10 +96,7 @@ export default {
   methods: {
     fetchData(i, date) {
       getClientMenu(i, date).then((response) => {
-        this.recipes.push(response.data)
-        if (i < 4) {
-          this.fetchData(++i, date)
-        }
+        this.recipes = Object.assign(response.data)
       })
     },
     fetchIngredients(i, date) {

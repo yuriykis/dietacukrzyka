@@ -42,7 +42,7 @@
                 <h2 class="ml-5">{{ meal }}</h2>
               </v-col>
               <v-col>
-                <h2 class="ml-5">{{ mealData[i].calories }} kcal</h2>
+                <h2 class="ml-5">{{ calorific_values[i] }} kcal</h2>
               </v-col>
             </v-row>
             <v-row>
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { getClientMenu } from '@/services/api'
+import { getClientMenu, generateClientIngredientsWeight } from '@/services/api'
 import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
@@ -86,8 +86,10 @@ export default {
     mealData: [],
     date: '',
     day: '',
-    total_calories: 0,
     loading: true,
+    calorific_values: [],
+    total_calories: 0,
+    semafor: false,
   }),
   components: {
     Loader,
@@ -96,22 +98,33 @@ export default {
     fetchData(i, date) {
       getClientMenu(i, date).then((response) => {
         this.mealData.push(response.data)
-        if (i < 4) {
-          this.fetchData(++i, date)
-        } else {
-          this.calcTotalDayilyCalories()
-          this.loading = false
-        }
+
+        generateClientIngredientsWeight(i, date).then((response) => {
+          this.ingredients_weight = response.data
+          this.ingredients_weight = this.ingredients_weight
+            .replaceAll(' ', '')
+            .replaceAll('[', '')
+            .replaceAll(']', '')
+            .split(',')
+          this.meal_mass = this.ingredients_weight[0]
+          let calorific_value = this.ingredients_weight[
+            this.ingredients_weight.length - 1
+          ]
+          calorific_value = Math.round(parseFloat(calorific_value) * 1) / 1
+          this.calorific_values.push(calorific_value)
+          this.total_calories += calorific_value
+
+          if (i < 4) {
+            this.fetchData(++i, date)
+          } else {
+            this.loading = false
+          }
+        })
       })
     },
     goToMealDetails(i) {
       this.$router.push({
         path: `/meal_details/${this.date}/${i}/`,
-      })
-    },
-    calcTotalDayilyCalories() {
-      this.mealData.forEach((meal) => {
-        this.total_calories += meal.calories
       })
     },
   },
