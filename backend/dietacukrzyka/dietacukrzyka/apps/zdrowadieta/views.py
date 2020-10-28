@@ -1,3 +1,5 @@
+import os
+from . import weights
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import permission_classes
@@ -78,14 +80,31 @@ class ClientMenuIngredientsView(APIView):
         ingredients = []
         for i in rec_ingredient:
             ingredients.append(i.ingredient.name)
-
+    
         return Response(json.dumps(ingredients))
 
 class ClientGenerateIngredientsWeight(APIView):
     permission_classes = [permissions.IsAuthenticated]
     
-    def get(self, request, meal_type):
-        pass
+    def get(self, request, meal_type, menu_date):
+        if(int(meal_type) > 5):
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        main_user = MainUser.objects.get(username = request.user)
+        user = User.objects.get(user = main_user)
+        client = Client.objects.get(user = user)
+        client_menu = ClientMenu.objects.get(client = client)
+        menu = Menu.objects.get(id = client_menu.menu_id)
+        meals = list(Meal.objects.filter(menu = menu, date = datetime.datetime.strptime(menu_date, '%Y-%m-%d').date()))
+        recipe = Recipe.objects.get(id = meals[int(meal_type)].recipe_id)
+        rec_ingredient = RecipeIngredient.objects.filter(recipe = recipe)
+        ingredients_cal = []
+        ingredients_names = []
+        for i in rec_ingredient:
+            ingredients_cal.append(i.ingredient.calories)
+            ingredients_names.append(i.ingredient.name)
+        weights.main(ingredients_cal, ingredients_names)
+
+        return Response(json.dumps(ingredients_cal))
 
 class ClientDataGetView(APIView):
 

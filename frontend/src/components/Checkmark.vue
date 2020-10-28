@@ -1,9 +1,8 @@
 <template>
-    <div class="check"></div>
+  <div class="check"></div>
 </template>
 
 <style scoped>
-
 body {
   padding: 10px;
   text-align: center;
