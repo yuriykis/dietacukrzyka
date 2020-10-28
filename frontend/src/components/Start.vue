@@ -1,25 +1,19 @@
 <template>
-   <v-container>             
-      </v-container>
+  <v-container> </v-container>
 </template>
 
 <script>
 export default {
   name: 'Start',
 
-  components: {
-  },
+  components: {},
 
   data: () => ({
-    user: {}
+    user: {},
   }),
-  created () {
-  },
-  methods: {
-  }
-};
+  created() {},
+  methods: {},
+}
 </script>
 
-<style>
-
-</style>
+<style></style>

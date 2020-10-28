@@ -1,5 +1,5 @@
 <template>
-    <div class="lds-dual-ring"></div>
+  <div class="lds-dual-ring"></div>
 </template>
 
 <style scoped>
@@ -9,14 +9,14 @@
   height: 80px;
 }
 .lds-dual-ring:after {
-  content: " ";
+  content: ' ';
   display: block;
   width: 64px;
   height: 64px;
   margin: 8px;
   border-radius: 50%;
-  border: 6px solid #74223C;
-  border-color: #74223C transparent #74223C transparent;
+  border: 6px solid #74223c;
+  border-color: #74223c transparent #74223c transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {
@@ -27,5 +27,4 @@
     transform: rotate(360deg);
   }
 }
-
 </style>

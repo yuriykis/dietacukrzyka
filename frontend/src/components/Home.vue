@@ -1,11 +1,11 @@
 <template>
-   <v-container>         
-          <FoodMenu/>      
-      </v-container>
+  <v-container>
+    <FoodMenu />
+  </v-container>
 </template>
 
 <script>
-import FoodMenu from '@/components/FoodMenu';
+import FoodMenu from '@/components/FoodMenu'
 export default {
   name: 'Home',
 
@@ -14,16 +14,11 @@ export default {
   },
 
   data: () => ({
-    user: {}
+    user: {},
   }),
-  created () {
-  },
-  methods: {
-
-  }
-};
+  created() {},
+  methods: {},
+}
 </script>
 
-<style>
-
-</style>
+<style></style>
