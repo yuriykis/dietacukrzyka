@@ -58,11 +58,7 @@
               <v-card class="ma-4" height="200" width="300">
                 <v-img
                   @click="seeDetails(date, days[i])"
-                  :src="
-                    require(`../assets/Dania/${recipes[5 * i + j - 1].name
-                      .replaceAll(' ', '_')
-                      .replaceAll(',', '')}.jpg`)
-                  "
+                  :src="images[5 * i + j - 1]"
                 >
                   <h3 class="ma-3">
                     <span>{{ meal_types[j - 1] }}</span>
@@ -81,7 +77,11 @@
 </template>
 
 <script>
-import { getClientMenu, generateClientIngredientsWeight } from '@/services/api'
+import {
+  getClientMenu,
+  generateClientIngredientsWeight,
+  getFile,
+} from '@/services/api'
 import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
@@ -103,7 +103,6 @@ export default {
       'Kolacja',
     ],
     recipes: [],
-    total_daily_calories: [],
     dates: [
       '2020-10-12',
       '2020-10-13',
@@ -115,6 +114,8 @@ export default {
     ],
     loading: true,
     total_calories: [0, 0, 0, 0, 0, 0, 0],
+    images: [],
+    image: {},
   }),
   components: {
     Loader,
@@ -149,11 +150,34 @@ export default {
               i = 0
               this.fetchData(i, dates, ++j)
             } else {
-              this.loading = false
+              this.fetchAllImages(0)
             }
           }
         })
       })
+    },
+    fetchFile(fileName) {
+      return getFile(fileName).then(async (response) => {
+        const image = Buffer.from(response.data, 'binary').toString('base64')
+        const data = `data:${response.headers[
+          'content-type'
+        ].toLowerCase()};base64,${image}`
+        return data
+      })
+    },
+    fetchAllImages(index) {
+      const fileName = this.recipes[index].name
+        .replaceAll(' ', '_')
+        .replaceAll(',', '')
+      this.fetchFile(fileName + '.jpg')
+        .then((data) => {
+          this.images.push(data)
+          this.fetchAllImages(++index)
+        })
+        .catch((e) => {
+          console.log(e)
+          this.loading = false
+        })
     },
   },
   mounted() {

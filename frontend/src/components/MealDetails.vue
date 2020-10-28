@@ -53,11 +53,8 @@
             <v-col cols="6">
               <v-sheet class="mt-4" width="95%" height="300">
                 <v-img
-                  :src="
-                    require(`../assets/Dania/${recipes.name
-                      .replaceAll(' ', '_')
-                      .replaceAll(',', '')}.jpg`)
-                  "
+                  @click="seeDetails(date, days[i])"
+                  :src="image"
                   max-height="100%"
                 >
                 </v-img>
@@ -83,6 +80,7 @@ import {
   getClientMenu,
   getClientMenuIngredients,
   generateClientIngredientsWeight,
+  getFile,
 } from '@/services/api'
 export default {
   name: 'Menu',
@@ -92,11 +90,24 @@ export default {
     ingredients_weight: {},
     meal_mass: 0,
     calorific_value: 0,
+    image: {},
   }),
   methods: {
     fetchData(i, date) {
-      getClientMenu(i, date).then((response) => {
+      getClientMenu(i, date).then(async (response) => {
         this.recipes = Object.assign(response.data)
+        this.image = await this.fetchFile(
+          this.recipes.name.replaceAll(' ', '_').replaceAll(',', '') + '.jpg'
+        )
+      })
+    },
+    fetchFile(fileName) {
+      return getFile(fileName).then(async (response) => {
+        const image = Buffer.from(response.data, 'binary').toString('base64')
+        const data = `data:${response.headers[
+          'content-type'
+        ].toLowerCase()};base64,${image}`
+        return data
       })
     },
     fetchIngredients(i, date) {

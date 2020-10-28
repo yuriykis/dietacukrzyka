@@ -27,12 +27,10 @@
           <v-row justify="center">
             <v-card class="ma-4" height="300" width="700">
               <v-img
-                height="300"
-                :src="
-                  require(`../assets/Dania/${recipe.name
-                    .replaceAll(' ', '_')
-                    .replaceAll(',', '')}.jpg`)
-                "
+                @click="seeDetails(date, days[i])"
+                :src="images[i]"
+                max-width="100%"
+                max-height="100%"
               />
             </v-card>
           </v-row>
@@ -43,7 +41,7 @@
 </template>
 
 <script>
-import { getClientMenu } from '@/services/api'
+import { getClientMenu, getFile } from '@/services/api'
 // <v-img :src="require(`../assets/image${i%3+1}.jpg`)"/>
 export default {
   name: 'Menu',
@@ -58,6 +56,7 @@ export default {
       '2020-10-17',
       '2020-10-18',
     ],
+    images: [],
   }),
   methods: {
     seeDetails() {
@@ -76,11 +75,33 @@ export default {
             j++
             this.fetchData(i, dates, j)
           } else {
-            this.calcTotalDayilyCalories()
-            this.loading = false
+            this.fetchAllImages(0)
           }
         }
       })
+    },
+    fetchFile(fileName) {
+      return getFile(fileName).then(async (response) => {
+        const image = Buffer.from(response.data, 'binary').toString('base64')
+        const data = `data:${response.headers[
+          'content-type'
+        ].toLowerCase()};base64,${image}`
+        return data
+      })
+    },
+    fetchAllImages(index) {
+      const fileName = this.recipes[index].name
+        .replaceAll(' ', '_')
+        .replaceAll(',', '')
+      this.fetchFile(fileName + '.jpg')
+        .then((data) => {
+          this.images.push(data)
+          this.fetchAllImages(++index)
+        })
+        .catch((e) => {
+          console.log(e)
+          this.loading = false
+        })
     },
   },
   mounted() {
