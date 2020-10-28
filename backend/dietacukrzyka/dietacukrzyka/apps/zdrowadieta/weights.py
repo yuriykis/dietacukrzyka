@@ -1,9 +1,9 @@
-def main(argv1, argv2):
-    print(argv1[1])
+def main(calories, massFractions, gender, meal_type):
+    meal_type = int(meal_type)
     age = 51
     height = 170
     weight = 85
-    gender = "male"  # male/female
+    gender = gender  # male/female
 
     caloric_demand = 9.99 * weight + 6.25 * height - 4.92 * age
 
@@ -12,11 +12,10 @@ def main(argv1, argv2):
     else:
         caloric_demand -= 161
 
-    print("Caloric demand: " + str(caloric_demand))
-
     # caloric of subsequent meals as a fraction of the whole day
     CALORIC_PER_MEAL = [0.25, 0.10, 0.30, 0.15, 0.20]
-    TYPES_OF_MEALS = ["sniadanie", "II sniadanie", "obiad", "podwieczorek", "kolacja"]
+    TYPES_OF_MEALS = ["sniadanie", "II sniadanie",
+                      "obiad", "podwieczorek", "kolacja"]
 
     this_meal = "sniadanie"
     cx = 0
@@ -24,12 +23,11 @@ def main(argv1, argv2):
     # checking the type of meal
     for i in range(len(TYPES_OF_MEALS)):
         if this_meal == TYPES_OF_MEALS[i]:
-            cx = CALORIC_PER_MEAL[0] * caloric_demand  # calorific value of the whole meal
+            # calorific value of the whole meal
+            cx = CALORIC_PER_MEAL[meal_type] * caloric_demand
 
-    print("CX: " + str(cx))
-
-    cal = [410, 59, 100, 200]  # calorific value of each ingredient
-    mf = [0.1, 0.5, 0.1, 0.3]  # mass fraction of each ingredient
+    cal = calories  # calorific value of each ingredient
+    mf = massFractions  # mass fraction of each ingredient
     length = len(cal)
     length2 = len(mf)
 
@@ -43,14 +41,15 @@ def main(argv1, argv2):
     for i in range(length):
         denominator += mf[i] * cal[i] / 100
 
-    mx = cx / denominator  # weight of the whole meal
-    mi = list()  # weight of each ingredient
+    mealWeight = cx / float(denominator)  # weight of the whole meal
+    ingredientsWeights = list()  # weight of each ingredient
 
     for i in range(length):
-        mi.append(mf[i]*mx)
+        ingredientsWeights.append(float(mf[i])*mealWeight)
 
-    print(mx)
+    return_object = []
+    return_object.append(mealWeight)
+    return_object.append(ingredientsWeights)
+    return_object.append(cx)
 
-    print(mi)
-
-    print(cx)
+    return return_object

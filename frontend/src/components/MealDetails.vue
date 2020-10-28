@@ -14,7 +14,10 @@
               <h2 class="ma-4">{{ recipes[0].name }}</h2>
             </v-col>
             <v-col>
-              <h4 class="ma-6">{{ recipes[0].calories }} kcal</h4>
+              <h4 class="ma-6">{{ calorific_value }} kcal</h4>
+            </v-col>
+            <v-col>
+              <h4 class="ma-6">{{ meal_mass }} g</h4>
             </v-col>
           </v-row>
         </v-sheet>
@@ -37,8 +40,13 @@
                 height="300"
               >
                 <h3 class="ma-1">Składniki:</h3>
-                <div v-for="ingredient in ingredients" :key="ingredient">
-                  <h3 class="ma-1">* {{ ingredient }}</h3>
+                <div v-for="(ingredient, i) in ingredients" :key="ingredient">
+                  <h3 class="ma-1">
+                    * {{ ingredient }}
+                    <span style="color: red;"
+                      >{{ ingredients_weight[i] }} g</span
+                    >
+                  </h3>
                 </div>
               </v-sheet>
             </v-col>
@@ -82,6 +90,8 @@ export default {
     recipes: [],
     ingredients: [],
     ingredients_weight: {},
+    meal_mass: 0,
+    calorific_value: 0,
   }),
   methods: {
     fetchData(i, date) {
@@ -104,8 +114,27 @@ export default {
         this.$route.params.meal_id,
         this.$route.params.date
       ).then((response) => {
-        this.ingredients_weight = JSON.parse(JSON.stringify(response.data))
-        console.log(this.ingredients_weight)
+        this.ingredients_weight = response.data
+        this.ingredients_weight = this.ingredients_weight
+          .replaceAll(' ', '')
+          .replaceAll('[', '')
+          .replaceAll(']', '')
+          .split(',')
+        this.meal_mass = this.ingredients_weight[0]
+        this.calorific_value = this.ingredients_weight[
+          this.ingredients_weight.length - 1
+        ]
+        this.ingredients_weight.splice(0, 1)
+        this.ingredients_weight.splice(
+          this.ingredients_weight.length - 1,
+          this.ingredients_weight.length
+        )
+        this.ingredients_weight = this.ingredients_weight.map((el) => {
+          return Math.round(parseFloat(el) * 1) / 1
+        })
+        this.calorific_value =
+          Math.round(parseFloat(this.calorific_value) * 1) / 1
+        this.meal_mass = Math.round(parseFloat(this.meal_mass) * 1) / 1
       })
     },
   },
