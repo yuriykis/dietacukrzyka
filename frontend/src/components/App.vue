@@ -65,6 +65,7 @@ import {
   isValidAccessToken,
   removeLocalStorageTokens,
 } from '@/services/auth'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -76,7 +77,9 @@ export default {
     AppIcon,
     PersonIcon,
   },
+  computed: mapGetters(['getClientInfo']),
   methods: {
+    ...mapActions(['fetchData']),
     goToHome() {
       this.$router.push({ path: '/home' })
     },
@@ -95,7 +98,9 @@ export default {
       this.isUserLogin = isValidAccessToken()
     },
   },
-  mounted() {
+  async mounted() {
+    await this.fetchData()
+    console.log(this.getClientInfo)
     this.$nextTick(function() {
       window.setInterval(() => {
         updateAccessToken()

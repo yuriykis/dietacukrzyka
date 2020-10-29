@@ -33,6 +33,10 @@ export async function refresh (refToken) {
   export async function getClientMenu (meal_type, menu_date) {
     return api.get(`/app/menu/${meal_type}/${menu_date}/`, { headers: authenticationHeader() })
   }
+
+  export async function getClientMenu1 () {
+    return api.get(`/app/menu/`, { headers: authenticationHeader() })
+  }
   
   export async function getClientMenuIngredients (meal_type, menu_date) {
     return api.get(`/app/menu/ingredients/${meal_type}/${menu_date}/`, { headers: authenticationHeader() })

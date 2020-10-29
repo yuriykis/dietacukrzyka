@@ -70,6 +70,66 @@ class ClientMenuView(APIView):
         return Response(response)
 
 
+class ClientMenuView1(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        dates_response = []
+        menu_dates = [
+            '2020-10-12',
+            '2020-10-13',
+            '2020-10-14',
+            '2020-10-15',
+            '2020-10-16',
+            '2020-10-17',
+            '2020-10-18',
+        ]
+        dates_response = []
+        for date_index in range(6):
+            meals_response = []
+            for meal_type in range(5):
+                main_user = MainUser.objects.get(username=request.user)
+                user = User.objects.get(user=main_user)
+                client = Client.objects.get(user=user)
+                client_menu = ClientMenu.objects.get(client=client)
+                menu = Menu.objects.get(id=client_menu.menu_id)
+                meals = list(Meal.objects.filter(
+                    menu=menu, date=datetime.datetime.strptime(menu_dates[date_index], '%Y-%m-%d').date()))
+                recipe = Recipe.objects.get(id=meals[int(meal_type)].recipe_id)
+                rec_ingredient = RecipeIngredient.objects.filter(recipe=recipe)
+
+                ingredients = []
+                for i in rec_ingredient:
+                    ingredients.append(i.ingredient.name)
+
+                ingredients_cal = []
+                ingredients_mass_factors = []
+                for i in rec_ingredient:
+                    ingredients_cal.append(i.ingredient.calories)
+                    ingredients_mass_factors.append(i.massFraction)
+                client_info = []
+                client_info.append(client.age)
+                client_info.append(client.weight)
+                client_info.append(client.height)
+                client_info.append(client.gender)
+                weights_info = weights.main(
+                    ingredients_cal, ingredients_mass_factors, client_info, meal_type)
+
+                recipe_data = {
+                    'name': recipe.name,
+                    'method': recipe.method,
+                    'type': recipe.type,
+                    'calories': meals[int(meal_type)].calories,
+                    'date': meals[int(meal_type)].date,
+                    'ingredients': ingredients,
+                    'weights_info': weights_info
+                }
+                meals_response.append(recipe_data)
+            dates_response.append(meals_response)
+        return Response(dates_response)
+
+
 class ClientMenuIngredientsView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
