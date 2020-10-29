@@ -86,7 +86,7 @@ class ClientMenuView1(APIView):
             '2020-10-18',
         ]
         dates_response = []
-        for date_index in range(6):
+        for date_index in range(7):
             meals_response = []
             for meal_type in range(5):
                 main_user = MainUser.objects.get(username=request.user)

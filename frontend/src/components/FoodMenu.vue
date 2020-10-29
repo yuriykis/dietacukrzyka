@@ -25,7 +25,7 @@
         <Loader />
       </v-row>
     </v-container>
-    <v-container v-else v-for="(date, i) in dates" :key="i">
+    <v-container v-else v-for="(day, i) in days" :key="i">
       <v-row class="mb-1 no-gutters">
         <v-sheet
           class="mx-auto rounded-corner"
@@ -35,10 +35,10 @@
         >
           <v-row class="mb-2">
             <v-col cols="3">
-              <h2 class="ml-5">{{ days[i] }}</h2>
+              <h2 class="ml-5">{{ day }}</h2>
             </v-col>
             <v-col>
-              <h4 class="mt-2">{{ date }}</h4>
+              <h4 class="mt-2">{{ recipes[i][0].date }}</h4>
             </v-col>
             <v-col>
               <h4 class="mt-2">{{ total_calories[i] }} kcal</h4>
@@ -56,15 +56,16 @@
           >
             <v-slide-item v-for="j in 5" :key="j">
               <v-card class="ma-4" height="200" width="300">
-                <v-img
+                <!-- <v-img
                   @click="seeDetails(date, days[i])"
                   :src="images[5 * i + j - 1]"
-                >
+                > -->
+                <v-img>
                   <h3 class="ma-3">
                     <span>{{ meal_types[j - 1] }}</span>
                   </h3>
                   <h3 class="ml-3">
-                    <span>{{ recipes[5 * i + j - 1].name }}</span>
+                    <span>{{ recipes[i][j - 1].name }}</span>
                   </h3>
                 </v-img>
               </v-card>
@@ -77,12 +78,9 @@
 </template>
 
 <script>
-import {
-  getClientMenu,
-  generateClientIngredientsWeight,
-  getFile,
-} from '@/services/api'
+import { getFile } from '@/services/api'
 import Loader from '@/components/Loader'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Menu',
   data: () => ({
@@ -103,16 +101,7 @@ export default {
       'Kolacja',
     ],
     recipes: [],
-    dates: [
-      '2020-10-12',
-      '2020-10-13',
-      '2020-10-14',
-      '2020-10-15',
-      '2020-10-16',
-      '2020-10-17',
-      '2020-10-18',
-    ],
-    loading: true,
+    loading: false,
     total_calories: [0, 0, 0, 0, 0, 0, 0],
     images: [],
     image: {},
@@ -120,40 +109,11 @@ export default {
   components: {
     Loader,
   },
+  computed: mapGetters(['getClientInfo']),
   methods: {
     seeDetails(date, day) {
       this.$router.push({
         path: `/details/${date}/${day}`,
-      })
-    },
-    fetchData(i, dates, j) {
-      getClientMenu(i, dates[j]).then((response) => {
-        this.recipes.push(response.data)
-
-        generateClientIngredientsWeight(i, dates[j]).then((response) => {
-          this.ingredients_weight = response.data
-          this.ingredients_weight = this.ingredients_weight
-            .replaceAll(' ', '')
-            .replaceAll('[', '')
-            .replaceAll(']', '')
-            .split(',')
-          let calorific_value = this.ingredients_weight[
-            this.ingredients_weight.length - 1
-          ]
-          calorific_value = Math.round(parseFloat(calorific_value) * 1) / 1
-          this.total_calories[j] += calorific_value
-
-          if (i < 4) {
-            this.fetchData(++i, dates, j)
-          } else {
-            if (j < 6) {
-              i = 0
-              this.fetchData(i, dates, ++j)
-            } else {
-              this.fetchAllImages(0)
-            }
-          }
-        })
       })
     },
     fetchFile(fileName) {
@@ -179,9 +139,17 @@ export default {
           this.loading = false
         })
     },
+    calculateTotalCalories() {
+      for (let i = 0; i < 7; i++) {
+        for (let j = 0; j < 5; j++) {
+          this.total_calories[i] += this.recipes[i][j].weights_info[2]
+        }
+      }
+    },
   },
   mounted() {
-    this.fetchData(0, this.dates, 0)
+    this.recipes = Object.assign(this.getClientInfo.data)
+    this.calculateTotalCalories()
   },
 }
 </script>
