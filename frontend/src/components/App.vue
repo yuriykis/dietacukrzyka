@@ -85,7 +85,7 @@ export default {
   },
   computed: mapGetters(['getClientInfo']),
   methods: {
-    ...mapActions(['fetchData']),
+    ...mapActions(['fetchData', 'fetchAllImages']),
     goToHome() {
       this.$router.push({ path: '/home' })
     },
@@ -106,6 +106,7 @@ export default {
   },
   async mounted() {
     await this.fetchData()
+    await this.fetchAllImages()
     this.loading = false
     this.$nextTick(function() {
       window.setInterval(() => {

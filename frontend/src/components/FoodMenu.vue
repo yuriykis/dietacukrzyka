@@ -56,11 +56,10 @@
           >
             <v-slide-item v-for="j in 5" :key="j">
               <v-card class="ma-4" height="200" width="300">
-                <!-- <v-img
+                <v-img
                   @click="seeDetails(date, days[i])"
                   :src="images[5 * i + j - 1]"
-                > -->
-                <v-img>
+                >
                   <h3 class="ma-3">
                     <span>{{ meal_types[j - 1] }}</span>
                   </h3>
@@ -104,7 +103,7 @@ export default {
     loading: false,
     total_calories: [0, 0, 0, 0, 0, 0, 0],
     images: [],
-    image: {},
+    recipe_names: [],
   }),
   components: {
     Loader,
@@ -126,7 +125,7 @@ export default {
       })
     },
     fetchAllImages(index) {
-      const fileName = this.recipes[index].name
+      const fileName = this.recipe_names[index]
         .replaceAll(' ', '_')
         .replaceAll(',', '')
       this.fetchFile(fileName + '.jpg')
@@ -136,13 +135,13 @@ export default {
         })
         .catch((e) => {
           console.log(e)
-          this.loading = false
         })
     },
     calculateTotalCalories() {
       for (let i = 0; i < 7; i++) {
         for (let j = 0; j < 5; j++) {
           this.total_calories[i] += this.recipes[i][j].weights_info[2]
+          this.recipe_names.push(this.recipes[i][j].name)
         }
       }
     },
@@ -150,6 +149,7 @@ export default {
   mounted() {
     this.recipes = Object.assign(this.getClientInfo.data)
     this.calculateTotalCalories()
+    this.fetchAllImages(0)
   },
 }
 </script>
