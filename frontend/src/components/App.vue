@@ -45,7 +45,10 @@
           <Menu style="position: fixed; padding-top: 4%;" v-if="isUserLogin" />
         </v-col>
         <v-col lg="7">
-          <transition name="fade">
+          <v-row align="center" justify="center" v-if="loading">
+            <Loader />
+          </v-row>
+          <transition v-else name="fade">
             <router-view />
           </transition>
         </v-col>
@@ -60,23 +63,29 @@
 import AppIcon from '@/assets/logo.svg'
 import PersonIcon from '@/assets/person-circle.svg'
 import Menu from '@/components/Menu'
+import Loader from '@/components/Loader'
 import {
   updateAccessToken,
   isValidAccessToken,
   removeLocalStorageTokens,
 } from '@/services/auth'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'App',
   data: () => ({
     isUserLogin: false,
+    loading: true,
   }),
   components: {
     Menu,
     AppIcon,
     PersonIcon,
+    Loader,
   },
+  computed: mapGetters(['getClientInfo']),
   methods: {
+    ...mapActions(['fetchData', 'fetchAllImages']),
     goToHome() {
       this.$router.push({ path: '/home' })
     },
@@ -95,7 +104,10 @@ export default {
       this.isUserLogin = isValidAccessToken()
     },
   },
-  mounted() {
+  async mounted() {
+    await this.fetchData()
+    await this.fetchAllImages()
+    this.loading = false
     this.$nextTick(function() {
       window.setInterval(() => {
         updateAccessToken()

@@ -41,8 +41,6 @@
 </template>
 
 <script>
-import { getClientMenu, getFile } from '@/services/api'
-// <v-img :src="require(`../assets/image${i%3+1}.jpg`)"/>
 export default {
   name: 'Menu',
   data: () => ({
@@ -64,49 +62,8 @@ export default {
         path: '/recipes_details',
       })
     },
-    fetchData(i, dates, j) {
-      getClientMenu(i, dates[j]).then((response) => {
-        this.recipes.push(response.data)
-        if (i < 4) {
-          this.fetchData(++i, dates, j)
-        } else {
-          if (j < 6) {
-            i = 0
-            j++
-            this.fetchData(i, dates, j)
-          } else {
-            this.fetchAllImages(0)
-          }
-        }
-      })
-    },
-    fetchFile(fileName) {
-      return getFile(fileName).then(async (response) => {
-        const image = Buffer.from(response.data, 'binary').toString('base64')
-        const data = `data:${response.headers[
-          'content-type'
-        ].toLowerCase()};base64,${image}`
-        return data
-      })
-    },
-    fetchAllImages(index) {
-      const fileName = this.recipes[index].name
-        .replaceAll(' ', '_')
-        .replaceAll(',', '')
-      this.fetchFile(fileName + '.jpg')
-        .then((data) => {
-          this.images.push(data)
-          this.fetchAllImages(++index)
-        })
-        .catch((e) => {
-          console.log(e)
-          this.loading = false
-        })
-    },
   },
-  mounted() {
-    this.fetchData(0, this.dates, 0)
-  },
+  mounted() {},
 }
 </script>
 

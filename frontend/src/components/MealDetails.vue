@@ -10,14 +10,18 @@
           color="rgba(116,34,60,0.8)"
         >
           <v-row>
-            <v-col cols="8">
-              <h2 class="ma-4">{{ recipes.name }}</h2>
+            <v-col cols="7">
+              <h2 class="ma-4">{{ recipe.name }}</h2>
             </v-col>
             <v-col>
-              <h4 class="ma-6">{{ calorific_value }} kcal</h4>
+              <h4 class="ma-6">
+                {{ (Math.round(recipe.weights_info[2]) * 1) / 1 }} kcal
+              </h4>
             </v-col>
             <v-col>
-              <h4 class="ma-6">{{ meal_mass }} g</h4>
+              <h4 class="ma-6">
+                {{ (Math.round(recipe.weights_info[0]) * 1) / 1 }} g
+              </h4>
             </v-col>
           </v-row>
         </v-sheet>
@@ -40,11 +44,17 @@
                 height="300"
               >
                 <h3 class="ma-1">Składniki:</h3>
-                <div v-for="(ingredient, i) in ingredients" :key="ingredient">
+                <div
+                  v-for="(ingredient, i) in recipe.ingredients"
+                  :key="ingredient"
+                >
                   <h3 class="ma-1">
                     * {{ ingredient }}
                     <span style="color: red;"
-                      >{{ ingredients_weight[i] }} g</span
+                      >{{
+                        (Math.round(recipe.weights_info[1][i]) * 1) / 1
+                      }}
+                      g</span
                     >
                   </h3>
                 </div>
@@ -53,8 +63,11 @@
             <v-col cols="6">
               <v-sheet class="mt-4" width="95%" height="300">
                 <v-img
-                  @click="seeDetails(date, days[i])"
-                  :src="image"
+                  :src="
+                    getRecipeImageByName(
+                      recipe.name.replaceAll(' ', '_').replaceAll(',', '')
+                    )
+                  "
                   max-height="100%"
                 >
                 </v-img>
@@ -65,7 +78,7 @@
             <v-col>
               <v-sheet class="mx-4" color="rgba(116,34,60,0.8)" height="300">
                 <h4 class="ma-1">Przygotowanie:</h4>
-                <h4 class="ma-1">{{ recipes.method }}</h4>
+                <h4 class="ma-1">{{ recipe.method }}</h4>
               </v-sheet>
             </v-col>
           </v-row>
@@ -76,78 +89,34 @@
 </template>
 
 <script>
-import {
-  getClientMenu,
-  getClientMenuIngredients,
-  generateClientIngredientsWeight,
-  getFile,
-} from '@/services/api'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Menu',
   data: () => ({
-    recipes: {},
+    recipe: {},
+    date: '',
+    dates: {
+      '2020-10-12': 0,
+      '2020-10-13': 1,
+      '2020-10-14': 2,
+      '2020-10-15': 3,
+      '2020-10-16': 4,
+      '2020-10-17': 5,
+      '2020-10-18': 6,
+    },
     ingredients: [],
     ingredients_weight: {},
     meal_mass: 0,
     calorific_value: 0,
-    image: {},
   }),
-  methods: {
-    fetchData(i, date) {
-      getClientMenu(i, date).then(async (response) => {
-        this.recipes = Object.assign(response.data)
-        this.image = await this.fetchFile(
-          this.recipes.name.replaceAll(' ', '_').replaceAll(',', '') + '.jpg'
-        )
-      })
-    },
-    fetchFile(fileName) {
-      return getFile(fileName).then(async (response) => {
-        const image = Buffer.from(response.data, 'binary').toString('base64')
-        const data = `data:${response.headers[
-          'content-type'
-        ].toLowerCase()};base64,${image}`
-        return data
-      })
-    },
-    fetchIngredients(i, date) {
-      getClientMenuIngredients(i, date).then((response) => {
-        this.ingredients = [...JSON.parse(response.data)]
-      })
-    },
-    getIngredietsWeight() {
-      generateClientIngredientsWeight(
-        this.$route.params.meal_id,
-        this.$route.params.date
-      ).then((response) => {
-        this.ingredients_weight = response.data
-        this.ingredients_weight = this.ingredients_weight
-          .replaceAll(' ', '')
-          .replaceAll('[', '')
-          .replaceAll(']', '')
-          .split(',')
-        this.meal_mass = this.ingredients_weight[0]
-        this.calorific_value = this.ingredients_weight[
-          this.ingredients_weight.length - 1
-        ]
-        this.ingredients_weight.splice(0, 1)
-        this.ingredients_weight.splice(
-          this.ingredients_weight.length - 1,
-          this.ingredients_weight.length
-        )
-        this.ingredients_weight = this.ingredients_weight.map((el) => {
-          return Math.round(parseFloat(el) * 1) / 1
-        })
-        this.calorific_value =
-          Math.round(parseFloat(this.calorific_value) * 1) / 1
-        this.meal_mass = Math.round(parseFloat(this.meal_mass) * 1) / 1
-      })
-    },
-  },
+  computed: mapGetters(['getClientMealByDayId', 'getRecipeImageByName']),
+  methods: {},
   mounted() {
-    this.fetchData(this.$route.params.meal_id, this.$route.params.date)
-    this.fetchIngredients(this.$route.params.meal_id, this.$route.params.date)
-    this.getIngredietsWeight()
+    this.date = this.$route.params.date
+    this.recipe = this.getClientMealByDayId(
+      this.dates[this.date],
+      this.$route.params.meal_id
+    )
   },
 }
 </script>

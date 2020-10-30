@@ -30,12 +30,8 @@ export async function refresh (refToken) {
     return api.post('/api/token/refresh/', { refresh: refToken })
   }
 
-  export async function getClientMenu (meal_type, menu_date) {
-    return api.get(`/app/menu/${meal_type}/${menu_date}/`, { headers: authenticationHeader() })
-  }
-  
-  export async function getClientMenuIngredients (meal_type, menu_date) {
-    return api.get(`/app/menu/ingredients/${meal_type}/${menu_date}/`, { headers: authenticationHeader() })
+  export async function getClientMenu () {
+    return api.get(`/app/menu/`, { headers: authenticationHeader() })
   }
   
   export async function getClientData () {
@@ -44,10 +40,6 @@ export async function refresh (refToken) {
 
   export async function saveClientData (user_data) {
     return api.put('/app/client/save', user_data, { headers: authenticationHeader() })
-  }
-
-  export async function generateClientIngredientsWeight (meal_type, date) {
-    return api.get(`/app/client/${meal_type}/ingredients_weight/${date}`, { headers: authenticationHeader() })
   }
 
   export async function getFile (fileName) {
