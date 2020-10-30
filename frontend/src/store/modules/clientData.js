@@ -1,5 +1,5 @@
 import {
-    getClientMenu, getFile
+    getClientMenu, getFile, getAllRecipes
   } from '@/services/api'
 export default {
     actions: {
@@ -30,6 +30,12 @@ export default {
               }
             }
           },
+
+        async getRecipesFromServer({ commit }) {
+          const res = await getAllRecipes()
+          console.log(res)
+          commit('setRecipes', res.data)
+        }
     },
     mutations: {
       updateClientData(state, client_data){
@@ -44,12 +50,16 @@ export default {
                 state.recipe_names.push(client_data[i][j].name)
             }
         }
+      },
+      setRecipes(state, recipes){
+        state.recipes = recipes
       }
     },
     state: {
         client_data: [],
         recipe_images: [],
-        recipe_names: []
+        recipe_names: [],
+        recipes: []
     },
     getters: {
         getClientInfo(state){
@@ -73,6 +83,9 @@ export default {
         },
         getRecipeName: (state) => (index) => {
             return state.recipe_names[index]
+        },
+        getRecipes(state){
+          return state.recipes
         }
     }
 }

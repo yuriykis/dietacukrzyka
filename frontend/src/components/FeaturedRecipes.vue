@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'Menu',
   data: () => ({
@@ -56,6 +57,7 @@ export default {
     ],
     images: [],
   }),
+  computed: mapGetters(['getRecipes']),
   methods: {
     seeDetails() {
       this.$router.push({
@@ -63,7 +65,9 @@ export default {
       })
     },
   },
-  mounted() {},
+  mounted() {
+    console.log(this.getRecipes)
+  },
 }
 </script>
 

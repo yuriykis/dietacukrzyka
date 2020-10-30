@@ -31,7 +31,7 @@ export async function refresh (refToken) {
   }
 
   export async function getClientMenu () {
-    return api.get(`/app/menu/`, { headers: authenticationHeader() })
+    return api.get(`/app/client/menu/`, { headers: authenticationHeader() })
   }
   
   export async function getClientData () {
@@ -44,5 +44,9 @@ export async function refresh (refToken) {
 
   export async function getFile (fileName) {
     return api.get(`/app/client/${fileName}`, { responseType: 'arraybuffer', headers: authenticationHeader() })
+  }
+
+  export async function getAllRecipes () {
+    return api.get(`/app/recipes/`, { headers: authenticationHeader() })
   }
   

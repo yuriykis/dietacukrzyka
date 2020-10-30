@@ -166,3 +166,12 @@ class FileDownloader(APIView):
             return FileResponse(open(results_folder, 'rb'))
         except FileNotFoundError:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+
+class RecipesView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        recipes = Recipe.objects.all()
+        return Response(recipes)
