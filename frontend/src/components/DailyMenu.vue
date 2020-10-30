@@ -74,11 +74,6 @@
 </template>
 
 <script>
-import {
-  getClientMenu,
-  generateClientIngredientsWeight,
-  getFile,
-} from '@/services/api'
 import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
@@ -96,64 +91,13 @@ export default {
     Loader,
   },
   methods: {
-    fetchData(i, date) {
-      getClientMenu(i, date).then((response) => {
-        this.mealData.push(response.data)
-
-        generateClientIngredientsWeight(i, date).then((response) => {
-          this.ingredients_weight = response.data
-          this.ingredients_weight = this.ingredients_weight
-            .replaceAll(' ', '')
-            .replaceAll('[', '')
-            .replaceAll(']', '')
-            .split(',')
-          this.meal_mass = this.ingredients_weight[0]
-          let calorific_value = this.ingredients_weight[
-            this.ingredients_weight.length - 1
-          ]
-          calorific_value = Math.round(parseFloat(calorific_value) * 1) / 1
-          this.calorific_values.push(calorific_value)
-          this.total_calories += calorific_value
-
-          if (i < 4) {
-            this.fetchData(++i, date)
-          } else {
-            this.fetchAllImages(0)
-          }
-        })
-      })
-    },
     goToMealDetails(i) {
       this.$router.push({
         path: `/meal_details/${this.date}/${i}/`,
       })
     },
-    fetchFile(fileName) {
-      return getFile(fileName).then(async (response) => {
-        const image = Buffer.from(response.data, 'binary').toString('base64')
-        const data = `data:${response.headers[
-          'content-type'
-        ].toLowerCase()};base64,${image}`
-        return data
-      })
-    },
-    fetchAllImages(index) {
-      const fileName = this.mealData[index].name
-        .replaceAll(' ', '_')
-        .replaceAll(',', '')
-      this.fetchFile(fileName + '.jpg')
-        .then((data) => {
-          this.images.push(data)
-          this.fetchAllImages(++index)
-        })
-        .catch((e) => {
-          console.log(e)
-          this.loading = false
-        })
-    },
   },
   mounted() {
-    this.fetchData(0, this.$route.params.date)
     this.date = this.$route.params.date
     this.day = this.$route.params.day
   },

@@ -58,7 +58,13 @@
               <v-card class="ma-4" height="200" width="300">
                 <v-img
                   @click="seeDetails(date, days[i])"
-                  :src="images[5 * i + j - 1]"
+                  :src="
+                    images[
+                      recipes[i][j - 1].name
+                        .replaceAll(' ', '_')
+                        .replaceAll(',', '')
+                    ]
+                  "
                 >
                   <h3 class="ma-3">
                     <span>{{ meal_types[j - 1] }}</span>
@@ -77,7 +83,6 @@
 </template>
 
 <script>
-import { getFile } from '@/services/api'
 import Loader from '@/components/Loader'
 import { mapGetters } from 'vuex'
 export default {
@@ -102,54 +107,37 @@ export default {
     recipes: [],
     loading: false,
     total_calories: [0, 0, 0, 0, 0, 0, 0],
-    images: [],
-    recipe_names: [],
+    images_array: [],
+    images: {},
   }),
   components: {
     Loader,
   },
-  computed: mapGetters(['getClientInfo']),
+  computed: mapGetters(['getClientInfo', 'getRecipeImages']),
   methods: {
     seeDetails(date, day) {
       this.$router.push({
         path: `/details/${date}/${day}`,
       })
     },
-    fetchFile(fileName) {
-      return getFile(fileName).then(async (response) => {
-        const image = Buffer.from(response.data, 'binary').toString('base64')
-        const data = `data:${response.headers[
-          'content-type'
-        ].toLowerCase()};base64,${image}`
-        return data
-      })
-    },
-    fetchAllImages(index) {
-      const fileName = this.recipe_names[index]
-        .replaceAll(' ', '_')
-        .replaceAll(',', '')
-      this.fetchFile(fileName + '.jpg')
-        .then((data) => {
-          this.images.push(data)
-          this.fetchAllImages(++index)
-        })
-        .catch((e) => {
-          console.log(e)
-        })
-    },
     calculateTotalCalories() {
       for (let i = 0; i < 7; i++) {
         for (let j = 0; j < 5; j++) {
           this.total_calories[i] += this.recipes[i][j].weights_info[2]
-          this.recipe_names.push(this.recipes[i][j].name)
         }
       }
     },
+    imageArrayToImageObject() {
+      this.images_array.forEach((image) => {
+        this.images[Object.keys(image)[0]] = Object.values(image)[0]
+      })
+    },
   },
   mounted() {
-    this.recipes = Object.assign(this.getClientInfo.data)
+    this.recipes = Object.assign(this.getClientInfo)
+    this.images_array = Object.assign(this.getRecipeImages)
+    this.imageArrayToImageObject()
     this.calculateTotalCalories()
-    this.fetchAllImages(0)
   },
 }
 </script>
