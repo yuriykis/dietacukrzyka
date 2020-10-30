@@ -20,12 +20,7 @@
         </v-sheet>
       </v-row>
     </v-container>
-    <v-container v-if="loading">
-      <v-row align="center" justify="center" v-if="loading">
-        <Loader />
-      </v-row>
-    </v-container>
-    <v-container v-else v-for="(day, i) in days" :key="i">
+    <v-container v-for="(day, i) in days" :key="i">
       <v-row class="mb-1 no-gutters">
         <v-sheet
           class="mx-auto rounded-corner"
@@ -38,10 +33,10 @@
               <h2 class="ml-5">{{ day }}</h2>
             </v-col>
             <v-col>
-              <h4 class="mt-2">{{ recipes[i][0].date }}</h4>
+              <h4 class="mt-5">{{ recipes[i][0].date }}</h4>
             </v-col>
             <v-col>
-              <h4 class="mt-2">{{ total_calories[i] }} kcal</h4>
+              <h4 class="mt-5">{{ total_calories[i] }} kcal</h4>
             </v-col>
           </v-row>
           <v-slide-group
@@ -57,7 +52,7 @@
             <v-slide-item v-for="j in 5" :key="j">
               <v-card class="ma-4" height="200" width="300">
                 <v-img
-                  @click="seeDetails(date, days[i])"
+                  @click="seeDetails(recipes[i][0].date, days[i])"
                   :src="
                     images[
                       recipes[i][j - 1].name
@@ -83,7 +78,6 @@
 </template>
 
 <script>
-import Loader from '@/components/Loader'
 import { mapGetters } from 'vuex'
 export default {
   name: 'Menu',
@@ -105,14 +99,10 @@ export default {
       'Kolacja',
     ],
     recipes: [],
-    loading: false,
     total_calories: [0, 0, 0, 0, 0, 0, 0],
     images_array: [],
     images: {},
   }),
-  components: {
-    Loader,
-  },
   computed: mapGetters(['getClientInfo', 'getRecipeImages']),
   methods: {
     seeDetails(date, day) {

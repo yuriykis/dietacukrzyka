@@ -16,18 +16,15 @@
               <h2 class="ma-4">{{ date }}</h2>
             </v-col>
             <v-col>
-              <h2 class="ma-6">{{ total_calories }} kcal</h2>
+              <h2 class="ma-6">
+                {{ (Math.round(total_calories) * 1) / 1 }} kcal
+              </h2>
             </v-col>
           </v-row>
         </v-sheet>
       </v-row>
     </v-container>
-    <v-container v-if="loading">
-      <v-row align="center" justify="center" v-if="loading">
-        <Loader />
-      </v-row>
-    </v-container>
-    <v-container v-else v-for="(meal, i) in meals" :key="i">
+    <v-container v-for="(meal, i) in meals" :key="i">
       <v-row class="mb-1 no-gutters">
         <v-sheet
           class="mx-auto rounded-corner"
@@ -42,23 +39,29 @@
                 <h2 class="ml-5">{{ meal }}</h2>
               </v-col>
               <v-col>
-                <h2 class="ml-5">{{ calorific_values[i] }} kcal</h2>
+                <h2 class="ml-5">
+                  {{ (Math.round(recipes[i].weights_info[2]) * 1) / 1 }} kcal
+                </h2>
               </v-col>
             </v-row>
             <v-row>
               <v-col>
                 <h3 class="ma-3">
-                  {{ mealData[i].name }}
+                  {{ recipes[i].name }}
                 </h3>
                 <h4 class="ma-3">
-                  {{ mealData[i].method }}
+                  {{ recipes[i].method }}
                 </h4>
               </v-col>
               <v-col>
                 <v-card class="rounded-corner" max-width="300">
                   <v-img
                     @click="seeDetails(date, days[i])"
-                    :src="images[i]"
+                    :src="
+                      getRecipeImageByName(
+                        recipes[i].name.replaceAll(' ', '_').replaceAll(',', '')
+                      )
+                    "
                     max-height="300"
                     max-width="300"
                   >
@@ -74,32 +77,45 @@
 </template>
 
 <script>
-import Loader from '@/components/Loader'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Menu',
   data: () => ({
     meals: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
-    mealData: [],
+    recipes: [],
     date: '',
     day: '',
-    loading: true,
+    days: {
+      Poniedziałek: 0,
+      Wtorek: 1,
+      Środa: 2,
+      Czwartek: 3,
+      Piątek: 4,
+      Sobota: 5,
+      Niedziela: 6,
+    },
     calorific_values: [],
     total_calories: 0,
     images: [],
   }),
-  components: {
-    Loader,
-  },
+  computed: mapGetters(['getClientInfoByDay', 'getRecipeImageByName']),
   methods: {
     goToMealDetails(i) {
       this.$router.push({
         path: `/meal_details/${this.date}/${i}/`,
       })
     },
+    calculateTotalCalories() {
+      for (let i = 0; i < 5; i++) {
+        this.total_calories += this.recipes[i].weights_info[2]
+      }
+    },
   },
   mounted() {
     this.date = this.$route.params.date
     this.day = this.$route.params.day
+    this.recipes = this.getClientInfoByDay(this.days[this.day])
+    this.calculateTotalCalories()
   },
 }
 </script>

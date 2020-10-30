@@ -44,36 +44,6 @@ class ClientMenuView(APIView):
 
     permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request, meal_type, menu_date):
-        if(int(meal_type) > 5):
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        main_user = MainUser.objects.get(username=request.user)
-        user = User.objects.get(user=main_user)
-        client = Client.objects.get(user=user)
-        client_menu = ClientMenu.objects.get(client=client)
-        menu = Menu.objects.get(id=client_menu.menu_id)
-        meals = list(Meal.objects.filter(
-            menu=menu, date=datetime.datetime.strptime(menu_date, '%Y-%m-%d').date()))
-        recipe = Recipe.objects.get(id=meals[int(meal_type)].recipe_id)
-        rec_ingredient = RecipeIngredient.objects.filter(recipe=recipe)
-        ingredients = []
-        for i in rec_ingredient:
-            ingredients.append(i.ingredient.name)
-
-        response = {
-            'name': recipe.name,
-            'method': recipe.method,
-            'type': recipe.type,
-            'calories': meals[int(meal_type)].calories,
-            'date': meals[int(meal_type)].date
-        }
-        return Response(response)
-
-
-class ClientMenuView1(APIView):
-
-    permission_classes = [permissions.IsAuthenticated]
-
     def get(self, request):
         dates_response = []
         menu_dates = [
@@ -128,58 +98,6 @@ class ClientMenuView1(APIView):
                 meals_response.append(recipe_data)
             dates_response.append(meals_response)
         return Response(dates_response)
-
-
-class ClientMenuIngredientsView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request, meal_type, menu_date):
-        if(int(meal_type) > 5):
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        main_user = MainUser.objects.get(username=request.user)
-        user = User.objects.get(user=main_user)
-        client = Client.objects.get(user=user)
-        client_menu = ClientMenu.objects.get(client=client)
-        menu = Menu.objects.get(id=client_menu.menu_id)
-        meals = list(Meal.objects.filter(
-            menu=menu, date=datetime.datetime.strptime(menu_date, '%Y-%m-%d').date()))
-        recipe = Recipe.objects.get(id=meals[int(meal_type)].recipe_id)
-        rec_ingredient = RecipeIngredient.objects.filter(recipe=recipe)
-        ingredients = []
-        for i in rec_ingredient:
-            ingredients.append(i.ingredient.name)
-
-        return Response(json.dumps(ingredients))
-
-
-class ClientGenerateIngredientsWeight(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request, meal_type, menu_date):
-        if(int(meal_type) > 5):
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        main_user = MainUser.objects.get(username=request.user)
-        user = User.objects.get(user=main_user)
-        client = Client.objects.get(user=user)
-        client_menu = ClientMenu.objects.get(client=client)
-        menu = Menu.objects.get(id=client_menu.menu_id)
-        meals = list(Meal.objects.filter(
-            menu=menu, date=datetime.datetime.strptime(menu_date, '%Y-%m-%d').date()))
-        recipe = Recipe.objects.get(id=meals[int(meal_type)].recipe_id)
-        rec_ingredient = RecipeIngredient.objects.filter(recipe=recipe)
-        ingredients_cal = []
-        ingredients_mass_factors = []
-        for i in rec_ingredient:
-            ingredients_cal.append(i.ingredient.calories)
-            ingredients_mass_factors.append(i.massFraction)
-        client_info = []
-        client_info.append(client.age)
-        client_info.append(client.weight)
-        client_info.append(client.height)
-        client_info.append(client.gender)
-        weights_info = weights.main(
-            ingredients_cal, ingredients_mass_factors, client_info, meal_type)
-        return Response(json.dumps(weights_info))
 
 
 class ClientDataGetView(APIView):

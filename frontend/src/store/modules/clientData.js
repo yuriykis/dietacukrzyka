@@ -1,10 +1,10 @@
 import {
-    getClientMenu1, getFile
+    getClientMenu, getFile
   } from '@/services/api'
 export default {
     actions: {
         async fetchData({ commit }) {
-            const response = await getClientMenu1()
+            const response = await getClientMenu()
             const client_data = Object.assign(response.data)
             commit('updateClientData', client_data)
             commit('setRecipeNames', client_data)
@@ -54,6 +54,19 @@ export default {
     getters: {
         getClientInfo(state){
             return state.client_data
+        },
+        getClientInfoByDay: (state) => (day) => {
+          return state.client_data[day]
+        },
+        getClientMealByDayId: (state) => (day, id) => {
+          return state.client_data[day][id]
+        },
+        getRecipeImageByName: (state) => (imageName) => {
+          const images_object = {}
+          state.recipe_images.forEach((image) => {
+            images_object[Object.keys(image)[0]] = Object.values(image)[0]
+          })
+          return images_object[imageName]
         },
         getRecipeImages(state){
           return state.recipe_images
