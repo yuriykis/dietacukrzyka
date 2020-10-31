@@ -2,6 +2,7 @@ from rest_framework import serializers
 from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
 from .models import Client
 
+
 class RegistrationSerializer(serializers.Serializer):
     """Registration"""
 

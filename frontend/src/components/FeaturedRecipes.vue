@@ -1,5 +1,8 @@
 <template>
-  <v-container>
+  <v-row justify="center" align="center" v-if="loading">
+    <Loader />
+  </v-row>
+  <v-container v-else>
     <v-container>
       <v-row class="mb-2 no-gutters">
         <v-col class="mt-10" cols="12" align="center" justify="center">
@@ -7,7 +10,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container v-for="(recipe, i) in recipes" :key="i">
+    <v-container v-for="(recipe, i) in getRecipes" :key="i">
       <v-row class="mb-8 no-gutters">
         <v-sheet
           class="mx-auto rounded-corner"
@@ -28,7 +31,11 @@
             <v-card class="ma-4" height="300" width="700">
               <v-img
                 @click="seeDetails(date, days[i])"
-                :src="images[i]"
+                :src="
+                  getRecipeImageByName(
+                    recipe.name.replaceAll(' ', '_').replaceAll(',', '')
+                  )
+                "
                 max-width="100%"
                 max-height="100%"
               />
@@ -41,7 +48,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
   data: () => ({
@@ -56,17 +64,24 @@ export default {
       '2020-10-18',
     ],
     images: [],
+    loading: true,
   }),
-  computed: mapGetters(['getRecipes']),
+  components: {
+    Loader,
+  },
+  computed: mapGetters(['getRecipes', 'getRecipeImageByName']),
   methods: {
+    ...mapActions(['getRecipesFromServer']),
     seeDetails() {
       this.$router.push({
         path: '/recipes_details',
       })
     },
   },
-  mounted() {
+  async mounted() {
+    await this.getRecipesFromServer()
     console.log(this.getRecipes)
+    this.loading = false
   },
 }
 </script>

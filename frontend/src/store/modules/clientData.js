@@ -33,7 +33,6 @@ export default {
 
         async getRecipesFromServer({ commit }) {
           const res = await getAllRecipes()
-          console.log(res)
           commit('setRecipes', res.data)
         }
     },

@@ -174,4 +174,18 @@ class RecipesView(APIView):
 
     def get(self, request):
         recipes = Recipe.objects.all()
-        return Response(recipes)
+        return_recipes = []
+        for recipe in recipes:
+            rec_ingredient = RecipeIngredient.objects.filter(recipe=recipe)
+            ingredients = []
+            for i in rec_ingredient:
+                ingredients.append(i.ingredient.name)
+            recipe_data = {
+                'name': recipe.name,
+                'method': recipe.method,
+                'type': recipe.type,
+                'calories': recipe.calories,
+                'ingredients': ingredients,
+            }
+            return_recipes.append(recipe_data)
+        return Response(return_recipes)
