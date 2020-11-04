@@ -104,8 +104,10 @@ export default {
     },
   },
   async mounted() {
-    await this.fetchData()
-    await this.fetchAllImages()
+    if (this.isUserLogin) {
+      await this.fetchData()
+      await this.fetchAllImages()
+    }
     this.loading = false
     this.$nextTick(function() {
       window.setInterval(() => {
