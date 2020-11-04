@@ -39,8 +39,13 @@
       </v-row>
     </v-app-bar>
 
-    <v-main class="set-background">
-      <v-row>
+    <v-main>
+      <div
+        style="background-color: black; width: 100%; height: 100%; position: absolute;"
+      >
+        <div class="set-background"></div>
+      </div>
+      <v-row style="position:relative;">
         <v-col lg="3">
           <Menu style="position: fixed; padding-top: 4%;" v-if="isUserLogin" />
         </v-col>
@@ -129,15 +134,6 @@ h1 {
   color: #c51162;
 }
 
-.theme--dark.v-application {
-  background-color: var(--v-background-base, #121212) !important;
-  background-image: url('../assets/background.jpg');
-}
-.theme--light.v-application {
-  background-color: var(--v-background-base, white) !important;
-  background-image: url('../assets/background.jpg');
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition-property: opacity;
@@ -156,6 +152,10 @@ h1 {
 .set-background {
   background-image: url('../assets/background.jpg');
   background-attachment: fixed; /*fixed;*/
-  background-size: 1700px;
+  background-size: 100%;
+  filter: blur(3px);
+  width: 100%;
+  height: 100%;
+  margin: -5px;
 }
 </style>
