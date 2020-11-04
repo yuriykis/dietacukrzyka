@@ -116,7 +116,8 @@ class ClientDataGetView(APIView):
             'last_name': client.last_name,
             'weight': client.weight,
             'height': client.height,
-            'age': client.age
+            'age': client.age,
+            'gender': client.gender
         }
 
         return Response(response)

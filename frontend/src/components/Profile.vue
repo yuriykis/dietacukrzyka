@@ -68,7 +68,8 @@
                           height="40"
                           filled
                           rounded
-                          label="Miasto"
+                          label="Adres Email"
+                          v-model="data.email"
                         >
                         </v-text-field>
                         <v-text-field
@@ -98,7 +99,7 @@
                           height="40"
                           filled
                           rounded
-                          label="Adres Email"
+                          label="Płeć"
                           v-model="data.email"
                         >
                         </v-text-field>
@@ -250,6 +251,7 @@ export default {
     fetchData() {
       getClientData().then((response) => {
         this.data = response.data
+        console.log(this.data)
       })
     },
   },
