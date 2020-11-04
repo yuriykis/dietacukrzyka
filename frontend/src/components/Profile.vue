@@ -72,15 +72,6 @@
                           v-model="data.email"
                         >
                         </v-text-field>
-                        <v-text-field
-                          background-color="light-green lighten-1"
-                          color="light-green darken-4"
-                          height="40"
-                          filled
-                          rounded
-                          label="Kod Pocztowy"
-                        >
-                        </v-text-field>
                       </v-col>
                       <v-col class="mr-3">
                         <v-text-field
@@ -93,32 +84,23 @@
                           v-model="data.last_name"
                         >
                         </v-text-field>
-                        <v-text-field
+                        <v-select
+                          :items="gender"
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
                           height="40"
                           filled
                           rounded
                           label="Płeć"
-                          v-model="data.email"
-                        >
-                        </v-text-field>
+                          v-model="selected_gender"
+                        ></v-select>
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
                           height="40"
                           filled
                           rounded
-                          label="Region"
-                        >
-                        </v-text-field>
-                        <v-text-field
-                          background-color="light-green lighten-1"
-                          color="light-green darken-4"
-                          height="40"
-                          filled
-                          rounded
-                          label="Kraj"
+                          label="Kraj zamieszkania"
                         >
                         </v-text-field>
                       </v-col>
@@ -135,7 +117,9 @@
                           height="40"
                           filled
                           rounded
+                          type="number"
                           label="Masa ciała"
+                          @change="calculateBmi"
                           v-model="data.weight"
                         >
                         </v-text-field>
@@ -145,7 +129,9 @@
                           height="40"
                           filled
                           rounded
+                          type="number"
                           label="Wzrost"
+                          @change="calculateBmi"
                           v-model="data.height"
                         >
                         </v-text-field>
@@ -154,17 +140,10 @@
                           color="light-green darken-4"
                           height="40"
                           filled
-                          rounded
-                          label="Poziom cukru"
-                        >
-                        </v-text-field>
-                        <v-text-field
-                          background-color="light-green lighten-1"
-                          color="light-green darken-4"
-                          height="40"
-                          filled
+                          readonly
                           rounded
                           label="BMI"
+                          v-model="bmi"
                         >
                         </v-text-field>
                       </v-col>
@@ -230,6 +209,9 @@ export default {
     loading: false,
     complete_ok: false,
     fail_mail: false,
+    gender: ['Kobieta', 'Mężczyzna', 'Inna'],
+    selected_gender: '',
+    bmi: 0,
   }),
   components: {
     Loader,
@@ -237,6 +219,7 @@ export default {
   methods: {
     saveNewDetails() {
       this.loading = true
+      this.genderTranslator(this.selected_gender)
       saveClientData(this.data)
         .then(() => {
           this.loading = false
@@ -248,10 +231,41 @@ export default {
           this.fail_mail = true
         })
     },
+    calculateBmi() {
+      this.bmi =
+        Math.round(
+          (this.data.weight / Math.pow(this.data.height / 100, 2)) * 100
+        ) / 100
+    },
+    genderTranslator(gender) {
+      switch (gender) {
+        case 'male':
+          this.selected_gender = 'Mężczyzna'
+          break
+        case 'female':
+          this.selected_gender = 'Kobieta'
+          break
+        case 'other':
+          this.selected_gender = 'Inna'
+          break
+        case 'Mężczyzna':
+          this.data.gender = 'male'
+          break
+        case 'Kobieta':
+          this.data.gender = 'female'
+          break
+        case 'Inna':
+          this.data.gender = 'other'
+          break
+        default:
+          break
+      }
+    },
     fetchData() {
       getClientData().then((response) => {
         this.data = response.data
-        console.log(this.data)
+        this.genderTranslator(this.data.gender)
+        this.calculateBmi()
       })
     },
   },
@@ -274,5 +288,8 @@ h3 {
 }
 .transparent-body {
   background: transparent;
+}
+.theme--light.v-list {
+  background: #c2f588;
 }
 </style>

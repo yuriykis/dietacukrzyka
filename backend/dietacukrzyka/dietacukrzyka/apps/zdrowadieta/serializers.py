@@ -21,3 +21,4 @@ class ClientDataSerializer(serializers.Serializer):
     weight = serializers.IntegerField()
     height = serializers.IntegerField()
     age = serializers.IntegerField()
+    gender = serializers.CharField()
