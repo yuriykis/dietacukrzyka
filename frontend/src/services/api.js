@@ -34,11 +34,11 @@ export async function refresh (refToken) {
     return api.get(`/app/client/menu/`, { headers: authenticationHeader() })
   }
   
-  export async function getClientData () {
+  export async function getClientInfo () {
     return api.get('/app/client/get', { headers: authenticationHeader() })
   }
 
-  export async function saveClientData (user_data) {
+  export async function saveClientInfo (user_data) {
     return api.put('/app/client/save', user_data, { headers: authenticationHeader() })
   }
 
@@ -50,3 +50,6 @@ export async function refresh (refToken) {
     return api.get(`/app/recipes/`, { headers: authenticationHeader() })
   }
   
+  export async function getAllIngredients () {
+    return api.get(`/app/ingredients/`, { headers: authenticationHeader() })
+  }

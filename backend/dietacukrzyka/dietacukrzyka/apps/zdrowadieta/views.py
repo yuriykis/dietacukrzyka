@@ -168,7 +168,7 @@ class FileDownloader(APIView):
             results_folder = os.path.join(meals_folder, file)
             return FileResponse(open(results_folder, 'rb'))
         except FileNotFoundError:
-            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class RecipesView(APIView):
@@ -192,3 +192,15 @@ class RecipesView(APIView):
             }
             return_recipes.append(recipe_data)
         return Response(return_recipes)
+
+
+class IngredientsView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        ingredients = Ingredient.objects.all()
+        ingredients_names = []
+        for ingredient in ingredients:
+            ingredients_names.append(ingredient.name)
+        return Response(ingredients_names)

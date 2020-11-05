@@ -36,7 +36,9 @@
               <h4 class="mt-5">{{ recipes[i][0].date }}</h4>
             </v-col>
             <v-col>
-              <h4 class="mt-5">{{ total_calories[i] }} kcal</h4>
+              <h4 class="mt-5">
+                {{ (Math.round(total_calories[i]) * 1) / 1 }} kcal
+              </h4>
             </v-col>
           </v-row>
           <v-slide-group

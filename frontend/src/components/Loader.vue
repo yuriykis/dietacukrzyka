@@ -5,14 +5,14 @@
 <style scoped>
 .lds-dual-ring {
   display: inline-block;
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
 }
 .lds-dual-ring:after {
   content: ' ';
   display: block;
-  width: 64px;
-  height: 64px;
+  width: 100px;
+  height: 100px;
   margin: 8px;
   border-radius: 50%;
   border: 6px solid #74223c;

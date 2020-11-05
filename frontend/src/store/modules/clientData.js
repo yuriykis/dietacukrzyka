@@ -1,5 +1,5 @@
 import {
-    getClientMenu, getFile, getAllRecipes
+    getClientMenu, getFile, getAllRecipes, getClientInfo, saveClientInfo, getAllIngredients
   } from '@/services/api'
 export default {
     actions: {
@@ -34,7 +34,20 @@ export default {
         async getRecipesFromServer({ commit }) {
           const res = await getAllRecipes()
           commit('setRecipes', res.data)
+        },
+        async getClientInfoFromServer({ commit }) {
+          const res = await getClientInfo()
+          commit('saveClientInfoInStore', res.data)
+        },
+        async saveClientInfoOnServer({ getters, dispatch }){
+          await saveClientInfo(getters.getClientInfoFromStore)
+          await dispatch('fetchData')
+        },
+        async getAllIngredientsFromServer({ commit }){
+          const res = await getAllIngredients()
+          commit('saveIngredientsInStore', res.data)
         }
+
     },
     mutations: {
       updateClientData(state, client_data){
@@ -52,13 +65,21 @@ export default {
       },
       setRecipes(state, recipes){
         state.recipes = recipes
+      },
+      saveClientInfoInStore(state, info){
+        state.client_info = info
+      },
+      saveIngredientsInStore(state, ingredients){
+        state.ingredients = ingredients
       }
     },
     state: {
         client_data: [],
         recipe_images: [],
         recipe_names: [],
-        recipes: []
+        recipes: [],
+        ingredients: [],
+        client_info: {}
     },
     getters: {
         getClientInfo(state){
@@ -85,6 +106,12 @@ export default {
         },
         getRecipes(state){
           return state.recipes
+        },
+        getClientInfoFromStore(state){
+          return state.client_info
+        },
+        getIngredients(state){
+          return state.ingredients
         }
     }
 }

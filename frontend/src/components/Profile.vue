@@ -16,7 +16,8 @@
         </v-sheet>
       </v-row>
     </v-container>
-    <v-container>
+    <v-container v-if="loadingData"> </v-container>
+    <v-container v-else>
       <v-row class="mb-1 no-gutters">
         <v-sheet
           class="mx-auto rounded-corner"
@@ -45,7 +46,7 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
                           label="Imię"
@@ -55,7 +56,7 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
                           label="Wiek"
@@ -65,7 +66,7 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
                           label="Adres Email"
@@ -77,7 +78,7 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
                           label="Nazwisko"
@@ -88,7 +89,7 @@
                           :items="gender"
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
                           label="Płeć"
@@ -97,7 +98,7 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
                           label="Kraj zamieszkania"
@@ -114,7 +115,7 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
                           type="number"
@@ -126,7 +127,7 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
                           type="number"
@@ -138,7 +139,7 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           readonly
                           rounded
@@ -153,8 +154,47 @@
                 <v-tab-item>
                   <v-card color="rgba(116,34,60)">
                     <v-row>
-                      <v-col> </v-col>
-                      <v-col> </v-col>
+                      <v-col class="mx-10">
+                        <v-select
+                          :items="getIngredients"
+                          background-color="light-green lighten-1"
+                          color="light-green darken-4"
+                          :height="ingredients_field_height[0]"
+                          filled
+                          rounded
+                          chips
+                          multiple
+                          label="Ulubione składniki"
+                          v-model="favourite_ingredietns"
+                          @change="changeFieldHeight(0, favourite_ingredietns)"
+                        ></v-select>
+                        <v-select
+                          :items="getIngredients"
+                          background-color="light-green lighten-1"
+                          color="light-green darken-4"
+                          :height="ingredients_field_height[1]"
+                          filled
+                          rounded
+                          chips
+                          multiple
+                          label="Standardowe składniki"
+                          v-model="standard_ingredietns"
+                          @change="changeFieldHeight(1, standard_ingredietns)"
+                        ></v-select>
+                        <v-select
+                          :items="getIngredients"
+                          background-color="light-green lighten-1"
+                          color="light-green darken-4"
+                          :height="ingredients_field_height[2]"
+                          filled
+                          rounded
+                          chips
+                          multiple
+                          label="Alergeny"
+                          v-model="allergens"
+                          @change="changeFieldHeight(2, allergens)"
+                        ></v-select>
+                      </v-col>
                     </v-row>
                   </v-card>
                 </v-tab-item>
@@ -199,7 +239,7 @@
 </template>
 
 <script>
-import { getClientData, saveClientData } from '@/services/api'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
@@ -207,29 +247,56 @@ export default {
     tabs: null,
     data: {},
     loading: false,
+    loadingData: false,
     complete_ok: false,
     fail_mail: false,
     gender: ['Kobieta', 'Mężczyzna', 'Inna'],
     selected_gender: '',
     bmi: 0,
+    favourite_ingredietns: [],
+    standard_ingredietns: [],
+    allergens: [],
+    field_height: 60,
+    ingredients_field_height: [60, 60, 60],
+    filed_row: [1, 1, 1],
   }),
   components: {
     Loader,
   },
+  computed: mapGetters(['getClientInfoFromStore', 'getIngredients']),
   methods: {
-    saveNewDetails() {
+    ...mapActions([
+      'saveClientInfoOnServer',
+      'getClientInfoFromServer',
+      'getAllIngredientsFromServer',
+    ]),
+    ...mapMutations(['saveClientInfoInStore']),
+    changeFieldHeight(item_number, ingredients) {
+      var ingredients_string = ''
+      ingredients.forEach((ingredient) => {
+        ingredients_string += ingredient
+      })
+      if (ingredients_string.length > 100 * this.filed_row[item_number]) {
+        this.ingredients_field_height[item_number] += 60
+        this.filed_row[item_number]++
+      }
+    },
+    async saveNewDetails() {
+      this.saveClientInfoInStore(this.data)
       this.loading = true
+      this.complete_ok = false
+      this.fail_mail = false
       this.genderTranslator(this.selected_gender)
-      saveClientData(this.data)
-        .then(() => {
-          this.loading = false
-          ;(this.complete_ok = true), (this.fail_mail = false)
-        })
-        .catch(() => {
-          this.loading = false
-          this.complete_ok = false
-          this.fail_mail = true
-        })
+      try {
+        await this.saveClientInfoOnServer(this.data)
+        this.loading = false
+        this.complete_ok = true
+        this.fail_mail = false
+      } catch (e) {
+        this.loading = false
+        this.complete_ok = false
+        this.fail_mail = true
+      }
     },
     calculateBmi() {
       this.bmi =
@@ -261,16 +328,16 @@ export default {
           break
       }
     },
-    fetchData() {
-      getClientData().then((response) => {
-        this.data = response.data
-        this.genderTranslator(this.data.gender)
-        this.calculateBmi()
-      })
+    async fetchData() {
+      await this.getClientInfoFromServer()
+      this.data = this.getClientInfoFromStore
+      this.genderTranslator(this.data.gender)
+      this.calculateBmi()
     },
   },
-  mounted() {
+  async mounted() {
     this.fetchData()
+    await this.getAllIngredientsFromServer()
   },
 }
 </script>

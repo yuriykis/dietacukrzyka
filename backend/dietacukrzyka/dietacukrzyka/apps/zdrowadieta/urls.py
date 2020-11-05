@@ -7,5 +7,6 @@ urlpatterns = [
     path('client/save', views.ClientDataSaveView.as_view()),
     path('client/menu/', views.ClientMenuView.as_view()),
     path('client/<file>/', views.FileDownloader.as_view()),
-    path('recipes/', views.RecipesView.as_view())
+    path('recipes/', views.RecipesView.as_view()),
+    path('ingredients/', views.IngredientsView.as_view())
 ]
