@@ -2,7 +2,10 @@
   <v-navigation-drawer
     v-model="drawer"
     :mini-variant.sync="mini"
+    floating
     flat
+    fixed
+    class="pt-15"
     color="transparent"
     width="350"
   >

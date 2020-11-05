@@ -46,10 +46,10 @@
         <div class="set-background"></div>
       </div>
       <v-row style="position:relative;">
-        <v-col lg="3">
-          <Menu style="position: fixed; padding-top: 4%;" v-if="isUserLogin" />
+        <v-col cols="3">
+          <Menu v-if="isUserLogin" />
         </v-col>
-        <v-col lg="7">
+        <v-col cols="7">
           <v-row justify="center" align="center" v-if="loading">
             <Loader />
           </v-row>
@@ -57,7 +57,7 @@
             <router-view />
           </transition>
         </v-col>
-        <v-col lg="2"> </v-col>
+        <v-col cols="2"> </v-col>
       </v-row>
     </v-main>
   </v-app>
