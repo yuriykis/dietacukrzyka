@@ -282,6 +282,11 @@ export default {
       }
     },
     async saveNewDetails() {
+      var ingredients_info = []
+      ingredients_info.push(this.favourite_ingredietns)
+      ingredients_info.push(this.standard_ingredietns)
+      ingredients_info.push(this.allergens)
+      console.log(ingredients_info)
       this.saveClientInfoInStore(this.data)
       this.loading = true
       this.complete_ok = false

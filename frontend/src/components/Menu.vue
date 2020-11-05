@@ -4,10 +4,8 @@
     :mini-variant.sync="mini"
     floating
     flat
-    fixed
-    class="pt-15"
     color="transparent"
-    width="350"
+    width="100%"
   >
     <v-list-item class="px-2">
       <v-btn icon color="#98AF4F" @click.stop="mini = !mini">

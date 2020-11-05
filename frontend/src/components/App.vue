@@ -47,7 +47,9 @@
       </div>
       <v-row style="position:relative;">
         <v-col cols="3">
-          <Menu v-if="isUserLogin" />
+          <div style="position: fixed; width: 23%;">
+            <Menu v-if="isUserLogin" />
+          </div>
         </v-col>
         <v-col cols="7">
           <v-row justify="center" align="center" v-if="loading">
