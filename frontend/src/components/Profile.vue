@@ -282,11 +282,9 @@ export default {
       }
     },
     async saveNewDetails() {
-      var ingredients_info = []
-      ingredients_info.push(this.favourite_ingredietns)
-      ingredients_info.push(this.standard_ingredietns)
-      ingredients_info.push(this.allergens)
-      console.log(ingredients_info)
+      this.data['favourite_ingredietns'] = this.favourite_ingredietns
+      this.data['standard_ingredietns'] = this.standard_ingredietns
+      this.data['allergens'] = this.allergens
       this.saveClientInfoInStore(this.data)
       this.loading = true
       this.complete_ok = false

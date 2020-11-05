@@ -4,6 +4,7 @@
     :mini-variant.sync="mini"
     floating
     flat
+    permanent
     color="transparent"
     width="100%"
   >
