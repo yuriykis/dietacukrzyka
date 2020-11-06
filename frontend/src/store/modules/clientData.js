@@ -26,7 +26,9 @@ export default {
                   commit('updateClientImages', imageObject)
                   await dispatch('fetchAllImages', ++index)
               } catch(e){
-                  console.log(e)
+                if (index < 35) {
+                  await dispatch('fetchAllImages', ++index)
+                }
               }
             }
           },
