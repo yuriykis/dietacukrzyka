@@ -97,7 +97,7 @@ class PreferredIngredient(models.Model):
     )
 
     def __str__(self):
-        return self.ingredient + self.allergen
+        return self.client.last_name + self.ingredient.name
 
 
 class StandardClientIngredient(models.Model):
@@ -146,7 +146,7 @@ class ClientAllergen(models.Model):
     )
 
     def __str__(self):
-        return self.client + self.allergen
+        return self.client.last_name + self.allergen.name
 
 
 class Recipe(models.Model):

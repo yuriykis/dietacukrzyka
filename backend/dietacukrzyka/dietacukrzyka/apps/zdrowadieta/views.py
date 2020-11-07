@@ -100,6 +100,14 @@ class ClientMenuView(APIView):
         return Response(dates_response)
 
 
+class DietGeneratorView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        pass
+
+
 class ClientDataGetView(APIView):
 
     permission_classes = [permissions.IsAuthenticated]
@@ -108,29 +116,33 @@ class ClientDataGetView(APIView):
         main_user = MainUser.objects.get(username=request.user)
         user = User.objects.get(user=main_user)
         client = Client.objects.get(user=user)
-        try:
-            preferred_ingredients_rel = PreferredIngredient.objects.get(
-                client=client)
-            preferred_ingredients = Ingredient.objects.filter(
-                ingredient=preferred_ingredients_rel.ingredient_id)
-        except:
-            preferred_ingredients = []
 
+        preferred_ingredients = []
         try:
-            standard_ingredients_rel = StandardClientIngredient.objects.get(
+            preferred_ingredients_rel = PreferredIngredient.objects.filter(
                 client=client)
-            standard_ingredients = Ingredient.objects.filter(
-                ingredient=standard_ingredients_rel.ingredient_id)
+            for rel in preferred_ingredients_rel:
+                preferred_ingredients.append(rel.ingredient.name)
         except:
-            standard_ingredients = []
+            pass
 
+        standard_ingredients = []
         try:
-            client_allergens = ClientAllergen.objects.get(
+            standard_ingredients_rel = StandardClientIngredient.objects.filter(
                 client=client)
-            client_allergens = Allergen.objects.filter(
-                allergen=client_allergens.allergen_id)
+            for rel in standard_ingredients_rel:
+                standard_ingredients.append(rel.ingredient.name)
         except:
-            client_allergens = []
+            pass
+
+        client_allergens = []
+        try:
+            client_allergens_rel = ClientAllergen.objects.filter(
+                client=client)
+            for rel in client_allergens_rel:
+                client_allergens.append(rel.allergen.name)
+        except:
+            pass
 
         response = {
             'login': main_user.username,
@@ -186,6 +198,7 @@ class ClientDataSaveView(APIView):
             main_user.save()
             client.save()
 
+            PreferredIngredient.objects.all().delete()
             for ingredient in serialized_preferred_ingredients:
                 try:
                     preferred_ingredient = Ingredient.objects.get(
@@ -196,6 +209,7 @@ class ClientDataSaveView(APIView):
                 except:
                     pass
 
+            StandardClientIngredient.objects.all().delete()
             for ingredient in serialized_standard_ingredients:
                 try:
                     standard_ingredient = Ingredient.objects.get(
@@ -206,6 +220,7 @@ class ClientDataSaveView(APIView):
                 except:
                     pass
 
+            ClientAllergen.objects.all().delete()
             for allergen in serialized_allergens:
                 try:
                     allergen = Allergen.objects.get(name=allergen)
@@ -264,3 +279,14 @@ class IngredientsView(APIView):
         for ingredient in ingredients:
             ingredients_names.append(ingredient.name)
         return Response(ingredients_names)
+
+
+class AllergensView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        allergens = Allergen.objects.all()
+        allergens_names = []
+        for allergen in allergens:
+            allergens_names.append(allergen.name)
+        return Response(allergens_names)

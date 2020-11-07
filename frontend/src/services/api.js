@@ -53,3 +53,11 @@ export async function refresh (refToken) {
   export async function getAllIngredients () {
     return api.get(`/app/ingredients/`, { headers: authenticationHeader() })
   }
+
+  export async function getAllAllergens () {
+    return api.get(`/app/allergens/`, { headers: authenticationHeader() })
+  }
+
+  export async function generateNewDiet () {
+    return api.get(`/app/client/diet/`, { headers: authenticationHeader() })
+  }

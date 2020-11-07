@@ -182,7 +182,7 @@
                           @change="changeFieldHeight(1, standard_ingredients)"
                         ></v-select>
                         <v-select
-                          :items="getIngredients"
+                          :items="getAllergens"
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
                           :height="ingredients_field_height[2]"
@@ -219,6 +219,9 @@
                       @click="saveNewDetails"
                       >{{ 'Zapisz' }}</v-btn
                     >
+                    <v-btn color="#98AF4F" class="ma-3 white--text">{{
+                      'Generuj nową dietę'
+                    }}</v-btn>
                   </v-row>
                   <v-row align="center" justify="center">
                     <h5 v-if="complete_ok" style="color: green;">
@@ -256,14 +259,18 @@ export default {
     preferred_ingredients: [],
     standard_ingredients: [],
     allergens: [],
-    field_height: 60,
-    ingredients_field_height: [60, 60, 60],
-    filed_row: [1, 1, 1],
+    field_height: 70,
+    ingredients_field_height: [70, 70, 70],
+    field_row: [1, 1, 1],
   }),
   components: {
     Loader,
   },
-  computed: mapGetters(['getClientInfoFromStore', 'getIngredients']),
+  computed: mapGetters([
+    'getClientInfoFromStore',
+    'getIngredients',
+    'getAllergens',
+  ]),
   methods: {
     ...mapActions([
       'saveClientInfoOnServer',
@@ -276,9 +283,9 @@ export default {
       ingredients.forEach((ingredient) => {
         ingredients_string += ingredient
       })
-      if (ingredients_string.length > 100 * this.filed_row[item_number]) {
+      if (ingredients_string.length > 100 * this.field_row[item_number]) {
         this.ingredients_field_height[item_number] += 60
-        this.filed_row[item_number]++
+        this.field_row[item_number]++
       }
     },
     async saveNewDetails() {
@@ -334,7 +341,9 @@ export default {
     async fetchData() {
       await this.getClientInfoFromServer()
       this.data = this.getClientInfoFromStore
-      console.log(this.data)
+      this.preferred_ingredients = this.data.preferred_ingredients
+      this.standard_ingredients = this.data.standard_ingredients
+      this.allergens = this.data.client_allergens
       this.genderTranslator(this.data.gender)
       this.calculateBmi()
     },

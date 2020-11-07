@@ -1,5 +1,5 @@
 import {
-    getClientMenu, getFile, getAllRecipes, getClientInfo, saveClientInfo, getAllIngredients
+    getClientMenu, getFile, getAllRecipes, getClientInfo, saveClientInfo, getAllIngredients, getAllAllergens
   } from '@/services/api'
 export default {
     actions: {
@@ -46,8 +46,10 @@ export default {
           await dispatch('fetchData')
         },
         async getAllIngredientsFromServer({ commit }){
-          const res = await getAllIngredients()
-          commit('saveIngredientsInStore', res.data)
+          const res1 = await getAllIngredients()
+          commit('saveIngredientsInStore', res1.data)
+          const res2 = await getAllAllergens()
+          commit('saveAllergensInStore', res2.data)
         }
 
     },
@@ -71,6 +73,9 @@ export default {
       },
       saveIngredientsInStore(state, ingredients){
         state.ingredients = ingredients
+      },
+      saveAllergensInStore(state, allergens){
+        state.allergens = allergens
       }
     },
     state: {
@@ -79,7 +84,8 @@ export default {
         recipe_names: [],
         recipes: [],
         ingredients: [],
-        client_info: {}
+        client_info: {},
+        allergens: []
     },
     getters: {
         getClientInfo(state){
@@ -112,6 +118,9 @@ export default {
         },
         getIngredients(state){
           return state.ingredients
+        },
+        getAllergens(state){
+          return state.allergens
         }
     }
 }
