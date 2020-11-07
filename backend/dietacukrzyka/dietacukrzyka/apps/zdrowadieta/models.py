@@ -92,6 +92,21 @@ class PreferredIngredient(models.Model):
     )
     ingredient = models.ForeignKey(
         Ingredient,
+        on_delete=models.CASCADE,
+        default=""
+    )
+
+    def __str__(self):
+        return self.ingredient + self.allergen
+
+
+class StandardClientIngredient(models.Model):
+    client = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE
+    )
+    ingredient = models.ForeignKey(
+        Ingredient,
         on_delete=models.CASCADE
     )
 
@@ -118,6 +133,20 @@ class IngredientAllergen(models.Model):
 
     def __str__(self):
         return self.ingredient + self.allergen
+
+
+class ClientAllergen(models.Model):
+    client = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE
+    )
+    allergen = models.ForeignKey(
+        Allergen,
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.client + self.allergen
 
 
 class Recipe(models.Model):

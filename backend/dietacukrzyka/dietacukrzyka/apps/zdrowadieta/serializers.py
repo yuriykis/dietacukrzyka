@@ -22,3 +22,7 @@ class ClientDataSerializer(serializers.Serializer):
     height = serializers.IntegerField()
     age = serializers.IntegerField()
     gender = serializers.CharField()
+    preferred_ingredients = serializers.ListField(
+        child=serializers.CharField())
+    standard_ingredients = serializers.ListField(child=serializers.CharField())
+    allergens = serializers.ListField(child=serializers.CharField())

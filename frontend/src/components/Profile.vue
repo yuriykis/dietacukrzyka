@@ -165,8 +165,8 @@
                           chips
                           multiple
                           label="Ulubione składniki"
-                          v-model="favourite_ingredietns"
-                          @change="changeFieldHeight(0, favourite_ingredietns)"
+                          v-model="preferred_ingredients"
+                          @change="changeFieldHeight(0, preferred_ingredients)"
                         ></v-select>
                         <v-select
                           :items="getIngredients"
@@ -178,8 +178,8 @@
                           chips
                           multiple
                           label="Standardowe składniki"
-                          v-model="standard_ingredietns"
-                          @change="changeFieldHeight(1, standard_ingredietns)"
+                          v-model="standard_ingredients"
+                          @change="changeFieldHeight(1, standard_ingredients)"
                         ></v-select>
                         <v-select
                           :items="getIngredients"
@@ -253,8 +253,8 @@ export default {
     gender: ['Kobieta', 'Mężczyzna', 'Inna'],
     selected_gender: '',
     bmi: 0,
-    favourite_ingredietns: [],
-    standard_ingredietns: [],
+    preferred_ingredients: [],
+    standard_ingredients: [],
     allergens: [],
     field_height: 60,
     ingredients_field_height: [60, 60, 60],
@@ -282,8 +282,8 @@ export default {
       }
     },
     async saveNewDetails() {
-      this.data['favourite_ingredietns'] = this.favourite_ingredietns
-      this.data['standard_ingredietns'] = this.standard_ingredietns
+      this.data['preferred_ingredients'] = this.preferred_ingredients
+      this.data['standard_ingredients'] = this.standard_ingredients
       this.data['allergens'] = this.allergens
       this.saveClientInfoInStore(this.data)
       this.loading = true
@@ -334,6 +334,7 @@ export default {
     async fetchData() {
       await this.getClientInfoFromServer()
       this.data = this.getClientInfoFromStore
+      console.log(this.data)
       this.genderTranslator(this.data.gender)
       this.calculateBmi()
     },

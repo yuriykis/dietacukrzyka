@@ -108,6 +108,29 @@ class ClientDataGetView(APIView):
         main_user = MainUser.objects.get(username=request.user)
         user = User.objects.get(user=main_user)
         client = Client.objects.get(user=user)
+        try:
+            preferred_ingredients_rel = PreferredIngredient.objects.get(
+                client=client)
+            preferred_ingredients = Ingredient.objects.filter(
+                ingredient=preferred_ingredients_rel.ingredient_id)
+        except:
+            preferred_ingredients = []
+
+        try:
+            standard_ingredients_rel = StandardClientIngredient.objects.get(
+                client=client)
+            standard_ingredients = Ingredient.objects.filter(
+                ingredient=standard_ingredients_rel.ingredient_id)
+        except:
+            standard_ingredients = []
+
+        try:
+            client_allergens = ClientAllergen.objects.get(
+                client=client)
+            client_allergens = Allergen.objects.filter(
+                allergen=client_allergens.allergen_id)
+        except:
+            client_allergens = []
 
         response = {
             'login': main_user.username,
@@ -117,7 +140,10 @@ class ClientDataGetView(APIView):
             'weight': client.weight,
             'height': client.height,
             'age': client.age,
-            'gender': client.gender
+            'gender': client.gender,
+            'preferred_ingredients': preferred_ingredients,
+            'standard_ingredients': standard_ingredients,
+            'client_allergens': client_allergens,
         }
 
         return Response(response)
@@ -136,6 +162,11 @@ class ClientDataSaveView(APIView):
         height = serializer.data.get('height')
         age = serializer.data.get('age')
         gender = serializer.data.get('gender')
+        serialized_preferred_ingredients = serializer.data.get(
+            'preferred_ingredients')
+        serialized_standard_ingredients = serializer.data.get(
+            'standard_ingredients')
+        serialized_allergens = serializer.data.get('allergens')
 
         main_user = MainUser.objects.get(username=request.user)
         user = User.objects.get(user=main_user)
@@ -154,6 +185,35 @@ class ClientDataSaveView(APIView):
 
             main_user.save()
             client.save()
+
+            for ingredient in serialized_preferred_ingredients:
+                try:
+                    preferred_ingredient = Ingredient.objects.get(
+                        name=ingredient)
+                    preferred_ingredients_save = PreferredIngredient(
+                        client=client, ingredient=preferred_ingredient)
+                    preferred_ingredients_save.save()
+                except:
+                    pass
+
+            for ingredient in serialized_standard_ingredients:
+                try:
+                    standard_ingredient = Ingredient.objects.get(
+                        name=ingredient)
+                    standard_ingredient_save = StandardClientIngredient(
+                        client=client, ingredient=standard_ingredient)
+                    standard_ingredient_save.save()
+                except:
+                    pass
+
+            for allergen in serialized_allergens:
+                try:
+                    allergen = Allergen.objects.get(name=allergen)
+                    allergen_save = ClientAllergen(
+                        client=client, allergen=allergen)
+                    allergen_save.save()
+                except:
+                    pass
 
             return Response(status=status.HTTP_200_OK)
 
