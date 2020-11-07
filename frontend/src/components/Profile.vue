@@ -276,6 +276,7 @@ export default {
       'saveClientInfoOnServer',
       'getClientInfoFromServer',
       'getAllIngredientsFromServer',
+      'generateNewDiet',
     ]),
     ...mapMutations(['saveClientInfoInStore']),
     changeFieldHeight(item_number, ingredients) {
@@ -346,6 +347,11 @@ export default {
       this.allergens = this.data.client_allergens
       this.genderTranslator(this.data.gender)
       this.calculateBmi()
+    },
+    async createNewDiet() {
+      this.loading = true
+      await this.generateNewDiet()
+      this.loading = false
     },
   },
   async mounted() {

@@ -1,5 +1,5 @@
 import {
-    getClientMenu, getFile, getAllRecipes, getClientInfo, saveClientInfo, getAllIngredients, getAllAllergens
+    getClientMenu, getFile, getAllRecipes, getClientInfo, saveClientInfo, getAllIngredients, getAllAllergens, generateNewDiet
   } from '@/services/api'
 export default {
     actions: {
@@ -50,6 +50,10 @@ export default {
           commit('saveIngredientsInStore', res1.data)
           const res2 = await getAllAllergens()
           commit('saveAllergensInStore', res2.data)
+        },
+
+        async generateNewDiet(){
+          await generateNewDiet()
         }
 
     },

@@ -3,13 +3,13 @@
     <v-app-bar app color="#1C1D1F" dark depressed>
       <v-row v-if="isUserLogin">
         <v-col cols="1">
-          <AppIcon @click="goToHome" />
+          <AppIcon class="mt-2 ml-3" @click="goToHome" />
         </v-col>
         <v-col cols="7">
-          <h1>Zdrowa Dieta</h1>
+          <h1 class="mt-2">Zdrowa Dieta</h1>
         </v-col>
         <v-col cols="1">
-          <PersonIcon />
+          <PersonIcon class="mt-2" />
         </v-col>
         <v-col cols="1">
           <v-btn color="#98AF4F" class="ma-3" @click="logout">{{
@@ -20,10 +20,10 @@
       </v-row>
       <v-row v-else>
         <v-col cols="1">
-          <AppIcon @click="goToHome" />
+          <AppIcon class="mt-2 ml-3" @click="goToHome" />
         </v-col>
         <v-col cols="7">
-          <h1>Zdrowa Dieta</h1>
+          <h1 class="mt-2">Zdrowa Dieta</h1>
         </v-col>
         <v-col cols="1"> </v-col>
         <v-col cols="1">

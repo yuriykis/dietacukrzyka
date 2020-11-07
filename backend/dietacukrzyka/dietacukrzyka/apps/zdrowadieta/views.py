@@ -105,7 +105,7 @@ class DietGeneratorView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        pass
+        return Response(status=status.HTTP_200_OK)
 
 
 class ClientDataGetView(APIView):
