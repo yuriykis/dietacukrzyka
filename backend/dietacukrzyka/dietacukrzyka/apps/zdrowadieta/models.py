@@ -90,6 +90,10 @@ class PreferredIngredient(models.Model):
         Client,
         on_delete=models.CASCADE
     )
+    ingredient = models.ForeignKey(
+        Ingredient,
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.ingredient + self.allergen

@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
@@ -71,7 +71,6 @@ export default {
   },
   computed: mapGetters(['getRecipes', 'getRecipeImageByName']),
   methods: {
-    ...mapActions(['getRecipesFromServer']),
     seeDetails() {
       this.$router.push({
         path: '/recipes_details',
@@ -79,8 +78,6 @@ export default {
     },
   },
   async mounted() {
-    await this.getRecipesFromServer()
-    console.log(this.getRecipes)
     this.loading = false
   },
 }

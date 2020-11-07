@@ -91,7 +91,7 @@ export default {
   },
   computed: mapGetters(['getClientInfo']),
   methods: {
-    ...mapActions(['fetchData', 'fetchAllImages']),
+    ...mapActions(['fetchData', 'getRecipesFromServer', 'fetchAllImages']),
     goToHome() {
       this.$router.push({ path: '/home' })
     },
@@ -113,6 +113,7 @@ export default {
   async mounted() {
     if (this.isUserLogin) {
       await this.fetchData()
+      await this.getRecipesFromServer()
       await this.fetchAllImages()
     }
     this.loading = false

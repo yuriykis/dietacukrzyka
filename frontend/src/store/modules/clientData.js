@@ -7,7 +7,6 @@ export default {
             const response = await getClientMenu()
             const client_data = Object.assign(response.data)
             commit('updateClientData', client_data)
-            commit('setRecipeNames', client_data)
         },
         async fetchAllImages({ commit, getters, dispatch }, index = 0) {
             const fileNameCurrent = getters.getRecipeName(index)
@@ -26,7 +25,7 @@ export default {
                   commit('updateClientImages', imageObject)
                   await dispatch('fetchAllImages', ++index)
               } catch(e){
-                if (index < 35) {
+                if (index < 55) {
                   await dispatch('fetchAllImages', ++index)
                 }
               }
@@ -36,6 +35,7 @@ export default {
         async getRecipesFromServer({ commit }) {
           const res = await getAllRecipes()
           commit('setRecipes', res.data)
+          commit('setRecipeNames')
         },
         async getClientInfoFromServer({ commit }) {
           const res = await getClientInfo()
@@ -58,15 +58,13 @@ export default {
       updateClientImages(state, image){
         state.recipe_images.push(image)
       },
-      setRecipeNames(state, client_data){
-        for (let i = 0; i < 7; i++) {
-            for (let j = 0; j < 5; j++) {
-                state.recipe_names.push(client_data[i][j].name)
-            }
-        }
-      },
       setRecipes(state, recipes){
         state.recipes = recipes
+      },
+      setRecipeNames(state){
+        state.recipes.forEach((recipe) => {
+          state.recipe_names.push(recipe.name)
+        })
       },
       saveClientInfoInStore(state, info){
         state.client_info = info

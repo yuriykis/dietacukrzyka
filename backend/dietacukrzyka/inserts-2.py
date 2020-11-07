@@ -248,10 +248,66 @@ burak = Ingredient(name='Burak', calories=43,
                    proteins=1.6, fats=0.17, carbs=9.6)
 burak.save()
 
-new_allergen = Allergen(name='Gluten')
-new_allergen.save()
-new_allergen = Allergen(name='Jaja')
-new_allergen.save()
+
+gluten_alerg = Allergen(name='Gluten')
+gluten_alerg.save()
+jaja_alerg = Allergen(name='Jaja')
+jaja_alerg.save()
+lubin_alerg = Allergen(name='Łubin')
+lubin_alerg.save()
+mieczaki_alerg = Allergen(name='Mięczaki')
+mieczaki_alerg.save()
+mleko_alerg = Allergen(name='Mleko')
+mleko_alerg.save()
+musztarda_alerg = Allergen(name='Musztarda')
+musztarda_alerg.save()
+orzechy_alerg = Allergen(name='Orzechy')
+orzechy_alerg.save()
+orzechy_ziemne_alerg = Allergen(name='Orzechy ziemne')
+orzechy_ziemne_alerg.save()
+ryby_alerg = Allergen(name='Ryby')
+ryby_alerg.save()
+sezam_alerg = Allergen(name='Sezam')
+sezam_alerg.save()
+soja_alerg = Allergen(name='Soja')
+soja_alerg.save()
+
+ingredient_allergen = IngredientAllergen(
+    ingredient=pieczywo, allergen=gluten_alerg)
+ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(
+    ingredient=platkiO, allergen=gluten_alerg)
+ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(
+    ingredient=ciecierzyca, allergen=gluten_alerg)
+ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(
+    ingredient=soczewica, allergen=gluten_alerg)
+ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(
+    ingredient=jarmuz, allergen=gluten_alerg)
+ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(ingredient=ryz, allergen=gluten_alerg)
+ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(ingredient=jajka, allergen=jaja_alerg)
+ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(
+    ingredient=mleko, allergen=mleko_alerg)
+ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(
+    ingredient=orzechyW, allergen=orzechy_alerg)
+ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(
+    ingredient=lososWedzony, allergen=ryby_alerg)
+ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(ingredient=losos, allergen=ryby_alerg)
+ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(
+    ingredient=migdaly, allergen=orzechy_alerg)
+ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(
+    ingredient=mlekoMigdalowe, allergen=orzechy_alerg)
+ingredient_allergen.save()
 
 # sniadania
 owsiankaPomarancza = Recipe(name='Owsianka z pomarańczą',
