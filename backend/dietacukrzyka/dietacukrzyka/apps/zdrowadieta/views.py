@@ -57,7 +57,7 @@ class ClientMenuView(APIView):
         ]
         dates_response = []
         for date_index in range(7):
-            meals_response = []
+            meals_response = {}
             for meal_type in range(5):
                 main_user = MainUser.objects.get(username=request.user)
                 user = User.objects.get(user=main_user)
@@ -95,7 +95,7 @@ class ClientMenuView(APIView):
                     'ingredients': ingredients,
                     'weights_info': weights_info
                 }
-                meals_response.append(recipe_data)
+                meals_response[recipe.type] = recipe_data
             dates_response.append(meals_response)
         return Response(dates_response)
 
@@ -105,6 +105,67 @@ class DietGeneratorView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
+        main_user = MainUser.objects.get(username=request.user)
+        user = User.objects.get(user=main_user)
+        client = Client.objects.get(user=user)
+
+        preferred_ingredients = []
+        try:
+            preferred_ingredients_rel = PreferredIngredient.objects.filter(
+                client=client)
+            for rel in preferred_ingredients_rel:
+                preferred_ingredients.append(rel.ingredient)
+        except:
+            pass
+
+        standard_ingredients = []
+        try:
+            standard_ingredients_rel = StandardClientIngredient.objects.filter(
+                client=client)
+            for rel in standard_ingredients_rel:
+                standard_ingredients.append(rel.ingredient)
+        except:
+            pass
+
+        client_allergens = []
+        try:
+            client_allergens_rel = ClientAllergen.objects.filter(
+                client=client)
+            for rel in client_allergens_rel:
+                client_allergens.append(rel.allergen)
+        except:
+            pass
+
+        ingredients_allergens = []
+
+        for allergen in client_allergens:
+            allergens_query = IngredientAllergen.objects.filter(
+                allergen=allergen)
+            for a in allergens_query:
+                ingredients_allergens.append(a)
+
+        ingredients_to_remove = []
+        for i_a in ingredients_allergens:
+            ingredients_to_remove.append(i_a.ingredient)
+
+        recipe_ingredients_to_remove = []
+        for recipe_ingredient_to_remove in ingredients_to_remove:
+            r_i = RecipeIngredient.objects.filter(
+                ingredient=recipe_ingredient_to_remove)
+            for i in r_i:
+                recipe_ingredients_to_remove.append(i)
+
+        recipes_to_remove = []
+        for iterator in recipe_ingredients_to_remove:
+            recipes_to_remove.append(iterator.recipe.name)
+
+        recipes_without_allergens = Recipe.objects.exclude(
+            name__in=recipes_to_remove)
+
+        ingredients = Ingredient.objects.all()
+        recipes = Recipe.objects.all()
+        new_client_recipes = []
+
         return Response(status=status.HTTP_200_OK)
 
 

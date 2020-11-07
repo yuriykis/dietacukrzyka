@@ -33,7 +33,7 @@
               <h2 class="ml-5">{{ day }}</h2>
             </v-col>
             <v-col>
-              <h4 class="mt-5">{{ recipes[i][0].date }}</h4>
+              <h4 class="mt-5">{{ recipes[i]['sniadanie'].date }}</h4>
             </v-col>
             <v-col>
               <h4 class="mt-5">
@@ -54,10 +54,12 @@
             <v-slide-item v-for="j in 5" :key="j">
               <v-card class="ma-4" height="200" width="300">
                 <v-img
-                  @click="seeDetails(recipes[i][0].date, days[i])"
+                  @click="
+                    seeDetails(recipes[i][meal_types_data[j - 1]].date, days[i])
+                  "
                   :src="
                     images[
-                      recipes[i][j - 1].name
+                      recipes[i][meal_types_data[j - 1]].name
                         .replaceAll(' ', '_')
                         .replaceAll(',', '')
                     ]
@@ -67,7 +69,7 @@
                     <span>{{ meal_types[j - 1] }}</span>
                   </h3>
                   <h3 class="ml-3">
-                    <span>{{ recipes[i][j - 1].name }}</span>
+                    <span>{{ recipes[i][meal_types_data[j - 1]].name }}</span>
                   </h3>
                 </v-img>
               </v-card>
@@ -100,6 +102,13 @@ export default {
       'Podwieczorek',
       'Kolacja',
     ],
+    meal_types_data: [
+      'sniadanie',
+      'II sniadanie',
+      'obiad',
+      'podwieczorek',
+      'kolacja',
+    ],
     recipes: [],
     total_calories: [0, 0, 0, 0, 0, 0, 0],
     images_array: [],
@@ -115,7 +124,9 @@ export default {
     calculateTotalCalories() {
       for (let i = 0; i < 7; i++) {
         for (let j = 0; j < 5; j++) {
-          this.total_calories[i] += this.recipes[i][j].weights_info[2]
+          this.total_calories[i] += this.recipes[i][
+            this.meal_types_data[j]
+          ].weights_info[2]
         }
       }
     },

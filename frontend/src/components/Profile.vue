@@ -219,9 +219,12 @@
                       @click="saveNewDetails"
                       >{{ 'Zapisz' }}</v-btn
                     >
-                    <v-btn color="#98AF4F" class="ma-3 white--text">{{
-                      'Generuj nową dietę'
-                    }}</v-btn>
+                    <v-btn
+                      @click="createNewDiet"
+                      color="#98AF4F"
+                      class="ma-3 white--text"
+                      >{{ 'Generuj nową dietę' }}</v-btn
+                    >
                   </v-row>
                   <v-row align="center" justify="center">
                     <h5 v-if="complete_ok" style="color: green;">
@@ -276,7 +279,7 @@ export default {
       'saveClientInfoOnServer',
       'getClientInfoFromServer',
       'getAllIngredientsFromServer',
-      'generateNewDiet',
+      'obtainNewDiet',
     ]),
     ...mapMutations(['saveClientInfoInStore']),
     changeFieldHeight(item_number, ingredients) {
@@ -350,7 +353,7 @@ export default {
     },
     async createNewDiet() {
       this.loading = true
-      await this.generateNewDiet()
+      await this.obtainNewDiet()
       this.loading = false
     },
   },

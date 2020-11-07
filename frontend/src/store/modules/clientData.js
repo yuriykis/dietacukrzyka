@@ -52,7 +52,7 @@ export default {
           commit('saveAllergensInStore', res2.data)
         },
 
-        async generateNewDiet(){
+        async obtainNewDiet(){
           await generateNewDiet()
         }
 

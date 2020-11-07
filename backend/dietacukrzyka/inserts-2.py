@@ -314,7 +314,7 @@ owsiankaPomarancza = Recipe(name='Owsianka z pomarańczą',
                             method='Płatki owsiane zalać wrzątkiem i przykryć talerzykiem. Po chwili dodać jogurt, orzechy i pokrojoną pomarańcze.', calories=200, type='sniadanie')
 owsiankaPomarancza.save()
 jajecznica = Recipe(name='Jajecznica na maśle',
-                    method='Rozpuścić masło na patelni, wbić jaja i wymieszać. Podawać z pieczywem i pokrojonym pomidorem.', calories=250, type='obiad')
+                    method='Rozpuścić masło na patelni, wbić jaja i wymieszać. Podawać z pieczywem i pokrojonym pomidorem.', calories=250, type='sniadanie')
 jajecznica.save()
 kanapkaAwokadoJajko = Recipe(name='Kanapka z jajkiem i awokado',
                              method='Jajka gotujemy na twardo przez 8 minut. Podajemy z pieczywem posmarowanym pastą z dojrzałego awokado z dodatkiem przypraw.', calories=200, type='sniadanie')

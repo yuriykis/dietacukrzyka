@@ -9,7 +9,7 @@
           <h1 class="mt-2">Zdrowa Dieta</h1>
         </v-col>
         <v-col cols="1">
-          <PersonIcon class="mt-2" />
+          <PersonIcon @click="goToProfile" class="mt-2" />
         </v-col>
         <v-col cols="1">
           <v-btn color="#98AF4F" class="ma-3" @click="logout">{{
@@ -108,6 +108,9 @@ export default {
     },
     ifUserLogin() {
       this.isUserLogin = isValidAccessToken()
+    },
+    goToProfile() {
+      this.$router.push({ path: '/profile' })
     },
   },
   async mounted() {
