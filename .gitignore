@@ -33,3 +33,6 @@ db.sqlite3
 
 # Python Cache files
 *.pyc
+
+# run folder
+run
