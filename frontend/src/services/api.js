@@ -1,7 +1,7 @@
 import * as Axios from 'axios'
 import { getAccessToken } from '@/services/auth'
 
-var apiHost = 'http://127.0.0.1:8000'
+var apiHost = 'http://localhost:8001'
 
 const api = Axios.create({
     baseURL: apiHost,
