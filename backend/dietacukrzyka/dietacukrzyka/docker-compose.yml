@@ -33,17 +33,16 @@ services:
     - postgres
 
 
-
-  # nginx:
-  #   image: nginx:1.17.2
-  #   ports:
-  #   - "80:80"
-  #   - "443:443"
-  #   depends_on:
-  #   - app
-  #   volumes:
-  #   - ./run/static:/static
-  #   - ./run/etc/nginx:/etc/nginx/conf.d
-  #   - /etc/letsencrypt:/etc/letsencrypt
-  #   restart: always
+  nginx:
+    image: nginx:1.17.2
+    container_name: nginx
+    ports:
+    - "8001:80"
+    depends_on:
+    - app
+    volumes:
+    - ./run/static:/static
+    - ./run/etc/nginx:/etc/nginx/conf.d
+    # - /etc/letsencrypt:/etc/letsencrypt
+    restart: always
 

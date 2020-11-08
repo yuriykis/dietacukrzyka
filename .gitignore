@@ -36,3 +36,4 @@ db.sqlite3
 
 # run folder
 run
+frontend/dist
