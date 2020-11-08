@@ -40,17 +40,22 @@
               </v-col>
               <v-col>
                 <h2 class="ml-5">
-                  {{ (Math.round(recipes[i].weights_info[2]) * 1) / 1 }} kcal
+                  {{
+                    (Math.round(recipes[meal_types_data[i]].weights_info[2]) *
+                      1) /
+                      1
+                  }}
+                  kcal
                 </h2>
               </v-col>
             </v-row>
             <v-row>
               <v-col>
                 <h3 class="ma-3">
-                  {{ recipes[i].name }}
+                  {{ recipes[meal_types_data[i]].name }}
                 </h3>
                 <h4 class="ma-3">
-                  {{ recipes[i].method }}
+                  {{ recipes[meal_types_data[i]].method }}
                 </h4>
               </v-col>
               <v-col>
@@ -59,7 +64,9 @@
                     @click="seeDetails(date, days[i])"
                     :src="
                       getRecipeImageByName(
-                        recipes[i].name.replaceAll(' ', '_').replaceAll(',', '')
+                        recipes[meal_types_data[i]].name
+                          .replaceAll(' ', '_')
+                          .replaceAll(',', '')
                       )
                     "
                     max-height="300"
@@ -82,6 +89,13 @@ export default {
   name: 'Menu',
   data: () => ({
     meals: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
+    meal_types_data: [
+      'sniadanie',
+      'II sniadanie',
+      'obiad',
+      'podwieczorek',
+      'kolacja',
+    ],
     recipes: [],
     date: '',
     day: '',
@@ -107,7 +121,9 @@ export default {
     },
     calculateTotalCalories() {
       for (let i = 0; i < 5; i++) {
-        this.total_calories += this.recipes[i].weights_info[2]
+        this.total_calories += this.recipes[
+          this.meal_types_data[i]
+        ].weights_info[2]
       }
     },
   },

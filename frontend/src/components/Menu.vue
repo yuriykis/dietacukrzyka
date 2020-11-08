@@ -2,9 +2,11 @@
   <v-navigation-drawer
     v-model="drawer"
     :mini-variant.sync="mini"
+    floating
     flat
+    permanent
     color="transparent"
-    width="350"
+    width="100%"
   >
     <v-list-item class="px-2">
       <v-btn icon color="#98AF4F" @click.stop="mini = !mini">
@@ -49,23 +51,13 @@
 
       <v-list-item>
         <v-list-item-icon class="my-5">
-          <v-icon color="#98AF4F">{{ 'mdi-account' }}</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-content>
-          <v-btn @click="goToProfile" color="rgba(28,29,30,0.9)"
-            ><h4>Konto</h4></v-btn
-          >
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item>
-        <v-list-item-icon class="my-5">
           <v-icon color="#98AF4F">{{ 'mdi-cog' }}</v-icon>
         </v-list-item-icon>
 
         <v-list-item-content>
-          <v-btn color="rgba(28,29,30,0.9)"><h4>Ustawienia</h4></v-btn>
+          <v-btn @click="goToProfile" color="rgba(28,29,30,0.9)"
+            ><h4>Ustawienia Konta</h4></v-btn
+          >
         </v-list-item-content>
       </v-list-item>
     </v-list>

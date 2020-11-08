@@ -16,7 +16,8 @@
         </v-sheet>
       </v-row>
     </v-container>
-    <v-container>
+    <v-container v-if="loadingData"> </v-container>
+    <v-container v-else>
       <v-row class="mb-1 no-gutters">
         <v-sheet
           class="mx-auto rounded-corner"
@@ -45,7 +46,7 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
                           label="Imię"
@@ -55,7 +56,7 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
                           label="Wiek"
@@ -65,19 +66,11 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
-                          label="Miasto"
-                        >
-                        </v-text-field>
-                        <v-text-field
-                          background-color="light-green lighten-1"
-                          color="light-green darken-4"
-                          height="40"
-                          filled
-                          rounded
-                          label="Kod Pocztowy"
+                          label="Adres Email"
+                          v-model="data.email"
                         >
                         </v-text-field>
                       </v-col>
@@ -85,39 +78,30 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
                           label="Nazwisko"
                           v-model="data.last_name"
                         >
                         </v-text-field>
+                        <v-select
+                          :items="gender"
+                          background-color="light-green lighten-1"
+                          color="light-green darken-4"
+                          :height="field_height"
+                          filled
+                          rounded
+                          label="Płeć"
+                          v-model="selected_gender"
+                        ></v-select>
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
-                          label="Adres Email"
-                          v-model="data.email"
-                        >
-                        </v-text-field>
-                        <v-text-field
-                          background-color="light-green lighten-1"
-                          color="light-green darken-4"
-                          height="40"
-                          filled
-                          rounded
-                          label="Region"
-                        >
-                        </v-text-field>
-                        <v-text-field
-                          background-color="light-green lighten-1"
-                          color="light-green darken-4"
-                          height="40"
-                          filled
-                          rounded
-                          label="Kraj"
+                          label="Kraj zamieszkania"
                         >
                         </v-text-field>
                       </v-col>
@@ -131,39 +115,36 @@
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
+                          type="number"
                           label="Masa ciała"
+                          @change="calculateBmi"
                           v-model="data.weight"
                         >
                         </v-text-field>
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
                           rounded
+                          type="number"
                           label="Wzrost"
+                          @change="calculateBmi"
                           v-model="data.height"
                         >
                         </v-text-field>
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
-                          height="40"
+                          :height="field_height"
                           filled
-                          rounded
-                          label="Poziom cukru"
-                        >
-                        </v-text-field>
-                        <v-text-field
-                          background-color="light-green lighten-1"
-                          color="light-green darken-4"
-                          height="40"
-                          filled
+                          readonly
                           rounded
                           label="BMI"
+                          v-model="bmi"
                         >
                         </v-text-field>
                       </v-col>
@@ -173,8 +154,47 @@
                 <v-tab-item>
                   <v-card color="rgba(116,34,60)">
                     <v-row>
-                      <v-col> </v-col>
-                      <v-col> </v-col>
+                      <v-col class="mx-10">
+                        <v-select
+                          :items="getIngredients"
+                          background-color="light-green lighten-1"
+                          color="light-green darken-4"
+                          :height="ingredients_field_height[0]"
+                          filled
+                          rounded
+                          chips
+                          multiple
+                          label="Ulubione składniki"
+                          v-model="preferred_ingredients"
+                          @change="changeFieldHeight(0, preferred_ingredients)"
+                        ></v-select>
+                        <v-select
+                          :items="getIngredients"
+                          background-color="light-green lighten-1"
+                          color="light-green darken-4"
+                          :height="ingredients_field_height[1]"
+                          filled
+                          rounded
+                          chips
+                          multiple
+                          label="Standardowe składniki"
+                          v-model="standard_ingredients"
+                          @change="changeFieldHeight(1, standard_ingredients)"
+                        ></v-select>
+                        <v-select
+                          :items="getAllergens"
+                          background-color="light-green lighten-1"
+                          color="light-green darken-4"
+                          :height="ingredients_field_height[2]"
+                          filled
+                          rounded
+                          chips
+                          multiple
+                          label="Alergeny"
+                          v-model="allergens"
+                          @change="changeFieldHeight(2, allergens)"
+                        ></v-select>
+                      </v-col>
                     </v-row>
                   </v-card>
                 </v-tab-item>
@@ -199,6 +219,12 @@
                       @click="saveNewDetails"
                       >{{ 'Zapisz' }}</v-btn
                     >
+                    <v-btn
+                      @click="createNewDiet"
+                      color="#98AF4F"
+                      class="ma-3 white--text"
+                      >{{ 'Generuj nową dietę' }}</v-btn
+                    >
                   </v-row>
                   <v-row align="center" justify="center">
                     <h5 v-if="complete_ok" style="color: green;">
@@ -219,7 +245,7 @@
 </template>
 
 <script>
-import { getClientData, saveClientData } from '@/services/api'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
@@ -227,34 +253,113 @@ export default {
     tabs: null,
     data: {},
     loading: false,
+    loadingData: false,
     complete_ok: false,
     fail_mail: false,
+    gender: ['Kobieta', 'Mężczyzna', 'Inna'],
+    selected_gender: '',
+    bmi: 0,
+    preferred_ingredients: [],
+    standard_ingredients: [],
+    allergens: [],
+    field_height: 70,
+    ingredients_field_height: [70, 70, 70],
+    field_row: [1, 1, 1],
   }),
   components: {
     Loader,
   },
+  computed: mapGetters([
+    'getClientInfoFromStore',
+    'getIngredients',
+    'getAllergens',
+  ]),
   methods: {
-    saveNewDetails() {
-      this.loading = true
-      saveClientData(this.data)
-        .then(() => {
-          this.loading = false
-          ;(this.complete_ok = true), (this.fail_mail = false)
-        })
-        .catch(() => {
-          this.loading = false
-          this.complete_ok = false
-          this.fail_mail = true
-        })
-    },
-    fetchData() {
-      getClientData().then((response) => {
-        this.data = response.data
+    ...mapActions([
+      'saveClientInfoOnServer',
+      'getClientInfoFromServer',
+      'getAllIngredientsFromServer',
+      'obtainNewDiet',
+    ]),
+    ...mapMutations(['saveClientInfoInStore']),
+    changeFieldHeight(item_number, ingredients) {
+      var ingredients_string = ''
+      ingredients.forEach((ingredient) => {
+        ingredients_string += ingredient
       })
+      if (ingredients_string.length > 100 * this.field_row[item_number]) {
+        this.ingredients_field_height[item_number] += 60
+        this.field_row[item_number]++
+      }
+    },
+    async saveNewDetails() {
+      this.data['preferred_ingredients'] = this.preferred_ingredients
+      this.data['standard_ingredients'] = this.standard_ingredients
+      this.data['allergens'] = this.allergens
+      this.saveClientInfoInStore(this.data)
+      this.loading = true
+      this.complete_ok = false
+      this.fail_mail = false
+      this.genderTranslator(this.selected_gender)
+      try {
+        await this.saveClientInfoOnServer(this.data)
+        this.loading = false
+        this.complete_ok = true
+        this.fail_mail = false
+      } catch (e) {
+        this.loading = false
+        this.complete_ok = false
+        this.fail_mail = true
+      }
+    },
+    calculateBmi() {
+      this.bmi =
+        Math.round(
+          (this.data.weight / Math.pow(this.data.height / 100, 2)) * 100
+        ) / 100
+    },
+    genderTranslator(gender) {
+      switch (gender) {
+        case 'male':
+          this.selected_gender = 'Mężczyzna'
+          break
+        case 'female':
+          this.selected_gender = 'Kobieta'
+          break
+        case 'other':
+          this.selected_gender = 'Inna'
+          break
+        case 'Mężczyzna':
+          this.data.gender = 'male'
+          break
+        case 'Kobieta':
+          this.data.gender = 'female'
+          break
+        case 'Inna':
+          this.data.gender = 'other'
+          break
+        default:
+          break
+      }
+    },
+    async fetchData() {
+      await this.getClientInfoFromServer()
+      this.data = this.getClientInfoFromStore
+      this.preferred_ingredients = this.data.preferred_ingredients
+      this.standard_ingredients = this.data.standard_ingredients
+      this.allergens = this.data.client_allergens
+      this.genderTranslator(this.data.gender)
+      this.calculateBmi()
+    },
+    async createNewDiet() {
+      this.loading = true
+      await this.obtainNewDiet()
+      this.loading = false
     },
   },
-  mounted() {
+  async mounted() {
     this.fetchData()
+    await this.getAllIngredientsFromServer()
   },
 }
 </script>
@@ -272,5 +377,8 @@ h3 {
 }
 .transparent-body {
   background: transparent;
+}
+.theme--light.v-list {
+  background: #c2f588;
 }
 </style>

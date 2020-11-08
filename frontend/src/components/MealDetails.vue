@@ -96,14 +96,21 @@ export default {
     recipe: {},
     date: '',
     dates: {
-      '2020-10-12': 0,
-      '2020-10-13': 1,
-      '2020-10-14': 2,
-      '2020-10-15': 3,
-      '2020-10-16': 4,
-      '2020-10-17': 5,
-      '2020-10-18': 6,
+      '2020-11-16': 0,
+      '2020-11-17': 1,
+      '2020-11-18': 2,
+      '2020-11-19': 3,
+      '2020-11-20': 4,
+      '2020-11-21': 5,
+      '2020-11-22': 6,
     },
+    meal_types_data: [
+      'sniadanie',
+      'II sniadanie',
+      'obiad',
+      'podwieczorek',
+      'kolacja',
+    ],
     ingredients: [],
     ingredients_weight: {},
     meal_mass: 0,
@@ -115,7 +122,7 @@ export default {
     this.date = this.$route.params.date
     this.recipe = this.getClientMealByDayId(
       this.dates[this.date],
-      this.$route.params.meal_id
+      this.meal_types_data[this.$route.params.meal_id]
     )
   },
 }

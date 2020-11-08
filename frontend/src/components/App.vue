@@ -3,13 +3,13 @@
     <v-app-bar app color="#1C1D1F" dark depressed>
       <v-row v-if="isUserLogin">
         <v-col cols="1">
-          <AppIcon @click="goToHome" />
+          <AppIcon class="mt-2 ml-3" @click="goToHome" />
         </v-col>
         <v-col cols="7">
-          <h1>Zdrowa Dieta</h1>
+          <h1 class="mt-2">Zdrowa Dieta</h1>
         </v-col>
         <v-col cols="1">
-          <PersonIcon />
+          <PersonIcon @click="goToProfile" class="mt-2" />
         </v-col>
         <v-col cols="1">
           <v-btn color="#98AF4F" class="ma-3" @click="logout">{{
@@ -20,10 +20,10 @@
       </v-row>
       <v-row v-else>
         <v-col cols="1">
-          <AppIcon @click="goToHome" />
+          <AppIcon class="mt-2 ml-3" @click="goToHome" />
         </v-col>
         <v-col cols="7">
-          <h1>Zdrowa Dieta</h1>
+          <h1 class="mt-2">Zdrowa Dieta</h1>
         </v-col>
         <v-col cols="1"> </v-col>
         <v-col cols="1">
@@ -39,12 +39,19 @@
       </v-row>
     </v-app-bar>
 
-    <v-main class="set-background">
-      <v-row>
-        <v-col lg="3">
-          <Menu style="position: fixed; padding-top: 4%;" v-if="isUserLogin" />
+    <v-main>
+      <div
+        style="background-color: black; width: 100%; height: 100%; position: absolute;"
+      >
+        <div class="set-background"></div>
+      </div>
+      <v-row style="position:relative;">
+        <v-col cols="3">
+          <div style="position: fixed; width: 23%;">
+            <Menu v-if="isUserLogin" />
+          </div>
         </v-col>
-        <v-col lg="7">
+        <v-col cols="7">
           <v-row justify="center" align="center" v-if="loading">
             <Loader />
           </v-row>
@@ -52,7 +59,7 @@
             <router-view />
           </transition>
         </v-col>
-        <v-col lg="2"> </v-col>
+        <v-col cols="2"> </v-col>
       </v-row>
     </v-main>
   </v-app>
@@ -84,7 +91,7 @@ export default {
   },
   computed: mapGetters(['getClientInfo']),
   methods: {
-    ...mapActions(['fetchData', 'fetchAllImages']),
+    ...mapActions(['fetchData', 'getRecipesFromServer', 'fetchAllImages']),
     goToHome() {
       this.$router.push({ path: '/home' })
     },
@@ -102,10 +109,16 @@ export default {
     ifUserLogin() {
       this.isUserLogin = isValidAccessToken()
     },
+    goToProfile() {
+      this.$router.push({ path: '/profile' })
+    },
   },
   async mounted() {
-    await this.fetchData()
-    await this.fetchAllImages()
+    if (this.isUserLogin) {
+      await this.fetchData()
+      await this.getRecipesFromServer()
+      await this.fetchAllImages()
+    }
     this.loading = false
     this.$nextTick(function() {
       window.setInterval(() => {
@@ -127,15 +140,6 @@ h1 {
   color: #c51162;
 }
 
-.theme--dark.v-application {
-  background-color: var(--v-background-base, #121212) !important;
-  background-image: url('../assets/background.jpg');
-}
-.theme--light.v-application {
-  background-color: var(--v-background-base, white) !important;
-  background-image: url('../assets/background.jpg');
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition-property: opacity;
@@ -154,6 +158,10 @@ h1 {
 .set-background {
   background-image: url('../assets/background.jpg');
   background-attachment: fixed; /*fixed;*/
-  background-size: 1700px;
+  background-size: cover;
+  filter: blur(3px);
+  width: 100%;
+  height: 100%;
+  margin: -5px;
 }
 </style>

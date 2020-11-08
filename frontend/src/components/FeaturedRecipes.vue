@@ -48,20 +48,20 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
   data: () => ({
     recipes: [],
     dates: [
-      '2020-10-12',
-      '2020-10-13',
-      '2020-10-14',
-      '2020-10-15',
-      '2020-10-16',
-      '2020-10-17',
-      '2020-10-18',
+      '2020-11-16',
+      '2020-11-17',
+      '2020-11-18',
+      '2020-11-19',
+      '2020-11-20',
+      '2020-11-21',
+      '2020-11-22',
     ],
     images: [],
     loading: true,
@@ -71,7 +71,6 @@ export default {
   },
   computed: mapGetters(['getRecipes', 'getRecipeImageByName']),
   methods: {
-    ...mapActions(['getRecipesFromServer']),
     seeDetails() {
       this.$router.push({
         path: '/recipes_details',
@@ -79,8 +78,6 @@ export default {
     },
   },
   async mounted() {
-    await this.getRecipesFromServer()
-    console.log(this.getRecipes)
     this.loading = false
   },
 }

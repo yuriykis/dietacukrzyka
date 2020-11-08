@@ -1,5 +1,5 @@
 import {
-    getClientMenu, getFile, getAllRecipes
+    getClientMenu, getFile, getAllRecipes, getClientInfo, saveClientInfo, getAllIngredients, getAllAllergens, generateNewDiet
   } from '@/services/api'
 export default {
     actions: {
@@ -7,7 +7,6 @@ export default {
             const response = await getClientMenu()
             const client_data = Object.assign(response.data)
             commit('updateClientData', client_data)
-            commit('setRecipeNames', client_data)
         },
         async fetchAllImages({ commit, getters, dispatch }, index = 0) {
             const fileNameCurrent = getters.getRecipeName(index)
@@ -26,7 +25,9 @@ export default {
                   commit('updateClientImages', imageObject)
                   await dispatch('fetchAllImages', ++index)
               } catch(e){
-                  console.log(e)
+                if (index < 55) {
+                  await dispatch('fetchAllImages', ++index)
+                }
               }
             }
           },
@@ -34,7 +35,28 @@ export default {
         async getRecipesFromServer({ commit }) {
           const res = await getAllRecipes()
           commit('setRecipes', res.data)
+          commit('setRecipeNames')
+        },
+        async getClientInfoFromServer({ commit }) {
+          const res = await getClientInfo()
+          commit('saveClientInfoInStore', res.data)
+        },
+        async saveClientInfoOnServer({ getters, dispatch }){
+          await saveClientInfo(getters.getClientInfoFromStore)
+          await dispatch('fetchData')
+        },
+        async getAllIngredientsFromServer({ commit }){
+          const res1 = await getAllIngredients()
+          commit('saveIngredientsInStore', res1.data)
+          const res2 = await getAllAllergens()
+          commit('saveAllergensInStore', res2.data)
+        },
+
+        async obtainNewDiet({dispatch}){
+          await generateNewDiet()
+          await dispatch('fetchData')
         }
+
     },
     mutations: {
       updateClientData(state, client_data){
@@ -43,22 +65,32 @@ export default {
       updateClientImages(state, image){
         state.recipe_images.push(image)
       },
-      setRecipeNames(state, client_data){
-        for (let i = 0; i < 7; i++) {
-            for (let j = 0; j < 5; j++) {
-                state.recipe_names.push(client_data[i][j].name)
-            }
-        }
-      },
       setRecipes(state, recipes){
         state.recipes = recipes
+      },
+      setRecipeNames(state){
+        state.recipes.forEach((recipe) => {
+          state.recipe_names.push(recipe.name)
+        })
+      },
+      saveClientInfoInStore(state, info){
+        state.client_info = info
+      },
+      saveIngredientsInStore(state, ingredients){
+        state.ingredients = ingredients
+      },
+      saveAllergensInStore(state, allergens){
+        state.allergens = allergens
       }
     },
     state: {
         client_data: [],
         recipe_images: [],
         recipe_names: [],
-        recipes: []
+        recipes: [],
+        ingredients: [],
+        client_info: {},
+        allergens: []
     },
     getters: {
         getClientInfo(state){
@@ -85,6 +117,15 @@ export default {
         },
         getRecipes(state){
           return state.recipes
+        },
+        getClientInfoFromStore(state){
+          return state.client_info
+        },
+        getIngredients(state){
+          return state.ingredients
+        },
+        getAllergens(state){
+          return state.allergens
         }
     }
 }

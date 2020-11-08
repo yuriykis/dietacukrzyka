@@ -90,6 +90,25 @@ class PreferredIngredient(models.Model):
         Client,
         on_delete=models.CASCADE
     )
+    ingredient = models.ForeignKey(
+        Ingredient,
+        on_delete=models.CASCADE,
+        default=""
+    )
+
+    def __str__(self):
+        return self.client.last_name + self.ingredient.name
+
+
+class StandardClientIngredient(models.Model):
+    client = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE
+    )
+    ingredient = models.ForeignKey(
+        Ingredient,
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.ingredient + self.allergen
@@ -116,6 +135,20 @@ class IngredientAllergen(models.Model):
         return self.ingredient + self.allergen
 
 
+class ClientAllergen(models.Model):
+    client = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE
+    )
+    allergen = models.ForeignKey(
+        Allergen,
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.client.last_name + self.allergen.name
+
+
 class Recipe(models.Model):
     name = models.CharField("Name", default="", max_length=255, null=False)
     method = models.TextField("Method", default="", null=False)
@@ -140,7 +173,7 @@ class RecipeIngredient(models.Model):
         "Weight", max_digits=6, decimal_places=3, default=0, null=False)
 
     def __str__(self):
-        return "IngredientRecipe"
+        return self.recipe.name + ' ' + self.ingredient.name
 
 
 class Menu(models.Model):
