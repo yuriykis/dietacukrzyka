@@ -159,7 +159,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 # Collect static files here
-STATIC_ROOT = os.join(PROJECT_ROOT, 'run', 'static')
+STATIC_ROOT = os.join(PROJECT_ROOT, 'run', 'static', 'dist')
 
 # The URL for static files
-STATIC_URL = '/run/static/'
+STATIC_URL = '/run/static/dist'

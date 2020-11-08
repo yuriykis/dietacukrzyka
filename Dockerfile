@@ -5,7 +5,8 @@ COPY requirements.txt requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-COPY ./backend/dietacukrzyka /code
+COPY ./dietacukrzyka /code/dietacukrzyka
+COPY ./manage.py /code/manage.py
 
 
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh

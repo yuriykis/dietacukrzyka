@@ -8,8 +8,8 @@ services:
     ports:
     - "5432:5432"
     volumes:
-    - ./run/data/postgres:/var/lib/postgresql/data
-    - ./run/etc/db_password:/run/db_password
+    - ./dietacukrzyka/run/data/postgres:/var/lib/postgresql/data
+    - ./dietacukrzyka/run/etc/db_password:/run/db_password
     restart: always
     environment:
     - POSTGRES_USER=postgres
@@ -23,8 +23,8 @@ services:
     ports:
     - "8000:8000"
     volumes:
-    - ./run/etc:/code/run/etc
-    - ./run/static:/code/run/static
+    - ./dietacukrzyka/run/etc:/code/run/etc
+    - ./dietacukrzyka/run/static:/code/run/static
     environment:
     - DB_HOST=postgres
     - DB_NAME=postgres
@@ -41,8 +41,8 @@ services:
     depends_on:
     - app
     volumes:
-    - ./run/static:/static
-    - ./run/etc/nginx:/etc/nginx/conf.d
+    - ./dietacukrzyka/run/static:/static
+    - ./dietacukrzyka/run/etc/nginx:/etc/nginx/conf.d
     # - /etc/letsencrypt:/etc/letsencrypt
     restart: always
 
