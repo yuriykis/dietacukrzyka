@@ -12,6 +12,7 @@ from django.conf import settings
 from .models import *
 from .serializers import *
 import json
+import random
 
 
 class RegistrationView(APIView):
@@ -47,13 +48,13 @@ class ClientMenuView(APIView):
     def get(self, request):
         dates_response = []
         menu_dates = [
-            '2020-10-12',
-            '2020-10-13',
-            '2020-10-14',
-            '2020-10-15',
-            '2020-10-16',
-            '2020-10-17',
-            '2020-10-18',
+            '2020-11-16',
+            '2020-11-17',
+            '2020-11-18',
+            '2020-11-19',
+            '2020-11-20',
+            '2020-11-21',
+            '2020-11-22',
         ]
         dates_response = []
         for date_index in range(7):
@@ -162,9 +163,76 @@ class DietGeneratorView(APIView):
         recipes_without_allergens = Recipe.objects.exclude(
             name__in=recipes_to_remove)
 
-        ingredients = Ingredient.objects.all()
-        recipes = Recipe.objects.all()
-        new_client_recipes = []
+        menu_dates = [
+            [2020, 11, 16],
+            [2020, 11, 17],
+            [2020, 11, 18],
+            [2020, 11, 19],
+            [2020, 11, 20],
+            [2020, 11, 21],
+            [2020, 11, 22],
+        ]
+        meal_types = [
+            'sniadanie',
+            'II sniadanie',
+            'obiad',
+            'podwieczorek',
+            'kolacja'
+        ]
+
+        try:
+            old_client_menu = ClientMenu.objects.get(client=client)
+            old_menu = Menu.objects.filter(clientmenu=old_client_menu)
+            for iterator in old_menu:
+                old_meals = Meal.objects.filter(menu=iterator).delete()
+            old_client_menu.delete()
+            old_menu = Menu.objects.filter(clientmenu=old_client_menu).delete()
+        except:
+            pass
+
+        new_menu = Menu(date_from=datetime.date(2020, 11, 16),
+                        date_to=datetime.date(2020, 11, 22), calories=1000)
+        new_menu.save()
+
+        new_client_menu = ClientMenu(client=client, menu=new_menu)
+        new_client_menu.save()
+
+        for meal_type in meal_types:
+
+            breakfasts = recipes_without_allergens.filter(type=meal_type)
+            breakfasts_priorities = []
+            for breakfast in breakfasts:
+                breakfast_recipe_ingredients = RecipeIngredient.objects.filter(
+                    recipe=breakfast)
+                breakfast_ingredients = []
+                for iterator in breakfast_recipe_ingredients:
+                    if not iterator.ingredient in breakfast_ingredients:
+                        breakfast_ingredients.append(iterator.ingredient)
+                preferred_ingredients_count = 5
+                for breakfast_ingredient in breakfast_ingredients:
+                    if breakfast_ingredient in preferred_ingredients:
+                        preferred_ingredients_count += 30
+                    if breakfast_ingredient in standard_ingredients:
+                        preferred_ingredients_count += 5
+                breakfasts_priorities.append(preferred_ingredients_count)
+
+            total_probability = 0
+            distribution = []
+            iterator = 0
+            for priority in breakfasts_priorities:
+                total_probability += priority
+                for i in range(priority):
+                    distribution.append(iterator)
+                iterator += 1
+            random.shuffle(distribution, random.random)
+
+            for date in menu_dates:
+
+                new_recipe = breakfasts[random.choice(distribution)]
+
+                new_meal = Meal(menu=new_menu, recipe=new_recipe, calories=300,
+                                date=datetime.date(date[0], date[1], date[2]))
+                new_meal.save()
 
         return Response(status=status.HTTP_200_OK)
 

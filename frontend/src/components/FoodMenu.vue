@@ -14,7 +14,7 @@
               <h2 class="ma-4">Dieta na ten tydzień</h2>
             </v-col>
             <v-col>
-              <h4 class="ma-6">12.10.2020 - 18.10.2020</h4>
+              <h4 class="ma-6">16.11.2020 - 22.11.2020</h4>
             </v-col>
           </v-row>
         </v-sheet>

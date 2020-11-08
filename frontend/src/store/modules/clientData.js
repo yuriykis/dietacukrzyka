@@ -52,8 +52,9 @@ export default {
           commit('saveAllergensInStore', res2.data)
         },
 
-        async obtainNewDiet(){
+        async obtainNewDiet({dispatch}){
           await generateNewDiet()
+          await dispatch('fetchData')
         }
 
     },

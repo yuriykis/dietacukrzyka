@@ -173,7 +173,7 @@ class RecipeIngredient(models.Model):
         "Weight", max_digits=6, decimal_places=3, default=0, null=False)
 
     def __str__(self):
-        return "IngredientRecipe"
+        return self.recipe.name + ' ' + self.ingredient.name
 
 
 class Menu(models.Model):
