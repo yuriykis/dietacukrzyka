@@ -12,17 +12,22 @@ services:
     - ./run/etc/db_password:/run/db_password
     restart: always
     environment:
+    - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD_FILE=/run/db_password
     - PGDATA=/var/lib/postgresql/data
 
 
   app:
     build: .
+    container_name: django
     ports:
     - "8000:8000"
     volumes:
     - ./run/etc:/code/run/etc
     - ./run/static:/code/run/static
+    environment:
+    - DB_HOST=postgres
+    - DB_NAME=postgres
     restart: always
     depends_on:
     - postgres
