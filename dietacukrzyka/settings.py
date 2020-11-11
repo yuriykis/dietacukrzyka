@@ -62,6 +62,8 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
+    'http://localhost:8001',
+    'http://localhost:80',
 )
 
 REST_FRAMEWORK = {
@@ -158,4 +160,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+# Collect static files here
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'run', 'static', 'dist')
+
+# The URL for static files
+STATIC_URL = '/run/static/dist/'

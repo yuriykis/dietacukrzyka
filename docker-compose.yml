@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  postgres:
+    image: postgres:11.2
+    container_name: postgres
+    ports:
+    - "8002:5432"
+    volumes:
+    - ./dietacukrzyka/run/data/postgres:/var/lib/postgresql/data
+    - ./dietacukrzyka/run/etc/db_password:/run/db_password
+    restart: always
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD_FILE=/run/db_password
+    - PGDATA=/var/lib/postgresql/data
+
+
+  app:
+    build: .
+    container_name: django
+    ports:
+    - "8000:8000"
+    volumes:
+    - ./dietacukrzyka/run/etc:/code/run/etc
+    - ./dietacukrzyka/run/static:/code/run/static
+    environment:
+    - DB_HOST=postgres
+    - DB_NAME=postgres
+    restart: always
+    depends_on:
+    - postgres
+
+
+  nginx:
+    image: nginx:1.17.2
+    container_name: nginx
+    ports:
+    - "8001:80"
+    depends_on:
+    - app
+    volumes:
+    - ./dietacukrzyka/run/static:/static
+    - ./dietacukrzyka/run/etc/nginx:/etc/nginx/conf.d
+    # - /etc/letsencrypt:/etc/letsencrypt
+    restart: always
+

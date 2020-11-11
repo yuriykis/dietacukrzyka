@@ -466,7 +466,7 @@ salatkaCaprese = Recipe(name='Sałatka Caprese',
                         method='Mozzarelle i pomidory pokroić w plastry. Ułożyć naprzemiennie, doprawić solą, pieprzem i bazylią. Podawać z pieczywem żytnim.', calories=300, type='kolacja')
 salatkaCaprese.save()
 kanapkaAwokadoSzynka = Recipe(name='Kanapki z awokado, szynką drobiową i pomidorami',
-                              method='Pieczywo posmaruj rozgniecionym awokado. Na chlebie ułóż plastry szynki i pokrojone pomidory.', calories=300, type='kolacja')
+                              method='Pieczywo posmaruj rozgniecionym awokado. Na chlebie ułóż plastry szynki i pokrojone pomidory.', calories=300, type='kolacja')
 kanapkaAwokadoSzynka.save()
 kaszaJarmuz = Recipe(name='Kasza z serem feta, jarmużem i suszonymi pomidorami',
                      method='Kaszę ugotuj według przepisu na opakowaniu. Posiekany czosnek podsmaż na oliwie, następnie dodaj jarmuż i smaż przez 3 minuty ciągle mieszając. Wymieszaj kaszę z warzywami i dodaj pokruszony ser feta. Dopraw pieprzem według uznania. ', calories=300, type='kolacja')
@@ -519,7 +519,7 @@ new_recipeIngredient = RecipeIngredient(
     ingredient=kefir, recipe=koktajlMalina, massFraction=0.5)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
-    ingredient=jaja, recipe=omletOwsianyBanan, massFraction=0.35)
+    ingredient=jajka, recipe=omletOwsianyBanan, massFraction=0.35)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
     ingredient=platkiO, recipe=omletOwsianyBanan, massFraction=0.3)
@@ -528,7 +528,7 @@ new_recipeIngredient = RecipeIngredient(
     ingredient=banan, recipe=omletOwsianyBanan, massFraction=0.35)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
-    ingredient=jaja, recipe=jajkaSadzoneWarzywa, massFraction=0.35)
+    ingredient=jajka, recipe=jajkaSadzoneWarzywa, massFraction=0.35)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
     ingredient=papryka, recipe=jajkaSadzoneWarzywa, massFraction=0.2)
@@ -552,7 +552,7 @@ new_recipeIngredient = RecipeIngredient(
     ingredient=banan, recipe=kanapkaMasloOrzechowe, massFraction=0.35)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
-    ingredient=jaja, recipe=jajkaSadzoneSzparagi, massFraction=0.4)
+    ingredient=jajka, recipe=jajkaSadzoneSzparagi, massFraction=0.4)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
     ingredient=szparagi, recipe=jajkaSadzoneSzparagi, massFraction=0.6)
