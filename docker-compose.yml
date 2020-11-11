@@ -6,7 +6,7 @@ services:
     image: postgres:11.2
     container_name: postgres
     ports:
-    - "5432:5432"
+    - "8002:5432"
     volumes:
     - ./dietacukrzyka/run/data/postgres:/var/lib/postgresql/data
     - ./dietacukrzyka/run/etc/db_password:/run/db_password

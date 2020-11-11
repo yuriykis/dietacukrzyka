@@ -466,7 +466,7 @@ salatkaCaprese = Recipe(name='Sałatka Caprese',
                         method='Mozzarelle i pomidory pokroić w plastry. Ułożyć naprzemiennie, doprawić solą, pieprzem i bazylią. Podawać z pieczywem żytnim.', calories=300, type='kolacja')
 salatkaCaprese.save()
 kanapkaAwokadoSzynka = Recipe(name='Kanapki z awokado, szynką drobiową i pomidorami',
-                              method='Pieczywo posmaruj rozgniecionym awokado. Na chlebie ułóż plastry szynki i pokrojone pomidory.', calories=300, type='kolacja')
+                              method='Pieczywo posmaruj rozgniecionym awokado. Na chlebie ułóż plastry szynki i pokrojone pomidory.', calories=300, type='kolacja')
 kanapkaAwokadoSzynka.save()
 kaszaJarmuz = Recipe(name='Kasza z serem feta, jarmużem i suszonymi pomidorami',
                      method='Kaszę ugotuj według przepisu na opakowaniu. Posiekany czosnek podsmaż na oliwie, następnie dodaj jarmuż i smaż przez 3 minuty ciągle mieszając. Wymieszaj kaszę z warzywami i dodaj pokruszony ser feta. Dopraw pieprzem według uznania. ', calories=300, type='kolacja')
@@ -519,7 +519,7 @@ new_recipeIngredient = RecipeIngredient(
     ingredient=kefir, recipe=koktajlMalina, massFraction=0.5)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
-    ingredient=jaja, recipe=omletOwsianyBanan, massFraction=0.35)
+    ingredient=jajka, recipe=omletOwsianyBanan, massFraction=0.35)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
     ingredient=platkiO, recipe=omletOwsianyBanan, massFraction=0.3)
@@ -528,7 +528,7 @@ new_recipeIngredient = RecipeIngredient(
     ingredient=banan, recipe=omletOwsianyBanan, massFraction=0.35)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
-    ingredient=jaja, recipe=jajkaSadzoneWarzywa, massFraction=0.35)
+    ingredient=jajka, recipe=jajkaSadzoneWarzywa, massFraction=0.35)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
     ingredient=papryka, recipe=jajkaSadzoneWarzywa, massFraction=0.2)
@@ -552,7 +552,7 @@ new_recipeIngredient = RecipeIngredient(
     ingredient=banan, recipe=kanapkaMasloOrzechowe, massFraction=0.35)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
-    ingredient=jaja, recipe=jajkaSadzoneSzparagi, massFraction=0.4)
+    ingredient=jajka, recipe=jajkaSadzoneSzparagi, massFraction=0.4)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
     ingredient=szparagi, recipe=jajkaSadzoneSzparagi, massFraction=0.6)
@@ -1036,121 +1036,121 @@ new_recipeIngredient = RecipeIngredient(
 new_recipeIngredient.save()
 
 
-new_menu = Menu(date_from=datetime.date(2020, 10, 12),
-                date_to=datetime.date(2020, 10, 19), calories=1000)
+new_menu = Menu(date_from=datetime.date(2020, 11, 16),
+                date_to=datetime.date(2020, 11, 23), calories=1000)
 new_menu.save()
 
 new_client_menu = ClientMenu(client=new_client1, menu=new_menu)
 new_client_menu.save()
 
 new_meal1 = Meal(menu=new_menu, recipe=owsiankaPomarancza,
-                 calories=300, date=datetime.date(2020, 10, 12))
+                 calories=300, date=datetime.date(2020, 11, 16))
 new_meal1.save()
 new_meal2 = Meal(menu=new_menu, recipe=kanapkaSzynkaPomidor,
-                 calories=350, date=datetime.date(2020, 10, 12))
+                 calories=350, date=datetime.date(2020, 11, 16))
 new_meal2.save()
 new_meal3 = Meal(menu=new_menu, recipe=lososFasolkaPomidor,
-                 calories=270, date=datetime.date(2020, 10, 12))
+                 calories=270, date=datetime.date(2020, 11, 16))
 new_meal3.save()
 new_meal4 = Meal(menu=new_menu, recipe=marchewkaPodwieczorek,
-                 calories=400, date=datetime.date(2020, 10, 12))
+                 calories=400, date=datetime.date(2020, 11, 16))
 new_meal4.save()
 new_meal5 = Meal(menu=new_menu, recipe=serekPomidor,
-                 calories=350, date=datetime.date(2020, 10, 12))
+                 calories=350, date=datetime.date(2020, 11, 16))
 new_meal5.save()
 
 new_meal6 = Meal(menu=new_menu, recipe=jajecznica,
-                 calories=200, date=datetime.date(2020, 10, 13))
+                 calories=200, date=datetime.date(2020, 11, 17))
 new_meal6.save()
 new_meal7 = Meal(menu=new_menu, recipe=kanapkaSerOgorek,
-                 calories=450, date=datetime.date(2020, 10, 13))
+                 calories=450, date=datetime.date(2020, 11, 17))
 new_meal7.save()
 new_meal8 = Meal(menu=new_menu, recipe=kurczakBrokul,
-                 calories=170, date=datetime.date(2020, 10, 13))
+                 calories=170, date=datetime.date(2020, 11, 17))
 new_meal8.save()
 new_meal9 = Meal(menu=new_menu, recipe=jablkoOrzechy,
-                 calories=300, date=datetime.date(2020, 10, 13))
+                 calories=300, date=datetime.date(2020, 11, 17))
 new_meal9.save()
 new_meal10 = Meal(menu=new_menu, recipe=salatkaSzpinak,
-                  calories=250, date=datetime.date(2020, 10, 13))
+                  calories=250, date=datetime.date(2020, 11, 17))
 new_meal10.save()
 
 new_meal11 = Meal(menu=new_menu, recipe=kanapkaAwokadoJajko,
-                  calories=300, date=datetime.date(2020, 10, 14))
+                  calories=300, date=datetime.date(2020, 11, 18))
 new_meal11.save()
 new_meal12 = Meal(menu=new_menu, recipe=koktajlBananTruskawka,
-                  calories=350, date=datetime.date(2020, 10, 14))
+                  calories=350, date=datetime.date(2020, 11, 18))
 new_meal12.save()
 new_meal13 = Meal(menu=new_menu, recipe=szaszlykLosos,
-                  calories=270, date=datetime.date(2020, 10, 14))
+                  calories=270, date=datetime.date(2020, 11, 18))
 new_meal13.save()
 new_meal14 = Meal(menu=new_menu, recipe=jablkoMasloOrzechowe,
-                  calories=400, date=datetime.date(2020, 10, 14))
+                  calories=400, date=datetime.date(2020, 11, 18))
 new_meal14.save()
 new_meal15 = Meal(menu=new_menu, recipe=jogurtOtreby,
-                  calories=350, date=datetime.date(2020, 10, 14))
+                  calories=350, date=datetime.date(2020, 11, 18))
 new_meal15.save()
 
 new_meal16 = Meal(menu=new_menu, recipe=owsiankaOwoce,
-                  calories=200, date=datetime.date(2020, 10, 15))
+                  calories=200, date=datetime.date(2020, 11, 19))
 new_meal16.save()
 new_meal17 = Meal(menu=new_menu, recipe=koktajlJagoda,
-                  calories=450, date=datetime.date(2020, 10, 15))
+                  calories=450, date=datetime.date(2020, 11, 19))
 new_meal17.save()
 new_meal18 = Meal(menu=new_menu, recipe=salatkaJajkoKasza,
-                  calories=170, date=datetime.date(2020, 10, 15))
+                  calories=170, date=datetime.date(2020, 11, 19))
 new_meal18.save()
 new_meal19 = Meal(menu=new_menu, recipe=orzechyNerkowca,
-                  calories=300, date=datetime.date(2020, 10, 15))
+                  calories=300, date=datetime.date(2020, 11, 19))
 new_meal19.save()
 new_meal20 = Meal(menu=new_menu, recipe=kanapkaLosos,
-                  calories=250, date=datetime.date(2020, 10, 15))
+                  calories=250, date=datetime.date(2020, 11, 19))
 new_meal20.save()
 
 new_meal21 = Meal(menu=new_menu, recipe=kanapkaSerekPomidory,
-                  calories=300, date=datetime.date(2020, 10, 16))
+                  calories=300, date=datetime.date(2020, 11, 20))
 new_meal21.save()
 new_meal22 = Meal(menu=new_menu, recipe=koktajlTruskawka,
-                  calories=350, date=datetime.date(2020, 10, 16))
+                  calories=350, date=datetime.date(2020, 11, 20))
 new_meal22.save()
 new_meal23 = Meal(menu=new_menu, recipe=tunczykSzparagi,
-                  calories=270, date=datetime.date(2020, 10, 16))
+                  calories=270, date=datetime.date(2020, 11, 20))
 new_meal23.save()
 new_meal24 = Meal(menu=new_menu, recipe=bananPodwieczorek,
-                  calories=400, date=datetime.date(2020, 10, 16))
+                  calories=400, date=datetime.date(2020, 11, 20))
 new_meal24.save()
 new_meal25 = Meal(menu=new_menu, recipe=salatkaCaprese,
-                  calories=350, date=datetime.date(2020, 10, 16))
+                  calories=350, date=datetime.date(2020, 11, 20))
 new_meal25.save()
 
 new_meal26 = Meal(menu=new_menu, recipe=omletJajeczny,
-                  calories=200, date=datetime.date(2020, 10, 17))
+                  calories=200, date=datetime.date(2020, 11, 21))
 new_meal26.save()
 new_meal27 = Meal(menu=new_menu, recipe=koktajlAwokado,
-                  calories=450, date=datetime.date(2020, 10, 17))
+                  calories=450, date=datetime.date(2020, 11, 21))
 new_meal27.save()
 new_meal28 = Meal(menu=new_menu, recipe=tilapiaWarzywa,
-                  calories=170, date=datetime.date(2020, 10, 17))
+                  calories=170, date=datetime.date(2020, 11, 21))
 new_meal28.save()
 new_meal29 = Meal(menu=new_menu, recipe=jablkoMasloOrzechowe,
-                  calories=300, date=datetime.date(2020, 10, 17))
+                  calories=300, date=datetime.date(2020, 11, 21))
 new_meal29.save()
 new_meal30 = Meal(menu=new_menu, recipe=kanapkaAwokadoSzynka,
-                  calories=250, date=datetime.date(2020, 10, 17))
+                  calories=250, date=datetime.date(2020, 11, 21))
 new_meal30.save()
 
 new_meal31 = Meal(menu=new_menu, recipe=serekOwoce,
-                  calories=300, date=datetime.date(2020, 10, 18))
+                  calories=300, date=datetime.date(2020, 11, 22))
 new_meal31.save()
 new_meal32 = Meal(menu=new_menu, recipe=koktajlSzpinak,
-                  calories=350, date=datetime.date(2020, 10, 18))
+                  calories=350, date=datetime.date(2020, 11, 22))
 new_meal32.save()
 new_meal33 = Meal(menu=new_menu, recipe=kurczakGrillWarzywa,
-                  calories=270, date=datetime.date(2020, 10, 18))
+                  calories=270, date=datetime.date(2020, 11, 22))
 new_meal33.save()
 new_meal34 = Meal(menu=new_menu, recipe=jagodyMigdaly,
-                  calories=400, date=datetime.date(2020, 10, 18))
+                  calories=400, date=datetime.date(2020, 11, 22))
 new_meal34.save()
 new_meal35 = Meal(menu=new_menu, recipe=kaszaJarmuz,
-                  calories=350, date=datetime.date(2020, 10, 18))
+                  calories=350, date=datetime.date(2020, 11, 22))
 new_meal35.save()
