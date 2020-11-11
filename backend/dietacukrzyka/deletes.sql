@@ -1,0 +1,16 @@
+DELETE FROM public.zdrowadieta_user;
+DELETE FROM public.auth_user;
+DELETE FROM public.zdrowadieta_clientmenu;
+DELETE FROM public.zdrowadieta_client;
+DELETE FROM public.zdrowadieta_dietician;
+DELETE FROM public.zdrowadieta_userdisease;
+DELETE FROM public.zdrowadieta_disease;
+DELETE FROM public.zdrowadieta_ingredientallergen;
+DELETE FROM public.zdrowadieta_allergen;
+DELETE FROM public.zdrowadieta_recipeingredient;
+DELETE FROM public.zdrowadieta_ingredient;
+DELETE FROM public.zdrowadieta_menu;
+DELETE FROM public.zdrowadieta_recipe;
+DELETE FROM public.zdrowadieta_meal;
+DELETE FROM public.zdrowadieta_preferredingredient;
+DELETE FROM public.zdrowadieta_standardclientingredient;
