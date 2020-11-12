@@ -4,6 +4,11 @@ import { getAccessToken } from '@/services/auth'
 
 var apiHost = 'http://54.146.37.12'
 
+if (process.env.NODE_ENV === 'development') {
+  apiHost = 'http://localhost:8000'
+}
+
+
 
 const api = Axios.create({
     baseURL: apiHost,
