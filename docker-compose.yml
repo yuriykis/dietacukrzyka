@@ -42,7 +42,7 @@ services:
     - app
     volumes:
     - ./dietacukrzyka/run/static:/static
-    - ./dietacukrzyka/run/etc/nginx:/etc/nginx/conf.d
+    - ./gate/nginx:/etc/nginx/conf.d
     # - /etc/letsencrypt:/etc/letsencrypt
     restart: always
 
