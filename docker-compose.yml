@@ -28,6 +28,8 @@ services:
     environment:
     - DB_HOST=postgres
     - DB_NAME=postgres
+    env_file: 
+    - public_ip.env
     restart: always
     depends_on:
     - postgres
@@ -44,5 +46,7 @@ services:
     - ./dietacukrzyka/run/static:/static
     - ./gate/nginx:/etc/nginx/conf.d
     # - /etc/letsencrypt:/etc/letsencrypt
+    env_file: 
+    - public_ip.env
     restart: always
 

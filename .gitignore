@@ -37,3 +37,4 @@ db.sqlite3
 # run folder
 run
 frontend/dist
+public_ip.env

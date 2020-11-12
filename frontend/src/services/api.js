@@ -1,7 +1,12 @@
 import * as Axios from 'axios'
 import { getAccessToken } from '@/services/auth'
 
-var apiHost = 'http://localhost:8000'
+
+var apiHost = 'https://' + process.env.PUBLIC_IP
+if (process.env.NODE_ENV === 'development') {
+  apiHost = 'http://localhost:8000'
+}
+
 
 const api = Axios.create({
     baseURL: apiHost,

@@ -30,7 +30,7 @@ SECRET_KEY = 'zsyuy1w9rg8i*%i@inc++*%sx21h$e$1^ppkmk_vhhdmjmtn6*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.environ.get('PUBLIC_IP', '')]
 
 
 # Application definition
@@ -61,6 +61,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
+    'http://' + os.environ.get('PUBLIC_IP', ''),
     'http://localhost:8080',
     'http://localhost:8001',
     'http://localhost:80',
