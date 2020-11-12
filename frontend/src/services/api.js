@@ -2,7 +2,7 @@ import * as Axios from 'axios'
 import { getAccessToken } from '@/services/auth'
 
 
-var apiHost = 'http://' + process.env.PUBLIC_IP
+var apiHost = 'http://54.146.37.12'
 if (process.env.NODE_ENV === 'development') {
   apiHost = 'http://localhost:8000'
 }

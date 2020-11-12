@@ -46,7 +46,5 @@ services:
     - ./dietacukrzyka/run/static:/static
     - ./gate/nginx:/etc/nginx/conf.d
     # - /etc/letsencrypt:/etc/letsencrypt
-    environment: 
-    - PUBLIC_IP=54.146.37.12
     restart: always
 
