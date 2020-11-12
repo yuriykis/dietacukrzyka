@@ -39,7 +39,7 @@ services:
     image: nginx:1.17.2
     container_name: nginx
     ports:
-    - "8001:80"
+    - "80:80"
     depends_on:
     - app
     volumes:
