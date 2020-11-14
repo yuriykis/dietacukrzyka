@@ -39,7 +39,6 @@
           elevation="8"
           width="100%"
           color="rgba(28,29,30,0.8)"
-          @click="goToMealDetails(i)"
         >
           <v-col cols="12">
             <v-row>
@@ -68,19 +67,27 @@
               </v-col>
               <v-col>
                 <v-card class="rounded-corner" max-width="300">
-                  <v-img
-                    @click="seeDetails(date, days[i])"
-                    :src="
-                      getRecipeImageByName(
-                        recipes[meal_types_data[i]].name
-                          .replaceAll(' ', '_')
-                          .replaceAll(',', '')
-                      )
-                    "
-                    max-height="300"
-                    max-width="300"
-                  >
-                  </v-img>
+                  <v-tooltip v-model="show[i]" top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-img
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="goToMealDetails(i)"
+                        :style="{ cursor: 'pointer' }"
+                        :src="
+                          getRecipeImageByName(
+                            recipes[meal_types_data[i]].name
+                              .replaceAll(' ', '_')
+                              .replaceAll(',', '')
+                          )
+                        "
+                        max-height="300"
+                        max-width="300"
+                      >
+                      </v-img>
+                    </template>
+                    <span>Zobacz szczegóły</span>
+                  </v-tooltip>
                 </v-card>
               </v-col>
             </v-row>
@@ -96,6 +103,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Menu',
   data: () => ({
+    show: [],
     meals: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
     meal_types_data: [
       'sniadanie',
@@ -134,12 +142,18 @@ export default {
         ].weights_info[2]
       }
     },
+    init() {
+      this.date = this.$route.params.date
+      this.day = this.$route.params.day
+      this.recipes = this.getClientInfoByDay(this.days[this.day])
+      this.calculateTotalCalories()
+    },
+  },
+  watch: {
+    $route: 'init',
   },
   mounted() {
-    this.date = this.$route.params.date
-    this.day = this.$route.params.day
-    this.recipes = this.getClientInfoByDay(this.days[this.day])
-    this.calculateTotalCalories()
+    this.init()
   },
 }
 </script>

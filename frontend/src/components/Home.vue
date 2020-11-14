@@ -12,8 +12,8 @@
         <v-row>
           <v-col align="center" justify="center">
             <h3 class="ma-4">
-              Nie masz jeszcze utworzonej diety. Przejdź do ustawień i wygeneruj
-              pierwsze zdrowe posiłki!
+              Nie masz jeszcze utworzonej diety na ten tydzień. Przejdź do
+              ustawień i wygeneruj pierwsze zdrowe posiłki!
             </h3>
           </v-col>
         </v-row>

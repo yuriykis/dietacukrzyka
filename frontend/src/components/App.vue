@@ -3,13 +3,27 @@
     <v-app-bar app color="#1C1D1F" dark depressed>
       <v-row v-if="isUserLogin">
         <v-col cols="1">
-          <AppIcon class="mt-2 ml-3" @click="goToHome" />
+          <AppIcon
+            class="mt-2 ml-3"
+            :style="{ cursor: 'pointer' }"
+            @click="goToHome"
+          />
         </v-col>
         <v-col cols="7">
           <h1 class="mt-2">Zdrowa Dieta</h1>
         </v-col>
         <v-col cols="1">
-          <PersonIcon @click="goToProfile" class="mt-2" />
+          <v-tooltip v-model="show" bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <PersonIcon
+                v-bind="attrs"
+                v-on="on"
+                @click="goToProfile"
+                class="mt-2"
+              />
+            </template>
+            <span>Ustawienia konta</span>
+          </v-tooltip>
         </v-col>
         <v-col cols="1">
           <v-btn color="#98AF4F" class="ma-3" @click="logout">{{
@@ -79,6 +93,7 @@ import {
 export default {
   name: 'App',
   data: () => ({
+    show: false,
     isUserLogin: false,
     loading: true,
   }),
