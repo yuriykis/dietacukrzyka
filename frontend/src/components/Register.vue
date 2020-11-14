@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col class="mt-10" cols="12" align="center" justify="center">
+      <v-col cols="12" align="center" justify="center">
         <h1>Rejestracja</h1>
         <v-container v-if="loading">
           <Loader />
@@ -55,6 +55,16 @@
             v-model="user.age"
           >
           </v-text-field>
+          <v-select
+            :items="gender"
+            background-color="light-green lighten-1"
+            color="light-green darken-4"
+            :height="field_height"
+            filled
+            rounded
+            label="Płeć"
+            v-model="user.gender"
+          ></v-select>
           <v-text-field
             background-color="light-green lighten-1"
             color="light-green darken-4"
@@ -73,6 +83,7 @@
             filled
             rounded
             label="Hasło"
+            type="password"
             :rules="[rules.required]"
             v-model="user.password"
           >
@@ -84,6 +95,7 @@
             filled
             rounded
             label="Powtórz hasło"
+            type="password"
             :rules="[rules.required, checkPassword(password2, user.password)]"
             v-model="password2"
           >
@@ -122,7 +134,9 @@ export default {
       age: '',
       username: '',
       password: '',
+      gender: '',
     },
+    gender: ['Kobieta', 'Mężczyzna', 'Inna'],
     password2: '',
     rules: {
       required: (value1) => !!value1 || 'Pole wymagane',
@@ -145,6 +159,7 @@ export default {
         }
       }
       if (canRegister) {
+        this.genderTranslator(this.user.gender)
         register(this.user).then(() => {
           this.loading = false
           this.completed = true
@@ -168,6 +183,21 @@ export default {
     checkPassword: function(v, pass) {
       return (v) =>
         v === pass || 'Wprowadzone hasło nie jest zgodne z poprzednim'
+    },
+    genderTranslator(gender) {
+      switch (gender) {
+        case 'Mężczyzna':
+          this.user.gender = 'male'
+          break
+        case 'Kobieta':
+          this.user.gender = 'female'
+          break
+        case 'Inna':
+          this.user.gender = 'other'
+          break
+        default:
+          break
+      }
     },
   },
 }

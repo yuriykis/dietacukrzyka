@@ -233,6 +233,9 @@
                     <h5 v-if="fail_mail" style="color: red;">
                       <span>Adres email nie jest dostępny</span>
                     </h5>
+                    <h5 v-if="new_diet" style="color: green;">
+                      <span>Nowa dieta została pomyślnie wygenerowana</span>
+                    </h5>
                   </v-row>
                 </v-col>
               </v-row>
@@ -256,6 +259,7 @@ export default {
     loadingData: false,
     complete_ok: false,
     fail_mail: false,
+    new_diet: false,
     gender: ['Kobieta', 'Mężczyzna', 'Inna'],
     selected_gender: '',
     bmi: 0,
@@ -293,23 +297,35 @@ export default {
       }
     },
     async saveNewDetails() {
-      this.data['preferred_ingredients'] = this.preferred_ingredients
-      this.data['standard_ingredients'] = this.standard_ingredients
-      this.data['allergens'] = this.allergens
-      this.saveClientInfoInStore(this.data)
-      this.loading = true
-      this.complete_ok = false
-      this.fail_mail = false
-      this.genderTranslator(this.selected_gender)
-      try {
-        await this.saveClientInfoOnServer(this.data)
-        this.loading = false
-        this.complete_ok = true
-        this.fail_mail = false
-      } catch (e) {
-        this.loading = false
+      console.log(this.data.weight)
+      console.log(this.data.height)
+      if (
+        this.data.weight === '0' ||
+        this.data.weight === 0 ||
+        this.data.height === '0' ||
+        this.data.height === 0
+      ) {
+        return
+      } else {
+        this.data['preferred_ingredients'] = this.preferred_ingredients
+        this.data['standard_ingredients'] = this.standard_ingredients
+        this.data['allergens'] = this.allergens
+        this.saveClientInfoInStore(this.data)
+        this.loading = true
         this.complete_ok = false
-        this.fail_mail = true
+        this.fail_mail = false
+        this.new_diet = false
+        this.genderTranslator(this.selected_gender)
+        try {
+          await this.saveClientInfoOnServer(this.data)
+          this.loading = false
+          this.complete_ok = true
+          this.fail_mail = false
+        } catch (e) {
+          this.loading = false
+          this.complete_ok = false
+          this.fail_mail = true
+        }
       }
     },
     calculateBmi() {
@@ -353,8 +369,11 @@ export default {
     },
     async createNewDiet() {
       this.loading = true
+      this.complete_ok = false
+      this.fail_mail = false
       await this.obtainNewDiet()
       this.loading = false
+      this.new_diet = true
     },
   },
   async mounted() {

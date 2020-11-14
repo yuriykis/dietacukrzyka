@@ -4,9 +4,14 @@ import {
 export default {
     actions: {
         async fetchData({ commit }) {
+          let client_data = {}
+          try{
             const response = await getClientMenu()
-            const client_data = Object.assign(response.data)
-            commit('updateClientData', client_data)
+            client_data = Object.assign(response.data)
+          } catch(e){
+            client_data = {empty: 'true'}
+          }
+          commit('updateClientData', client_data)   
         },
         async fetchAllImages({ commit, getters, dispatch }, index = 0) {
             const fileNameCurrent = getters.getRecipeName(index)
