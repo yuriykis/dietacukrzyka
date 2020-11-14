@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import permission_classes
 from rest_framework import permissions, status
 from django.contrib.auth.models import User as MainUser
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from django.http import FileResponse
 from django.conf import settings
 
@@ -48,15 +48,22 @@ class ClientMenuView(APIView):
 
     def get(self, request):
         dates_response = []
-        menu_dates = [
-            '2020-11-16',
-            '2020-11-17',
-            '2020-11-18',
-            '2020-11-19',
-            '2020-11-20',
-            '2020-11-21',
-            '2020-11-22',
-        ]
+
+        menu_dates = []
+
+        actual_day = datetime.date.today()
+        first_day = actual_day
+        index = 0
+        while not first_day.weekday() == 0:
+            index = index + 1
+            first_day = actual_day - timedelta(days=index)
+
+        menu_dates_test = []
+        actual_day = first_day
+        for i in range(0, 7):
+            actual_day = first_day + timedelta(days=i)
+            menu_dates.append(str(actual_day))
+
         dates_response = []
         for date_index in range(7):
             meals_response = {}
@@ -169,15 +176,23 @@ class DietGeneratorView(APIView):
         recipes_without_allergens = Recipe.objects.exclude(
             name__in=recipes_to_remove)
 
-        menu_dates = [
-            [2020, 11, 16],
-            [2020, 11, 17],
-            [2020, 11, 18],
-            [2020, 11, 19],
-            [2020, 11, 20],
-            [2020, 11, 21],
-            [2020, 11, 22],
-        ]
+        menu_dates = []
+
+        actual_day = datetime.date.today()
+        first_day = actual_day
+        index = 0
+        while not first_day.weekday() == 0:
+            index = index + 1
+            first_day = actual_day - timedelta(days=index)
+
+        menu_dates_test = []
+        actual_day = first_day
+        for i in range(0, 7):
+            actual_day = first_day + timedelta(days=i)
+            converted_date = map(lambda element: int(
+                element), str(actual_day).split('-'))
+            menu_dates.append(list(converted_date))
+
         meal_types = [
             'sniadanie',
             'II sniadanie',

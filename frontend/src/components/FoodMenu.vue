@@ -14,7 +14,23 @@
               <h2 class="ma-4">Dieta na ten tydzień</h2>
             </v-col>
             <v-col>
-              <h4 class="ma-6">16.11.2020 - 22.11.2020</h4>
+              <h4 class="ma-6">
+                {{
+                  recipes[0]['sniadanie'].date
+                    .split('-')
+                    .reverse()
+                    .toString()
+                    .replaceAll(',', '.')
+                }}
+                -
+                {{
+                  recipes[6]['sniadanie'].date
+                    .split('-')
+                    .reverse()
+                    .toString()
+                    .replaceAll(',', '.')
+                }}
+              </h4>
             </v-col>
           </v-row>
         </v-sheet>
@@ -33,7 +49,15 @@
               <h2 class="ml-5">{{ day }}</h2>
             </v-col>
             <v-col>
-              <h4 class="mt-5">{{ recipes[i]['sniadanie'].date }}</h4>
+              <h4 class="mt-5">
+                {{
+                  recipes[i]['sniadanie'].date
+                    .split('-')
+                    .reverse()
+                    .toString()
+                    .replaceAll(',', '.')
+                }}
+              </h4>
             </v-col>
             <v-col>
               <h4 class="mt-5">

@@ -95,15 +95,6 @@ export default {
   data: () => ({
     recipe: {},
     date: '',
-    dates: {
-      '2020-11-16': 0,
-      '2020-11-17': 1,
-      '2020-11-18': 2,
-      '2020-11-19': 3,
-      '2020-11-20': 4,
-      '2020-11-21': 5,
-      '2020-11-22': 6,
-    },
     meal_types_data: [
       'sniadanie',
       'II sniadanie',
@@ -115,13 +106,20 @@ export default {
     ingredients_weight: {},
     meal_mass: 0,
     calorific_value: 0,
+    current_day: 0,
   }),
   computed: mapGetters(['getClientMealByDayId', 'getRecipeImageByName']),
-  methods: {},
+  methods: {
+    getCurrentWeekDates() {
+      var today = new Date(this.$route.params.date)
+      this.current_day = today.getDay() - 1
+    },
+  },
   mounted() {
+    this.getCurrentWeekDates()
     this.date = this.$route.params.date
     this.recipe = this.getClientMealByDayId(
-      this.dates[this.date],
+      this.current_day,
       this.meal_types_data[this.$route.params.meal_id]
     )
   },

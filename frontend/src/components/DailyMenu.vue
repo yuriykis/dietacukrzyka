@@ -13,7 +13,15 @@
               <h2 class="ma-4">{{ day }}</h2>
             </v-col>
             <v-col>
-              <h2 class="ma-4">{{ date }}</h2>
+              <h2 class="ma-4">
+                {{
+                  date
+                    .split('-')
+                    .reverse()
+                    .toString()
+                    .replaceAll(',', '.')
+                }}
+              </h2>
             </v-col>
             <v-col>
               <h2 class="ma-6">
