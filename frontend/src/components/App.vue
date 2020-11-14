@@ -22,17 +22,16 @@
         <v-col cols="1">
           <AppIcon class="mt-2 ml-3" @click="goToHome" />
         </v-col>
-        <v-col cols="7">
+        <v-col cols="8">
           <h1 class="mt-2">Zdrowa Dieta</h1>
         </v-col>
-        <v-col cols="1"> </v-col>
         <v-col cols="1">
           <v-btn color="#98AF4F" class="ma-3" @click="login">{{
             'Logowanie'
           }}</v-btn>
         </v-col>
-        <v-col cols="1">
-          <v-btn color="#98AF4F" class="ma-3" @click="register">{{
+        <v-col cols="2">
+          <v-btn color="#98AF4F" class="ma-3 ml-10" @click="register">{{
             'Rejestracja'
           }}</v-btn>
         </v-col>
