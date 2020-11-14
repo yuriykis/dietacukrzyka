@@ -120,9 +120,13 @@ export default {
         this.current_date = yyyy + '-' + mm + '-' + dd
         this.current_day = today.getDay() - 1
 
-        this.$router.push({
-          path: `/details/${this.current_date}/${this.days[this.current_day]}`,
-        })
+        this.$router
+          .push({
+            path: `/details/${this.current_date}/${
+              this.days[this.current_day]
+            }`,
+          })
+          .catch(() => {})
       }
     },
   },

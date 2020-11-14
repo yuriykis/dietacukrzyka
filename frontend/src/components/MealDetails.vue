@@ -112,10 +112,14 @@ export default {
     getCurrentWeekDates() {
       var today = new Date(this.$route.params.date)
       this.current_day = today.getDay() - 1
+      if (this.current_day === -1) {
+        this.current_day = 6
+      }
     },
   },
   mounted() {
     this.getCurrentWeekDates()
+    console.log(this.current_day)
     this.recipe = this.getClientMealByDayId(
       this.current_day,
       this.meal_types_data[this.$route.params.meal_id]

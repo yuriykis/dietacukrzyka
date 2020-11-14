@@ -1,5 +1,20 @@
 <template>
   <v-container>
+    <v-snackbar
+      v-model="snackbar"
+      :multi-line="multiLine"
+      :top="y === 'top'"
+      timeout="4000"
+      :color="color"
+    >
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+          <v-icon color="blue">{{ 'mdi-close-circle-outline ' }}</v-icon>
+        </v-btn>
+      </template>
+    </v-snackbar>
     <v-container>
       <v-row class="mb-1 no-gutters">
         <v-sheet
@@ -16,15 +31,18 @@
         </v-sheet>
       </v-row>
     </v-container>
-    <v-container v-if="loadingData"> </v-container>
-    <v-container v-else>
+    <v-container>
       <v-row class="mb-1 no-gutters">
         <v-sheet
           class="mx-auto rounded-corner"
           elevation="8"
           width="100%"
           color="rgba(28,29,30,0.8)"
+          style="position: relative;"
         >
+          <v-overlay :absolute="true" :value="loading">
+            <Loader />
+          </v-overlay>
           <v-row>
             <v-col>
               <v-tabs
@@ -209,10 +227,7 @@
               </v-tabs-items>
               <v-row>
                 <v-col>
-                  <v-row align="center" justify="center" v-if="loading">
-                    <Loader />
-                  </v-row>
-                  <v-row align="center" justify="center" v-else>
+                  <v-row align="center" justify="center">
                     <v-btn
                       color="#98AF4F"
                       class="ma-3 white--text"
@@ -226,17 +241,7 @@
                       >{{ 'Generuj nową dietę' }}</v-btn
                     >
                   </v-row>
-                  <v-row align="center" justify="center">
-                    <h5 v-if="complete_ok" style="color: green;">
-                      <span>Dane zostały pomyślnie zaktualizowane</span>
-                    </h5>
-                    <h5 v-if="fail_mail" style="color: red;">
-                      <span>Adres email nie jest dostępny</span>
-                    </h5>
-                    <h5 v-if="new_diet" style="color: green;">
-                      <span>Nowa dieta została pomyślnie wygenerowana</span>
-                    </h5>
-                  </v-row>
+                  <v-row align="center" justify="center"> </v-row>
                 </v-col>
               </v-row>
             </v-col>
@@ -253,12 +258,14 @@ import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
   data: () => ({
+    snackbar: false,
+    color: '',
+    text: 'My timeout is set to 2000.',
+    y: 'top',
     tabs: null,
     data: {},
     loading: false,
-    loadingData: false,
     complete_ok: false,
-    fail_mail: false,
     new_diet: false,
     gender: ['Kobieta', 'Mężczyzna', 'Inna'],
     selected_gender: '',
@@ -286,6 +293,11 @@ export default {
       'obtainNewDiet',
     ]),
     ...mapMutations(['saveClientInfoInStore']),
+    setSnackBar(text, color) {
+      this.text = text
+      this.color = color
+      this.snackbar = true
+    },
     changeFieldHeight(item_number, ingredients) {
       var ingredients_string = ''
       ingredients.forEach((ingredient) => {
@@ -305,26 +317,21 @@ export default {
         this.data.height === '0' ||
         this.data.height === 0
       ) {
-        return
+        this.setSnackBar('Proszę uzupełnić dane fizyczne', '#C62828')
       } else {
         this.data['preferred_ingredients'] = this.preferred_ingredients
         this.data['standard_ingredients'] = this.standard_ingredients
         this.data['allergens'] = this.allergens
         this.saveClientInfoInStore(this.data)
         this.loading = true
-        this.complete_ok = false
-        this.fail_mail = false
-        this.new_diet = false
         this.genderTranslator(this.selected_gender)
         try {
           await this.saveClientInfoOnServer(this.data)
           this.loading = false
-          this.complete_ok = true
-          this.fail_mail = false
+          this.setSnackBar('Dane zostały pomyślnie zaktualizowane', '#2E7D32')
         } catch (e) {
           this.loading = false
-          this.complete_ok = false
-          this.fail_mail = true
+          this.setSnackBar('Adres email nie jest dostępny', '#C62828')
         }
       }
     },
@@ -368,12 +375,19 @@ export default {
       this.calculateBmi()
     },
     async createNewDiet() {
-      this.loading = true
-      this.complete_ok = false
-      this.fail_mail = false
-      await this.obtainNewDiet()
-      this.loading = false
-      this.new_diet = true
+      if (
+        this.data.weight === '0' ||
+        this.data.weight === 0 ||
+        this.data.height === '0' ||
+        this.data.height === 0
+      ) {
+        this.setSnackBar('Proszę uzupełnić dane fizyczne', '#C62828')
+      } else {
+        this.loading = true
+        await this.obtainNewDiet()
+        this.loading = false
+        this.setSnackBar('Nowa dieta została pomyślnie wygenerowana', '#2E7D32')
+      }
     },
   },
   async mounted() {

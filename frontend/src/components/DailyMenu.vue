@@ -142,12 +142,18 @@ export default {
         ].weights_info[2]
       }
     },
+    init() {
+      this.date = this.$route.params.date
+      this.day = this.$route.params.day
+      this.recipes = this.getClientInfoByDay(this.days[this.day])
+      this.calculateTotalCalories()
+    },
+  },
+  watch: {
+    $route: 'init',
   },
   mounted() {
-    this.date = this.$route.params.date
-    this.day = this.$route.params.day
-    this.recipes = this.getClientInfoByDay(this.days[this.day])
-    this.calculateTotalCalories()
+    this.init()
   },
 }
 </script>
