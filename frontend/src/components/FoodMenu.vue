@@ -44,9 +44,13 @@
           width="100%"
           color="rgba(28,29,30,0.8)"
         >
-          <v-row class="mb-2">
+          <v-row
+            class="mb-2"
+            :style="{ cursor: 'pointer' }"
+            @click="seeDetails(recipes[i][meal_types_data[0]].date, day)"
+          >
             <v-col cols="3">
-              <h2 class="ml-5">{{ day }}</h2>
+              <h2 class="ml-5 mt-3">{{ day }}</h2>
             </v-col>
             <v-col>
               <h4 class="mt-5">
@@ -67,19 +71,21 @@
           </v-row>
           <v-slide-group
             v-model="model"
+            dark
             class="mb-4"
-            :prev-icon="prevIcon ? 'mdi-minus' : undefined"
-            :next-icon="nextIcon ? 'mdi-plus' : undefined"
             :multiple="multiple"
             :mandatory="mandatory"
-            :show-arrows="showArrows"
             :center-active="centerActive"
           >
             <v-slide-item v-for="j in 5" :key="j">
               <v-card class="ma-4" height="200" width="300">
                 <v-img
+                  :style="{ cursor: 'pointer' }"
                   @click="
-                    seeDetails(recipes[i][meal_types_data[j - 1]].date, days[i])
+                    goToMealDetails(
+                      recipes[i][meal_types_data[j - 1]].date,
+                      j - 1
+                    )
                   "
                   :src="
                     images[
@@ -143,6 +149,11 @@ export default {
     seeDetails(date, day) {
       this.$router.push({
         path: `/details/${date}/${day}`,
+      })
+    },
+    goToMealDetails(date, i) {
+      this.$router.push({
+        path: `/meal_details/${date}/${i}/`,
       })
     },
     calculateTotalCalories() {
