@@ -309,8 +309,6 @@ export default {
       }
     },
     async saveNewDetails() {
-      console.log(this.data.weight)
-      console.log(this.data.height)
       if (
         this.data.weight === '0' ||
         this.data.weight === 0 ||

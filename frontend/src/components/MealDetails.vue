@@ -119,7 +119,6 @@ export default {
   },
   mounted() {
     this.getCurrentWeekDates()
-    console.log(this.current_day)
     this.recipe = this.getClientMealByDayId(
       this.current_day,
       this.meal_types_data[this.$route.params.meal_id]
