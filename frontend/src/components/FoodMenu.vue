@@ -78,7 +78,7 @@
             :center-active="centerActive"
           >
             <v-slide-item v-for="j in 5" :key="j">
-              <v-card class="ma-4" height="200" width="300">
+              <v-card class="ma-4 animation" height="200" width="300">
                 <v-img
                   :style="{ cursor: 'pointer' }"
                   @click="
@@ -194,5 +194,11 @@ h3 span {
 }
 h3 {
   color: white;
+}
+.animation {
+  transition: 0.3s;
+}
+.animation:hover {
+  transform: scale(1.05);
 }
 </style>

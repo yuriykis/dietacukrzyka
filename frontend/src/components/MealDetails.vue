@@ -94,7 +94,6 @@ export default {
   name: 'Menu',
   data: () => ({
     recipe: {},
-    date: '',
     meal_types_data: [
       'sniadanie',
       'II sniadanie',
@@ -117,7 +116,6 @@ export default {
   },
   mounted() {
     this.getCurrentWeekDates()
-    this.date = this.$route.params.date
     this.recipe = this.getClientMealByDayId(
       this.current_day,
       this.meal_types_data[this.$route.params.meal_id]
