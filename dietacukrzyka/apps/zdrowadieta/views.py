@@ -95,6 +95,7 @@ class ClientMenuView(APIView):
                     client_info.append(client.weight)
                     client_info.append(client.height)
                     client_info.append(client.gender)
+                    client_info.append(client.physical_activity)
                     weights_info = weights.main(
                         ingredients_cal, ingredients_mass_factors, client_info, meal_type)
 
