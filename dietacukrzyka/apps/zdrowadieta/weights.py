@@ -4,7 +4,7 @@ def main(calories, massFractions, client_info, meal_type):
     weight = float(client_info[1])
     height = float(client_info[2])
     gender = client_info[3]  # male/female
-    physical_activity = 0 # int(client_info[4])
+    physical_activity = int(client_info[4]) # 0, 1, 2, 3, 4
     
     # physical_activity
     # 0 - bezruch, niska aktywność fizyczna
