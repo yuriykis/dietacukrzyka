@@ -68,3 +68,7 @@ export async function refresh (refToken) {
   export async function generateNewDiet () {
     return api.get(`/app/client/diet/`, { headers: authenticationHeader() })
   }
+
+  export async function saveEatingInfo (info, date) {
+    return api.post(`/app/client/meal/info/`, {info, date}, { headers: authenticationHeader() })
+  }

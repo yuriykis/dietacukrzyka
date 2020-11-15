@@ -1,5 +1,21 @@
 <template>
   <v-container>
+    <v-dialog v-model="dialog" persistent max-width="500">
+      <v-card dark color="#a8c256">
+        <v-card-title class="headline">
+          Czy na pewno chcesz wygenerować nową dietę?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="createNewDiet">
+            Tak
+          </v-btn>
+          <v-btn color="green darken-1" text @click="dialog = false">
+            Nie
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-snackbar
       v-model="snackbar"
       :multi-line="multiLine"
@@ -235,7 +251,7 @@
                       >{{ 'Zapisz' }}</v-btn
                     >
                     <v-btn
-                      @click="createNewDiet"
+                      @click="dialog = true"
                       color="#98AF4F"
                       class="ma-3 white--text"
                       >{{ 'Generuj nową dietę' }}</v-btn
@@ -258,6 +274,7 @@ import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
   data: () => ({
+    dialog: false,
     snackbar: false,
     color: '',
     text: 'My timeout is set to 2000.',
@@ -373,6 +390,7 @@ export default {
       this.calculateBmi()
     },
     async createNewDiet() {
+      this.dialog = false
       if (
         this.data.weight === '0' ||
         this.data.weight === 0 ||

@@ -213,6 +213,7 @@ class Meal(models.Model):
 
     calories = models.IntegerField("Calories", default=0, null=False)
     date = models.DateField("Name", default=datetime.date.today, null=False)
+    is_eaten = models.BooleanField(default=False)
 
     def __str__(self):
         return self.recipe.type

@@ -145,7 +145,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'DailyMenuCurrent',
   data: () => ({
@@ -179,8 +179,9 @@ export default {
     currentCheckbox: '',
     daily_menu_checkboxes: [],
   }),
-  destroy() {
-    this.changeCheckbox(this.daily_menu_checkboxes)
+  destroyed() {
+    this.changeCheckboxes(this.daily_menu_checkboxes)
+    this.saveEatingInfoOnServer(this.date)
   },
   computed: mapGetters([
     'getClientInfoByDay',
@@ -188,7 +189,8 @@ export default {
     'getDailyMenuCheckboxes',
   ]),
   methods: {
-    ...mapMutations(['changeCheckbox']),
+    ...mapActions(['saveEatingInfoOnServer']),
+    ...mapMutations(['changeCheckboxes']),
     openDialog(i) {
       if (!this.daily_menu_checkboxes[i]) {
         this.currentCheckbox = i
@@ -234,7 +236,15 @@ export default {
       this.day = this.$route.params.day
       this.recipes = this.getClientInfoByDay(this.days[this.day])
       this.calculateTotalCalories()
-      this.daily_menu_checkboxes = this.getDailyMenuCheckboxes
+
+      if (this.getDailyMenuCheckboxes.length === 0) {
+        this.meal_types_data.forEach((meal_type) => {
+          this.daily_menu_checkboxes.push(this.recipes[meal_type].is_eaten)
+        })
+        this.changeCheckboxes(this.daily_menu_checkboxes)
+      } else {
+        this.daily_menu_checkboxes = this.getDailyMenuCheckboxes
+      }
       this.daily_menu_checkboxes.forEach((element, i) => {
         if (element === true) {
           this.changeCurrentCalories(i)
