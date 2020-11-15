@@ -95,6 +95,7 @@ class ClientMenuView(APIView):
                     client_info.append(client.weight)
                     client_info.append(client.height)
                     client_info.append(client.gender)
+                    client_info.append(client.physical_activity)
                     weights_info = weights.main(
                         ingredients_cal, ingredients_mass_factors, client_info, meal_type)
 
@@ -304,6 +305,7 @@ class ClientDataGetView(APIView):
             'height': client.height,
             'age': client.age,
             'gender': client.gender,
+            'physical_activity': client.physical_activity,
             'preferred_ingredients': preferred_ingredients,
             'standard_ingredients': standard_ingredients,
             'client_allergens': client_allergens,
@@ -325,6 +327,7 @@ class ClientDataSaveView(APIView):
         height = serializer.data.get('height')
         age = serializer.data.get('age')
         gender = serializer.data.get('gender')
+        physical_activity = serializer.data.get('physical_activity')
         serialized_preferred_ingredients = serializer.data.get(
             'preferred_ingredients')
         serialized_standard_ingredients = serializer.data.get(
@@ -345,7 +348,8 @@ class ClientDataSaveView(APIView):
             client.height = height
             client.age = age
             client.gender = gender
-
+            client.physical_activity = physical_activity
+            
             main_user.save()
             client.save()
 
