@@ -147,9 +147,22 @@ export default {
   computed: mapGetters(['getClientInfo', 'getRecipeImages']),
   methods: {
     seeDetails(date, day) {
-      this.$router.push({
-        path: `/details/${date}/${day}`,
-      })
+      var today = new Date()
+      var dd = String(today.getDate()).padStart(2, '0')
+      var mm = String(today.getMonth() + 1).padStart(2, '0')
+      var yyyy = today.getFullYear()
+
+      var current_date = yyyy + '-' + mm + '-' + dd
+
+      if (current_date == date) {
+        this.$router.push({
+          path: `/details/current/${date}/${day}`,
+        })
+      } else {
+        this.$router.push({
+          path: `/details/${date}/${day}`,
+        })
+      }
     },
     goToMealDetails(date, i) {
       this.$router.push({

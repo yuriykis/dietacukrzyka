@@ -86,6 +86,9 @@ export default {
       },
       saveAllergensInStore(state, allergens){
         state.allergens = allergens
+      },
+      changeCheckbox(state, i){
+        state.daily_menu_checkboxes[i] = !state.daily_menu_checkboxes[i]
       }
     },
     state: {
@@ -95,7 +98,8 @@ export default {
         recipes: [],
         ingredients: [],
         client_info: {},
-        allergens: []
+        allergens: [],
+        daily_menu_checkboxes: [false, false, false, false, false],
     },
     getters: {
         getClientInfo(state){
@@ -131,6 +135,9 @@ export default {
         },
         getAllergens(state){
           return state.allergens
+        },
+        getDailyMenuCheckboxes(state){
+          return state.daily_menu_checkboxes
         }
     }
 }

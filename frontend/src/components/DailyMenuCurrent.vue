@@ -1,5 +1,25 @@
 <template>
   <v-container>
+    <v-dialog v-model="dialog" persistent max-width="400">
+      <v-card dark color="#a8c256">
+        <v-card-title class="headline">
+          Czy na pewno chcesz odznaczyć posiłek?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="changeCurrentCalories(currentCheckbox)"
+          >
+            Tak
+          </v-btn>
+          <v-btn color="green darken-1" text @click="closeDialog">
+            Nie
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-container>
       <v-row class="no-gutters">
         <v-sheet
@@ -31,6 +51,23 @@
           </v-row>
         </v-sheet>
       </v-row>
+      <v-row class="mt-4 no-gutters">
+        <v-progress-linear
+          class="rounded-corner"
+          :value="current_calories"
+          color="#a8c256"
+          height="40"
+          dark
+        >
+          <strong
+            >{{
+              (Math.round((current_calories / 100) * total_calories) * 1) / 1
+            }}
+            kcal <span style="color: rgba(116,34,60,0.8);"> / </span
+            >{{ (Math.round(total_calories) * 1) / 1 }} kcal</strong
+          >
+        </v-progress-linear>
+      </v-row>
     </v-container>
     <v-container v-for="(meal, i) in meals" :key="i">
       <v-row class="mb-1 no-gutters">
@@ -45,7 +82,7 @@
               <v-col cols="8">
                 <h2 class="ml-5">{{ meal }}</h2>
               </v-col>
-              <v-col cols="4">
+              <v-col cols="3">
                 <h2 class="ml-5">
                   {{
                     (Math.round(recipes[meal_types_data[i]].weights_info[2]) *
@@ -54,6 +91,15 @@
                   }}
                   kcal
                 </h2>
+              </v-col>
+              <v-col cols="1">
+                <v-checkbox
+                  dark
+                  v-model="daily_menu_checkboxes[i]"
+                  color="success"
+                  hide-details
+                  @click="openDialog(i)"
+                ></v-checkbox>
               </v-col>
             </v-row>
             <v-row>
@@ -99,10 +145,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
-  name: 'DailyMenu',
+  name: 'DailyMenuCurrent',
   data: () => ({
+    checkValue: '',
+    dialog: false,
+    current_calories: 0,
     show: [],
     meals: ['Śniadanie', 'II śniadanie', 'Obiad', 'Podwieczorek', 'Kolacja'],
     meal_types_data: [
@@ -127,9 +176,47 @@ export default {
     calorific_values: [],
     total_calories: 0,
     images: [],
+    currentCheckbox: '',
+    daily_menu_checkboxes: [],
   }),
-  computed: mapGetters(['getClientInfoByDay', 'getRecipeImageByName']),
+  destroy() {
+    this.changeCheckbox(this.daily_menu_checkboxes)
+  },
+  computed: mapGetters([
+    'getClientInfoByDay',
+    'getRecipeImageByName',
+    'getDailyMenuCheckboxes',
+  ]),
   methods: {
+    ...mapMutations(['changeCheckbox']),
+    openDialog(i) {
+      if (!this.daily_menu_checkboxes[i]) {
+        this.currentCheckbox = i
+        this.dialog = true
+      } else {
+        this.changeCurrentCalories(i)
+      }
+    },
+    closeDialog() {
+      this.dialog = false
+      this.daily_menu_checkboxes[this.currentCheckbox] = true
+    },
+    changeCurrentCalories(i) {
+      this.currentCheckbox = ''
+      this.dialog = false
+      const calorific_value_to_change = Math.round(
+        (100 *
+          ((Math.round(this.recipes[this.meal_types_data[i]].weights_info[2]) *
+            1) /
+            1)) /
+          this.total_calories
+      )
+      if (this.daily_menu_checkboxes[i]) {
+        this.current_calories += calorific_value_to_change
+      } else {
+        this.current_calories -= calorific_value_to_change
+      }
+    },
     goToMealDetails(i) {
       this.$router.push({
         path: `/meal_details/${this.date}/${i}/`,
@@ -147,6 +234,12 @@ export default {
       this.day = this.$route.params.day
       this.recipes = this.getClientInfoByDay(this.days[this.day])
       this.calculateTotalCalories()
+      this.daily_menu_checkboxes = this.getDailyMenuCheckboxes
+      this.daily_menu_checkboxes.forEach((element, i) => {
+        if (element === true) {
+          this.changeCurrentCalories(i)
+        }
+      })
     },
   },
   watch: {
