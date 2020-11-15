@@ -119,6 +119,9 @@ export default {
 
         this.current_date = yyyy + '-' + mm + '-' + dd
         this.current_day = today.getDay() - 1
+        if (this.current_day === -1) {
+          this.current_day = 6
+        }
 
         this.$router
           .push({
