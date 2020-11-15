@@ -21,7 +21,7 @@
         </v-list-item-icon>
 
         <v-list-item-content>
-          <v-btn @click="seeDaylyDetails" color="rgba(28,29,30,0.9)"
+          <v-btn @click="seeDailyDetails" color="rgba(28,29,30,0.9)"
             ><h4>Dieta na dziś</h4></v-btn
           >
         </v-list-item-content>
@@ -106,7 +106,7 @@ export default {
     goToProfile() {
       this.$router.push({ path: '/profile' })
     },
-    seeDaylyDetails() {
+    seeDailyDetails() {
       if (this.getClientInfo.empty) {
         this.$router.push({
           path: '/home',
@@ -114,7 +114,7 @@ export default {
       } else {
         var today = new Date()
         var dd = String(today.getDate()).padStart(2, '0')
-        var mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+        var mm = String(today.getMonth() + 1).padStart(2, '0')
         var yyyy = today.getFullYear()
 
         this.current_date = yyyy + '-' + mm + '-' + dd
@@ -125,7 +125,7 @@ export default {
 
         this.$router
           .push({
-            path: `/details/${this.current_date}/${
+            path: `/details/current/${this.current_date}/${
               this.days[this.current_day]
             }`,
           })

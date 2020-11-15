@@ -1,5 +1,5 @@
 import {
-    getClientMenu, getFile, getAllRecipes, getClientInfo, saveClientInfo, getAllIngredients, getAllAllergens, generateNewDiet
+    getClientMenu, getFile, getAllRecipes, getClientInfo, saveClientInfo, getAllIngredients, getAllAllergens, generateNewDiet, saveEatingInfo
   } from '@/services/api'
 export default {
     actions: {
@@ -60,8 +60,11 @@ export default {
         async obtainNewDiet({dispatch}){
           await generateNewDiet()
           await dispatch('fetchData')
+        },
+        
+        async saveEatingInfoOnServer({getters}, date){
+          await saveEatingInfo(getters.getDailyMenuCheckboxes, date)
         }
-
     },
     mutations: {
       updateClientData(state, client_data){
@@ -86,6 +89,9 @@ export default {
       },
       saveAllergensInStore(state, allergens){
         state.allergens = allergens
+      },
+      changeCheckboxes(state, checkboxes){
+        state.daily_menu_checkboxes = checkboxes
       }
     },
     state: {
@@ -95,7 +101,8 @@ export default {
         recipes: [],
         ingredients: [],
         client_info: {},
-        allergens: []
+        allergens: [],
+        daily_menu_checkboxes: [],
     },
     getters: {
         getClientInfo(state){
@@ -131,6 +138,9 @@ export default {
         },
         getAllergens(state){
           return state.allergens
+        },
+        getDailyMenuCheckboxes(state){
+          return state.daily_menu_checkboxes
         }
     }
 }

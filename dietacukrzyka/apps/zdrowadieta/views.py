@@ -104,6 +104,7 @@ class ClientMenuView(APIView):
                         'type': recipe.type,
                         'calories': meals[int(meal_type)].calories,
                         'date': meals[int(meal_type)].date,
+                        'is_eaten': meals[int(meal_type)].is_eaten,
                         'ingredients': ingredients,
                         'weights_info': weights_info
                     }
@@ -440,3 +441,39 @@ class AllergensView(APIView):
         for allergen in allergens:
             allergens_names.append(allergen.name)
         return Response(allergens_names)
+
+
+class MealView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        meal_states = request.data['info']
+        current_date = request.data['date']
+
+        main_user = MainUser.objects.get(username=request.user)
+        user = User.objects.get(user=main_user)
+        client = Client.objects.get(user=user)
+        try:
+            client_menu = ClientMenu.objects.get(client=client)
+            menu = Menu.objects.get(id=client_menu.menu_id)
+            meals = Meal.objects.filter(
+                menu=menu, date=datetime.datetime.strptime(current_date, '%Y-%m-%d').date())
+            meal_types_data = [
+                'sniadanie',
+                'II sniadanie',
+                'obiad',
+                'podwieczorek',
+                'kolacja',
+            ]
+            index = 0
+            for meal_type in meal_types_data:
+                for meal in meals:
+                    if meal.recipe.type == meal_type:
+                        meal.is_eaten = meal_states[index]
+                        meal.save()
+                        index += 1
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(status=status.HTTP_200_OK)

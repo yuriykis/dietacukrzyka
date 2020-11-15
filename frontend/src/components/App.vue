@@ -171,7 +171,7 @@ h1 {
 
 .set-background {
   background-image: url('../assets/background.jpg');
-  background-attachment: fixed; /*fixed;*/
+  background-attachment: fixed;
   background-size: cover;
   filter: blur(3px);
   width: 100%;
