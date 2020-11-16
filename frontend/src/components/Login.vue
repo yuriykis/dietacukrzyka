@@ -7,37 +7,39 @@
           <Loader />
         </v-container>
         <v-container v-else class="ma-10" style="width: 50%">
-          <div>
-            <v-text-field
-              background-color="light-green lighten-1"
+          <v-form ref="form" @submit.prevent="loginUser">
+            <div>
+              <v-text-field
+                background-color="light-green lighten-1"
+                color="light-green darken-4"
+                height="40"
+                filled
+                rounded
+                label="Login"
+                v-model="user.login"
+              >
+              </v-text-field>
+            </div>
+            <div>
+              <v-text-field
+                background-color="light-green lighten-1"
+                color="light-green darken-4"
+                height="40"
+                filled
+                rounded
+                type="password"
+                label="Hasło"
+                v-model="user.password"
+              >
+              </v-text-field>
+            </div>
+            <v-btn
               color="light-green darken-4"
-              height="40"
-              filled
-              rounded
-              label="Login"
-              v-model="user.login"
+              class="ma-3 white--text"
+              type="submit"
+              >{{ 'Zaloguj' }}</v-btn
             >
-            </v-text-field>
-          </div>
-          <div>
-            <v-text-field
-              background-color="light-green lighten-1"
-              color="light-green darken-4"
-              height="40"
-              filled
-              rounded
-              type="password"
-              label="Hasło"
-              v-model="user.password"
-            >
-            </v-text-field>
-          </div>
-          <v-btn
-            color="light-green darken-4"
-            class="ma-3 white--text"
-            @click="loginUser"
-            >{{ 'Zaloguj' }}</v-btn
-          >
+          </v-form>
         </v-container>
       </v-col>
     </v-row>
@@ -54,6 +56,7 @@ export default {
     Loader,
   },
   data: () => ({
+    dialog: true,
     user: {
       login: '',
       password: '',

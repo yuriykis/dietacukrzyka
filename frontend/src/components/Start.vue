@@ -1,34 +1,22 @@
 <template>
-  <v-container class="test">
-     <v-container>
-        <v-row class="mb-2 no-gutters mh-100 mw-75" >
-          <!-- <v-sheet
-            class="mx-auto rounded-corner"
-            elevation="8"
-            width="100%"
-            height="70%"
-            @click="seeDetails()"
-            color="rgba(28,29,30,0.8)"
-          > -->
-
-            <v-col class="mh-100 frame ml-0  rounded-corner">
-              <v-row class="mx-auto">
-                <h4>
-                  Witaj 
-                </h4>
-              </v-row>
-              <v-row class="mx-auto">
-                <h3  class="mx-auto">
-                  Zaloguj się aby zacząć.
-                </h3>
-              </v-row>
-              <!-- <img src="@/assets/Welcome.jpg" alt="Image alt" height="80%"/> -->
-            </v-col>
-            
-          <!-- </v-sheet> -->
-        </v-row>
-     </v-container>
-  </v-container>
+  <v-dialog v-model="dialog" fullscreen transition="dialog-transition">
+    <v-card dark class="frame">
+      <v-row class="mb-2 no-gutters mh-100 mw-75">
+        <v-col class="mh-100 ml-0  rounded-corner">
+          <v-row class="mx-auto">
+            <h4 class="noselect">
+              Witaj
+            </h4>
+          </v-row>
+          <v-row class="mx-auto">
+            <v-btn color="green darken-1" class="mx-auto" @click="goTologin">
+              Zaloguj się aby zacząć.
+            </v-btn>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -38,10 +26,18 @@ export default {
   components: {},
 
   data: () => ({
+    dialog: true,
     user: {},
   }),
   created() {},
-  methods: {},
+  methods: {
+    goTologin() {
+      this.dialog = false
+      setTimeout(() => {
+        this.$router.push({ path: '/login' })
+      }, 200)
+    },
+  },
 }
 </script>
 
@@ -51,6 +47,7 @@ export default {
 }
 h2,
 h4 {
+  font-family: 'Dancing Script', cursive;
   color: white;
   font-size: 266px;
 }
@@ -59,17 +56,26 @@ h3 {
   color: white;
   font-size: 26px;
 }
-.frame{
+.frame {
   height: 800px;
   background-image: url('../assets/Welcome.jpg');
   background-size: cover;
 }
-.test{
+.test {
   /* background-color: red; */
   margin-left: -8.5%;
 }
-::v-deep .v-icon.notranslate.mdi.mdi-chevron-right.theme--light{
+::v-deep .v-icon.notranslate.mdi.mdi-chevron-right.theme--light {
   color: white;
   background-color: #a8c256;
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 </style>

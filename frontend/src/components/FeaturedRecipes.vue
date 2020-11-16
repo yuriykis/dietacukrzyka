@@ -1,8 +1,5 @@
 <template>
-  <v-row justify="center" align="center" v-if="loading">
-    <Loader />
-  </v-row>
-  <v-container v-else>
+  <v-container>
     <v-container>
       <v-row class="mb-2 no-gutters">
         <v-col class="mt-10" cols="12" align="center" justify="center">
@@ -16,7 +13,7 @@
           class="mx-auto rounded-corner"
           elevation="8"
           width="100%"
-          @click="seeDetails()"
+          @click="seeDetails(i)"
           color="rgba(28,29,30,0.8)"
         >
           <v-row>
@@ -30,7 +27,7 @@
           <v-row justify="center">
             <v-card class="ma-4" height="300" width="700">
               <v-img
-                @click="seeDetails(date, days[i])"
+                :style="{ cursor: 'pointer' }"
                 :src="
                   getRecipeImageByName(
                     recipe.name.replaceAll(' ', '_').replaceAll(',', '')
@@ -49,37 +46,20 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Loader from '@/components/Loader'
 export default {
-  name: 'Menu',
+  name: 'FeaturedRecipes',
   data: () => ({
-    recipes: [],
-    dates: [
-      '2020-11-16',
-      '2020-11-17',
-      '2020-11-18',
-      '2020-11-19',
-      '2020-11-20',
-      '2020-11-21',
-      '2020-11-22',
-    ],
-    images: [],
     loading: true,
   }),
-  components: {
-    Loader,
-  },
   computed: mapGetters(['getRecipes', 'getRecipeImageByName']),
   methods: {
-    seeDetails() {
+    seeDetails(i) {
       this.$router.push({
-        path: '/recipes_details',
+        path: `/recipes_details/${i}`,
       })
     },
   },
-  async mounted() {
-    this.loading = false
-  },
+  async mounted() {},
 }
 </script>
 
