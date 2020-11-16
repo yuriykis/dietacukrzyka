@@ -1,5 +1,21 @@
 <template>
   <v-container>
+    <v-dialog v-model="dialog" persistent max-width="500">
+      <v-card dark color="#a8c256">
+        <v-card-title class="headline">
+          Czy na pewno chcesz wygenerować nową dietę?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="createNewDiet">
+            Tak
+          </v-btn>
+          <v-btn color="green darken-1" text @click="dialog = false">
+            Nie
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-snackbar
       v-model="snackbar"
       :multi-line="multiLine"
@@ -154,6 +170,16 @@
                           v-model="data.height"
                         >
                         </v-text-field>
+                        <v-select
+                          :items="activity_text"
+                          background-color="light-green lighten-1"
+                          color="light-green darken-4"
+                          :height="field_height"
+                          filled
+                          rounded
+                          label="Aktywność fizyczna"
+                          v-model="selected_activity"
+                        ></v-select>
                         <v-text-field
                           background-color="light-green lighten-1"
                           color="light-green darken-4"
@@ -235,7 +261,7 @@
                       >{{ 'Zapisz' }}</v-btn
                     >
                     <v-btn
-                      @click="createNewDiet"
+                      @click="dialog = true"
                       color="#98AF4F"
                       class="ma-3 white--text"
                       >{{ 'Generuj nową dietę' }}</v-btn
@@ -258,12 +284,21 @@ import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
   data: () => ({
+    dialog: false,
     snackbar: false,
     color: '',
     text: 'My timeout is set to 2000.',
     y: 'top',
     tabs: null,
     data: {},
+    activity_text: [
+      'Bezruch, niska aktywność fizyczna',
+      'Umiarkowana aktywność fizyczna (1 − 3 razy w tygodniu trening lub dużo chodzenia w ciągu dnia)',
+      'Średnia aktywność (3 − 5 treningów w tygodniu)',
+      'Bardzo aktywny tryb życia',
+      'Bardzo aktywny tryb życia + praca fizyczna',
+    ],
+    selected_activity: '',
     loading: false,
     complete_ok: false,
     new_diet: false,
@@ -317,6 +352,9 @@ export default {
       ) {
         this.setSnackBar('Proszę uzupełnić dane fizyczne', '#C62828')
       } else {
+        this.data['physical_activity'] = this.activity_text.indexOf(
+          this.selected_activity
+        )
         this.data['preferred_ingredients'] = this.preferred_ingredients
         this.data['standard_ingredients'] = this.standard_ingredients
         this.data['allergens'] = this.allergens
@@ -369,10 +407,12 @@ export default {
       this.preferred_ingredients = this.data.preferred_ingredients
       this.standard_ingredients = this.data.standard_ingredients
       this.allergens = this.data.client_allergens
+      this.selected_activity = this.activity_text[this.data.physical_activity]
       this.genderTranslator(this.data.gender)
       this.calculateBmi()
     },
     async createNewDiet() {
+      this.dialog = false
       if (
         this.data.weight === '0' ||
         this.data.weight === 0 ||

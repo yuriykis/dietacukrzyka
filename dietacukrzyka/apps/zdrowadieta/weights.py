@@ -4,13 +4,29 @@ def main(calories, massFractions, client_info, meal_type):
     weight = float(client_info[1])
     height = float(client_info[2])
     gender = client_info[3]  # male/female
-
-    caloric_demand = 9.99 * weight + 6.25 * height - 4.92 * age
+    physical_activity = int(client_info[4]) # 0, 1, 2, 3, 4
+    
+    # physical_activity
+    # 0 - bezruch, niska aktywność fizyczna
+    # 1 - umiarkowana aktywność fizyczna (1 − 3 razy w tygodniu trening lub dużo chodzenia w ciągu dnia)
+    # 2 - średnia aktywność (3 − 5 treningów w tygodniu)
+    # 3 - bardzo aktywny tryb życia
+    # 4 - bardzo aktywny tryb życia + praca fizyczna
+   
+    PAL = [1.2, 1.3, 1.5, 1.7, 1.9]
+    caloric_demand = 0
     if gender == "male":
-        caloric_demand += 5
+        caloric_demand = 13.7 * weight + 5.0 * height - 6.76 * age + 66.47
     else:
-        caloric_demand -= 161
+        caloric_demand = 9.567 * weight + 1.85 * height - 4.68 * age + 655.1
 
+    caloric_demand *= 1.1 # efekt termiczny pożywienia
+
+    for i in range(len(PAL)):
+        if i == physical_activity:
+            caloric_demand *= PAL[i]
+            break
+        
     # caloric of subsequent meals as a fraction of the whole day
     CALORIC_PER_MEAL = [0.25, 0.10, 0.30, 0.15, 0.20]
     TYPES_OF_MEALS = ["sniadanie", "II sniadanie",

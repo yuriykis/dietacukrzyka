@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/components/Home.vue'
 import Start from '@/components/Start.vue'
 import DailyMenu from '@/components/DailyMenu.vue'
+import DailyMenuCurrent from '@/components/DailyMenuCurrent.vue'
 import Register from '@/components/Register.vue'
 import Login from '@/components/Login.vue'
 import FeaturedRecipes from '@/components/FeaturedRecipes.vue'
@@ -31,6 +32,11 @@ Vue.use(VueRouter)
     path: '/details/:date/:day/',
     name: 'DailyMenu',
     component: DailyMenu
+  },
+  {
+    path: '/details/current/:date/:day/',
+    name: 'DailyMenuCurrent',
+    component: DailyMenuCurrent
   },
   {
     path: '/meal_details/:date/:meal_id',

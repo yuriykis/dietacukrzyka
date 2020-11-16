@@ -95,6 +95,7 @@ class ClientMenuView(APIView):
                     client_info.append(client.weight)
                     client_info.append(client.height)
                     client_info.append(client.gender)
+                    client_info.append(client.physical_activity)
                     weights_info = weights.main(
                         ingredients_cal, ingredients_mass_factors, client_info, meal_type)
 
@@ -104,6 +105,7 @@ class ClientMenuView(APIView):
                         'type': recipe.type,
                         'calories': meals[int(meal_type)].calories,
                         'date': meals[int(meal_type)].date,
+                        'is_eaten': meals[int(meal_type)].is_eaten,
                         'ingredients': ingredients,
                         'weights_info': weights_info
                     }
@@ -303,6 +305,7 @@ class ClientDataGetView(APIView):
             'height': client.height,
             'age': client.age,
             'gender': client.gender,
+            'physical_activity': client.physical_activity,
             'preferred_ingredients': preferred_ingredients,
             'standard_ingredients': standard_ingredients,
             'client_allergens': client_allergens,
@@ -324,6 +327,7 @@ class ClientDataSaveView(APIView):
         height = serializer.data.get('height')
         age = serializer.data.get('age')
         gender = serializer.data.get('gender')
+        physical_activity = serializer.data.get('physical_activity')
         serialized_preferred_ingredients = serializer.data.get(
             'preferred_ingredients')
         serialized_standard_ingredients = serializer.data.get(
@@ -344,7 +348,8 @@ class ClientDataSaveView(APIView):
             client.height = height
             client.age = age
             client.gender = gender
-
+            client.physical_activity = physical_activity
+            
             main_user.save()
             client.save()
 
@@ -440,3 +445,39 @@ class AllergensView(APIView):
         for allergen in allergens:
             allergens_names.append(allergen.name)
         return Response(allergens_names)
+
+
+class MealView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        meal_states = request.data['info']
+        current_date = request.data['date']
+
+        main_user = MainUser.objects.get(username=request.user)
+        user = User.objects.get(user=main_user)
+        client = Client.objects.get(user=user)
+        try:
+            client_menu = ClientMenu.objects.get(client=client)
+            menu = Menu.objects.get(id=client_menu.menu_id)
+            meals = Meal.objects.filter(
+                menu=menu, date=datetime.datetime.strptime(current_date, '%Y-%m-%d').date())
+            meal_types_data = [
+                'sniadanie',
+                'II sniadanie',
+                'obiad',
+                'podwieczorek',
+                'kolacja',
+            ]
+            index = 0
+            for meal_type in meal_types_data:
+                for meal in meals:
+                    if meal.recipe.type == meal_type:
+                        meal.is_eaten = meal_states[index]
+                        meal.save()
+                        index += 1
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(status=status.HTTP_200_OK)

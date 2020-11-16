@@ -45,6 +45,7 @@ class Client(models.Model):
         "Height", max_digits=6, decimal_places=3, default=0, null=False)
     age = models.IntegerField("Age", default=0, null=False)
     gender = models.CharField("Gender", default="", max_length=255)
+    physical_activity = models.IntegerField("Activity", default=0, null=False)
 
     def __str__(self):
         return self.name + self.last_name
@@ -213,6 +214,7 @@ class Meal(models.Model):
 
     calories = models.IntegerField("Calories", default=0, null=False)
     date = models.DateField("Name", default=datetime.date.today, null=False)
+    is_eaten = models.BooleanField(default=False)
 
     def __str__(self):
         return self.recipe.type
