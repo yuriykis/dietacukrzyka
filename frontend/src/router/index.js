@@ -10,6 +10,7 @@ import FeaturedRecipes from '@/components/FeaturedRecipes.vue'
 import Profile from '@/components/Profile.vue'
 import MealDetails from '@/components/MealDetails.vue'
 import About from '@/components/About.vue'
+import RecipeDetails from '@/components/RecipeDetails.vue'
 import { isValidAccessToken } from '@/services/auth'
 
 Vue.use(VueRouter)
@@ -81,9 +82,9 @@ Vue.use(VueRouter)
     }
   },
   {
-    path: '/recipes_details',
-    name: 'FeaturedRecipes',
-    component: FeaturedRecipes,
+    path: '/recipes_details/:recipe_id/',
+    name: 'RecipeDetails',
+    component: RecipeDetails,
     meta: {
       requiresAuth: true
     }
