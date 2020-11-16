@@ -72,6 +72,18 @@
           >
         </v-list-item-content>
       </v-list-item>
+
+      <v-list-item>
+        <v-list-item-icon class="my-5">
+          <v-icon color="#98AF4F">{{ 'mdi-alpha-i-circle ' }}</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-btn @click="goToAbout" color="rgba(28,29,30,0.9)"
+            ><h4>O Aplikacji</h4></v-btn
+          >
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -105,6 +117,9 @@ export default {
     },
     goToProfile() {
       this.$router.push({ path: '/profile' })
+    },
+    goToAbout() {
+      this.$router.push({ path: '/about' })
     },
     seeDailyDetails() {
       if (this.getClientInfo.empty) {
