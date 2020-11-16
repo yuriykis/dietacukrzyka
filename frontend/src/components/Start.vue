@@ -13,9 +13,9 @@
 
             <v-col class="mh-100 frame ml-0  rounded-corner">
               <v-row class="mx-auto">
-                <h4>
+                <h1>
                   Witaj 
-                </h4>
+                </h1>
               </v-row>
               <v-row class="mx-auto">
                 <h3  class="mx-auto">
@@ -49,8 +49,8 @@ export default {
 .rounded-corner {
   border-radius: 20px;
 }
-h2,
-h4 {
+
+h1 {
   color: white;
   font-size: 266px;
 }
@@ -58,7 +58,7 @@ h3 {
   background-color: #a8c256;
   color: white;
   font-size: 26px;
-}
+} 
 .frame{
   height: 800px;
   background-image: url('../assets/Welcome.jpg');
@@ -66,10 +66,19 @@ h3 {
 }
 .test{
   /* background-color: red; */
-  margin-left: -8.5%;
+  /* margin-left: -8.5%; */
 }
 ::v-deep .v-icon.notranslate.mdi.mdi-chevron-right.theme--light{
   color: white;
   background-color: #a8c256;
+}
+
+@media screen and (max-width: 600px) {
+  h1 {
+  font-size: 66px;
+  }
+  h3 {
+    font-size: 22px; 
+  } 
 }
 </style>
