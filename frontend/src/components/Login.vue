@@ -15,8 +15,8 @@
         </v-btn>
       </template>
     </v-snackbar>
-    <v-row>
-      <v-col class="mt-10" cols="12" align="center" justify="center">
+    <v-row align="center" justify="center">
+      <v-col class="mt-10 mr-15" cols="12" align="center" justify="center">
         <h1>Logowanie</h1>
         <v-container v-if="loading">
           <Loader />

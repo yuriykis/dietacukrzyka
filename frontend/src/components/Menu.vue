@@ -1,91 +1,109 @@
 <template>
-  <v-navigation-drawer
-    v-model="drawer"
-    :mini-variant.sync="mini"
-    floating
-    flat
-    permanent
-    color="transparent"
-    width="100%"
-  >
-    <v-list-item class="px-2">
-      <v-btn icon color="#98AF4F" @click.stop="mini = !mini">
-        <v-icon large>mdi-view-headline</v-icon>
-      </v-btn>
-    </v-list-item>
-
-    <v-list dense>
-      <v-list-item>
-        <v-list-item-icon class="my-5">
-          <v-icon color="#98AF4F">{{ 'mdi-food-variant' }}</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-content>
-          <v-btn @click="seeDailyDetails" color="rgba(28,29,30,0.9)"
-            ><h4>Dieta na dziś</h4></v-btn
-          >
-        </v-list-item-content>
+  <div>
+    <v-snackbar v-model="snackbar" top left timeout="4000" color="warning">
+      <template v-slot:action="{ attrs }">
+        {{ 'Funkcjonalnośc na razie niedostępna' }}
+        <v-btn
+          class="ml-2"
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="snackbar = false"
+        >
+          <v-icon color="blue">{{ 'mdi-close-circle-outline ' }}</v-icon>
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <v-navigation-drawer
+      v-model="drawer"
+      :mini-variant.sync="mini"
+      floating
+      flat
+      permanent
+      color="transparent"
+      width="100%"
+    >
+      <v-list-item class="px-2">
+        <v-btn icon color="#98AF4F" @click.stop="mini = !mini">
+          <v-icon large>mdi-view-headline</v-icon>
+        </v-btn>
       </v-list-item>
 
-      <v-list-item>
-        <v-list-item-icon class="my-5">
-          <v-icon color="#98AF4F">{{ 'mdi-silverware-fork-knife' }}</v-icon>
-        </v-list-item-icon>
+      <v-list dense>
+        <v-list-item>
+          <v-list-item-icon class="my-5">
+            <v-icon color="#98AF4F">{{ 'mdi-food-variant' }}</v-icon>
+          </v-list-item-icon>
 
-        <v-list-item-content>
-          <v-btn @click="goToHome" color="rgba(28,29,30,0.9)"
-            ><h4>Dieta na ten tydzień</h4></v-btn
-          >
-        </v-list-item-content>
-      </v-list-item>
+          <v-list-item-content>
+            <v-btn @click="seeDailyDetails" color="rgba(28,29,30,0.9)"
+              ><h4>Dieta na dziś</h4></v-btn
+            >
+          </v-list-item-content>
+        </v-list-item>
 
-      <v-list-item>
-        <v-list-item-icon class="my-5">
-          <v-icon color="#98AF4F">{{ 'mdi-food-apple' }}</v-icon>
-        </v-list-item-icon>
+        <v-list-item>
+          <v-list-item-icon class="my-5">
+            <v-icon color="#98AF4F">{{ 'mdi-silverware-fork-knife' }}</v-icon>
+          </v-list-item-icon>
 
-        <v-list-item-content>
-          <v-btn @click="goToFeaturedRecipes" color="rgba(28,29,30,0.9)"
-            ><h4>Przepisy</h4></v-btn
-          >
-        </v-list-item-content>
-      </v-list-item>
+          <v-list-item-content>
+            <v-btn @click="goToHome" color="rgba(28,29,30,0.9)"
+              ><h4>Dieta na ten tydzień</h4></v-btn
+            >
+          </v-list-item-content>
+        </v-list-item>
 
-      <v-list-item>
-        <v-list-item-icon class="my-5">
-          <v-icon color="#98AF4F">{{ 'mdi-account-details-outline' }}</v-icon>
-        </v-list-item-icon>
+        <v-list-item>
+          <v-list-item-icon class="my-5">
+            <v-icon color="#98AF4F">{{ 'mdi-food-apple' }}</v-icon>
+          </v-list-item-icon>
 
-        <v-list-item-content>
-          <v-btn color="rgba(28,29,30,0.9)"><h4>Porady</h4></v-btn>
-        </v-list-item-content>
-      </v-list-item>
+          <v-list-item-content>
+            <v-btn @click="goToFeaturedRecipes" color="rgba(28,29,30,0.9)"
+              ><h4>Przepisy</h4></v-btn
+            >
+          </v-list-item-content>
+        </v-list-item>
 
-      <v-list-item>
-        <v-list-item-icon class="my-5">
-          <v-icon color="#98AF4F">{{ 'mdi-cog' }}</v-icon>
-        </v-list-item-icon>
+        <v-list-item>
+          <v-list-item-icon class="my-5">
+            <v-icon color="#98AF4F">{{ 'mdi-account-details-outline' }}</v-icon>
+          </v-list-item-icon>
 
-        <v-list-item-content>
-          <v-btn @click="goToProfile" color="rgba(28,29,30,0.9)"
-            ><h4>Ustawienia Konta</h4></v-btn
-          >
-        </v-list-item-content>
-      </v-list-item>
+          <v-list-item-content>
+            <v-btn @click="snackbar = true" color="rgba(28,29,30,0.9)"
+              ><h4>Porady</h4></v-btn
+            >
+          </v-list-item-content>
+        </v-list-item>
 
-      <v-list-item>
-        <v-list-item-icon class="my-5">
-          <v-icon color="#98AF4F">{{ 'mdi-alpha-i-circle ' }}</v-icon>
-        </v-list-item-icon>
+        <v-list-item>
+          <v-list-item-icon class="my-5">
+            <v-icon color="#98AF4F">{{ 'mdi-cog' }}</v-icon>
+          </v-list-item-icon>
 
-        <v-list-item-content>
-          <v-btn @click="goToAbout" color="rgba(28,29,30,0.9)"
-            ><h4>O Aplikacji</h4></v-btn
-          >
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-  </v-navigation-drawer>
+          <v-list-item-content>
+            <v-btn @click="goToProfile" color="rgba(28,29,30,0.9)"
+              ><h4>Ustawienia Konta</h4></v-btn
+            >
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item>
+          <v-list-item-icon class="my-5">
+            <v-icon color="#98AF4F">{{ 'mdi-alpha-i-circle ' }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-btn @click="goToAbout" color="rgba(28,29,30,0.9)"
+              ><h4>O Aplikacji</h4></v-btn
+            >
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+  </div>
 </template>
 
 <script>
@@ -93,6 +111,8 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Menu',
   data: () => ({
+    snackbar: false,
+    y: 'top',
     days: [
       'Poniedziałek',
       'Wtorek',
