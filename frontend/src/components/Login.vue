@@ -1,5 +1,20 @@
 <template>
   <v-container>
+    <v-snackbar
+      v-model="snackbar"
+      :multi-line="multiLine"
+      :top="y === 'top'"
+      timeout="4000"
+      color="#C62828"
+    >
+      {{ 'Błędne dane logowania' }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+          <v-icon color="blue">{{ 'mdi-close-circle-outline ' }}</v-icon>
+        </v-btn>
+      </template>
+    </v-snackbar>
     <v-row>
       <v-col class="mt-10" cols="12" align="center" justify="center">
         <h1>Logowanie</h1>
@@ -56,6 +71,8 @@ export default {
     Loader,
   },
   data: () => ({
+    snackbar: false,
+    y: 'top',
     dialog: true,
     user: {
       login: '',
@@ -78,7 +95,7 @@ export default {
         })
         .catch(() => {
           this.loading = false
-          alert('Błędne dane logowania')
+          this.snackbar = true
         })
     },
   },
