@@ -247,14 +247,14 @@ fasolaCzerwona.save()
 burak = Ingredient(name='Burak', calories=43,
                    proteins=1.6, fats=0.17, carbs=9.6)
 burak.save()
-komosa = Ingredient(name='Komosa ryżowa', calories=120 ,
-                   proteins=4.4, fats=1.9, carbs=21.3)
+komosa = Ingredient(name='Komosa ryżowa', calories=120,
+                    proteins=4.4, fats=1.9, carbs=21.3)
 komosa.save()
-bob = Ingredient(name='Bób', calories=110 ,
-                   proteins=7.6, fats=0.4, carbs=19.6)
+bob = Ingredient(name='Bób', calories=110,
+                 proteins=7.6, fats=0.4, carbs=19.6)
 bob.save()
 kapustaCz = Ingredient(name='Kapusta czerwona', calories=43,
-                   proteins=1.6, fats=0.17, carbs=9.6)
+                       proteins=1.6, fats=0.17, carbs=9.6)
 kapustaCz.save()
 sledz = Ingredient(name='Śledź', calories=160,
                    proteins=19.0, fats=2.0, carbs=0.0)
@@ -363,13 +363,13 @@ jajkaSadzoneWarzywa.save()
 omletOwsianyBanan = Recipe(name='Omlet owsiany z bananem', method='Płatki owsiane zalewamy wodą aby zmiękły. Obranego banana rozgniatamy widelcem. Rozbijamy jajka do miski i mieszamy z bananem i płatkami. Smażymy na małym ogniu pod przykryciem. Podajemy z pokrojonym w plastry bananem.', calories=200, type='sniadanie')
 omletOwsianyBanan.save()
 szakszuka = Recipe(name='Szakszuka',
-                               method='- Pokrojoną drobno cebulę i czosnek zeszklić na patelni odrobiną oliwy. Zalać pomidorami z puszki, i przyprawić solą, pieprzem i ziołami prowansalskimi. Podgrzewać około 5 minut do częściowego odparowania wody. Następnie wbić jajka. Smażyć kolejne 5 minut pod przykryciem.', calories=200, type='sniadanie')
+                   method='- Pokrojoną drobno cebulę i czosnek zeszklić na patelni odrobiną oliwy. Zalać pomidorami z puszki, i przyprawić solą, pieprzem i ziołami prowansalskimi. Podgrzewać około 5 minut do częściowego odparowania wody. Następnie wbić jajka. Smażyć kolejne 5 minut pod przykryciem.', calories=200, type='sniadanie')
 szakszuka.save()
 salatkaAwokadoPieczywo = Recipe(name='Sałatka z awokado i pieczywem',
-                               method='Umyty szpinak przełożyć do miski. Pomidorki i awokado pokroić w kostkę. Dodać oliwki i wymieszać. Podawać z pieczywem.', calories=200, type='sniadanie')
+                                method='Umyty szpinak przełożyć do miski. Pomidorki i awokado pokroić w kostkę. Dodać oliwki i wymieszać. Podawać z pieczywem.', calories=200, type='sniadanie')
 salatkaAwokadoPieczywo.save()
 kanapkaPaprykaOgorek = Recipe(name='Kanapki z papryką i ogórkiem',
-                               method='Pieczywo posmarować masłem. Na kanapkach ułożyć sałatę oraz pokrojone w plastry ogórek i paprykę.', calories=200, type='sniadanie')
+                              method='Pieczywo posmarować masłem. Na kanapkach ułożyć sałatę oraz pokrojone w plastry ogórek i paprykę.', calories=200, type='sniadanie')
 kanapkaPaprykaOgorek.save()
 kanapkaAwokadoPomidor = Recipe(name='Kanapki z awokado i pomidorem',
                                method='- Awokado rozgnieść widelcem i posmarować nim pieczywo. Pomidory pokroić w plastry i położyć na kanapkach. Doprawić pieprzem do smaku.', calories=200, type='sniadanie')
@@ -413,7 +413,7 @@ jogurtBorowkaTruskawka = Recipe(name='Jogurt z borówkami i truskawkami',
                                 method='Jogurt naturalny posypać pokrojonymi truskawkami i borówkami.', calories=200, type='II sniadanie')
 jogurtBorowkaTruskawka.save()
 salatkaAwokadoOgorek = Recipe(name='Sałatka z awokado i ogórkiem',
-                                method='Warzywa dokładnie umyć. Ogórka i awokado pokroić drobno. Dodać pomidory suszone oraz szpinak.', calories=200, type='II sniadanie')
+                              method='Warzywa dokładnie umyć. Ogórka i awokado pokroić drobno. Dodać pomidory suszone oraz szpinak.', calories=200, type='II sniadanie')
 salatkaAwokadoOgorek.save()
 
 # Obiady
@@ -469,9 +469,9 @@ orzechyNerkowca.save()
 jagodyMigdaly = Recipe(name='Garść migdałów i jagód',
                        method='', calories=200, type='podwieczorek')
 jagodyMigdaly.save()
-jablkoOrzechy = Recipe(name='Hummus z marchewką',
+hummusMarchew = Recipe(name='Hummus z marchewką',
                        method='Gotowy kupiony hummus podawać z obranymi, pokrojonymi w słupki marchewkami.', calories=200, type='podwieczorek')
-jablkoOrzechy.save()
+hummusMarchew.save()
 bananPodwieczorek = Recipe(name='Banan', method='',
                            calories=200, type='podwieczorek')
 bananPodwieczorek.save()
@@ -524,13 +524,13 @@ kurczakSzparagiGroszek = Recipe(name='Grilowana pierś kurczaka ze szparagami i 
                                 method='Doprawiony solą filet z piersi kurczka grilować około 12 minut. Podawać z gotowanymi 7 minut szparagami i zielonym groszkiem z puszki.', calories=300, type='kolacja')
 kurczakSzparagiGroszek.save()
 salatkaOliwkiPapryka = Recipe(name='Sałatka z oliwkami',
-                                method='Umyć paprykę i sałatę. Umyte warzywa i mozzarellę pokroić i dorzucić do miski. Na koniec dodać oliwki i polać oliwą.', calories=300, type='kolacja')
+                              method='Umyć paprykę i sałatę. Umyte warzywa i mozzarellę pokroić i dorzucić do miski. Na koniec dodać oliwki i polać oliwą.', calories=300, type='kolacja')
 salatkaOliwkiPapryka.save()
 salatkaZBobem = Recipe(name='Sałatka z bobem',
-                               method='Umyty bób zalej wodą, posól i gotuj około 10 minut od momentu zagotowania wody. Obrany, przestudzony bób podawaj z pokrojonymi pomidorami oraz sałatą i kapustą.', calories=200, type='kolacja')
+                       method='Umyty bób zalej wodą, posól i gotuj około 10 minut od momentu zagotowania wody. Obrany, przestudzony bób podawaj z pokrojonymi pomidorami oraz sałatą i kapustą.', calories=200, type='kolacja')
 salatkaZBobem.save()
 sledzCebula = Recipe(name='Śledź z cebulą',
-                                method='Śledzia z puszki odsączyć z okeju i podać na tależ. Umytą cebulę pokroić drobno. Podawać z pieczywem.', calories=300, type='kolacja')
+                     method='Śledzia z puszki odsączyć z okeju i podać na tależ. Umytą cebulę pokroić drobno. Podawać z pieczywem.', calories=300, type='kolacja')
 sledzCebula.save()
 
 
@@ -543,6 +543,13 @@ new_recipeIngredient = RecipeIngredient(
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
     ingredient=pieczywo, recipe=sledzCebula, massFraction=0.25)
+new_recipeIngredient.save()
+
+new_recipeIngredient = RecipeIngredient(
+    ingredient=marchew, recipe=hummusMarchew, massFraction=0.6)
+new_recipeIngredient.save()
+new_recipeIngredient = RecipeIngredient(
+    ingredient=hummus, recipe=hummusMarchew, massFraction=0.4)
 new_recipeIngredient.save()
 
 new_recipeIngredient = RecipeIngredient(

@@ -6,7 +6,7 @@
           class="mx-auto rounded-corner"
           elevation="8"
           width="100%"
-          max-height="80"
+          max-height="120"
           color="rgba(116,34,60,0.8)"
         >
           <v-row>
