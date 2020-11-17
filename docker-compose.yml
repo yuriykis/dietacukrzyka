@@ -44,6 +44,7 @@ services:
     - app
     volumes:
     - ./dietacukrzyka/run/static:/static
+    - ./dietacukrzyka/run/pki:/pki
     - ./gate/nginx:/etc/nginx/conf.d
     # - /etc/letsencrypt:/etc/letsencrypt
     restart: always
