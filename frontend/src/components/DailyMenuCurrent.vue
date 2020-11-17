@@ -44,7 +44,7 @@
               </h2>
             </v-col>
             <v-col>
-              <h2 class="ma-6">
+              <h2 class="ma-4">
                 {{ (Math.round(total_calories) * 1) / 1 }} kcal
               </h2>
             </v-col>

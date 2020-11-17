@@ -1,6 +1,7 @@
 DELETE FROM public.zdrowadieta_user;
 DELETE FROM public.auth_user;
 DELETE FROM public.zdrowadieta_clientmenu;
+DELETE FROM public.zdrowadieta_clientallergen;
 DELETE FROM public.zdrowadieta_client;
 DELETE FROM public.zdrowadieta_dietician;
 DELETE FROM public.zdrowadieta_userdisease;
