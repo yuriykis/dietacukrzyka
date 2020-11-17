@@ -160,6 +160,7 @@ export default {
       }
       if (canRegister) {
         this.genderTranslator(this.user.gender)
+        this.user.age = parseInt(this.user.age, 10)
         register(this.user).then(() => {
           this.loading = false
           this.completed = true

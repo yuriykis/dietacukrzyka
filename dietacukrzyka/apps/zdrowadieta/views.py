@@ -338,7 +338,12 @@ class ClientDataSaveView(APIView):
         user = User.objects.get(user=main_user)
         client = Client.objects.get(user=user)
 
-        if (email and MainUser.objects.filter(email=email).count() != 0):
+        user_list = []
+        user_list.append(user)
+        other_users = MainUser.objects.exclude(
+            user__in=user_list)
+
+        if (email and other_users.filter(email=email).count() != 0):
             return Response(status=status.HTTP_409_CONFLICT)
         else:
             main_user.email = email
@@ -349,7 +354,7 @@ class ClientDataSaveView(APIView):
             client.age = age
             client.gender = gender
             client.physical_activity = physical_activity
-            
+
             main_user.save()
             client.save()
 

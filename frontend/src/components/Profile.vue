@@ -4,6 +4,9 @@
       <v-card dark color="#a8c256">
         <v-card-title class="headline">
           Czy na pewno chcesz wygenerować nową dietę?
+          <p style="font-size: 18px">
+            Wprowadzone dane zostaną zapisane
+          </p>
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -255,7 +258,7 @@
                 <v-col>
                   <v-row align="center" justify="center">
                     <v-btn
-                      color="#98AF4F"
+                      color="orange"
                       class="ma-3 white--text"
                       @click="saveNewDetails"
                       >{{ 'Zapisz' }}</v-btn
@@ -311,6 +314,7 @@ export default {
     field_height: 70,
     ingredients_field_height: [70, 70, 70],
     field_row: [1, 1, 1],
+    data_saved: false,
   }),
   components: {
     Loader,
@@ -344,6 +348,7 @@ export default {
       }
     },
     async saveNewDetails() {
+      this.data_saved = false
       if (
         this.data.weight === '0' ||
         this.data.weight === 0 ||
@@ -358,6 +363,8 @@ export default {
         this.data['preferred_ingredients'] = this.preferred_ingredients
         this.data['standard_ingredients'] = this.standard_ingredients
         this.data['allergens'] = this.allergens
+        this.data.weight = parseInt(this.data.weight, 10)
+        this.data.height = parseInt(this.data.height, 10)
         this.saveClientInfoInStore(this.data)
         this.loading = true
         this.genderTranslator(this.selected_gender)
@@ -365,6 +372,7 @@ export default {
           await this.saveClientInfoOnServer(this.data)
           this.loading = false
           this.setSnackBar('Dane zostały pomyślnie zaktualizowane', '#2E7D32')
+          this.data_saved = true
         } catch (e) {
           this.loading = false
           this.setSnackBar('Adres email nie jest dostępny', '#C62828')
@@ -374,7 +382,9 @@ export default {
     calculateBmi() {
       this.bmi =
         Math.round(
-          (this.data.weight / Math.pow(this.data.height / 100, 2)) * 100
+          (parseInt(this.data.weight, 10) /
+            Math.pow(parseInt(this.data.height, 10) / 100, 2)) *
+            100
         ) / 100
     },
     genderTranslator(gender) {
@@ -413,18 +423,13 @@ export default {
     },
     async createNewDiet() {
       this.dialog = false
-      if (
-        this.data.weight === '0' ||
-        this.data.weight === 0 ||
-        this.data.height === '0' ||
-        this.data.height === 0
-      ) {
-        this.setSnackBar('Proszę uzupełnić dane fizyczne', '#C62828')
-      } else {
+      await this.saveNewDetails()
+      if (this.data_saved) {
         this.loading = true
         await this.obtainNewDiet()
         this.loading = false
         this.setSnackBar('Nowa dieta została pomyślnie wygenerowana', '#2E7D32')
+        this.data_saved = false
       }
     },
   },
