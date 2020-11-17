@@ -5,8 +5,8 @@ services:
   postgres:
     image: postgres:11.2
     container_name: postgres
-    ports:
-    - "8002:5432"
+    expose: 
+      - "5432"
     volumes:
     - ./dietacukrzyka/run/data/postgres:/var/lib/postgresql/data
     - ./dietacukrzyka/run/etc/db_password:/run/db_password
@@ -20,8 +20,8 @@ services:
   app:
     build: .
     container_name: django
-    ports:
-    - "8000:8000"
+    expose: 
+      - "8000"
     volumes:
     - ./dietacukrzyka/run/etc:/code/run/etc
     - ./dietacukrzyka/run/static:/code/run/static
@@ -48,6 +48,5 @@ services:
     - ./dietacukrzyka/run/pki:/pki
     - ./dietacukrzyka/run/ssl:/ssl
     - ./gate/nginx:/etc/nginx/conf.d
-    # - /etc/letsencrypt:/etc/letsencrypt
     restart: always
 
