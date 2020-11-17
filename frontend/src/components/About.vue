@@ -39,8 +39,15 @@
                 <br /><br />
                 Gorąco zachęcamy do testowania funkcjonalności aplikacji oraz
                 bardzo prosimy o wypełnienie ankiety:
-                <br /><br />
               </p>
+              <v-btn
+                class="ml-5"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSf-asMzOrwYfGN3bCJCGsnS1N9qnlodIPUg8OgCapkkBfOpug/viewform"
+                target="_blank"
+                color="#98AF4F"
+              >
+                Przejdź do ankiety
+              </v-btn>
               <h3 class="ma-5">Smacznego!</h3>
             </v-col>
           </v-row>
