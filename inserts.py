@@ -956,12 +956,6 @@ new_recipeIngredient26.save()
 new_recipeIngredient27 = RecipeIngredient(
     ingredient=brokul, recipe=kurczakBrokul, massFraction=0.5)
 new_recipeIngredient27.save()
-new_recipeIngredient28 = RecipeIngredient(
-    ingredient=orzechyW, recipe=jablkoOrzechy, massFraction=0.4)
-new_recipeIngredient28.save()
-new_recipeIngredient29 = RecipeIngredient(
-    ingredient=jablko, recipe=jablkoOrzechy, massFraction=0.6)
-new_recipeIngredient29.save()
 
 new_recipeIngredient30 = RecipeIngredient(
     ingredient=awokado, recipe=salatkaSzpinak, massFraction=0.2)
