@@ -8,15 +8,17 @@ new_user1.save()
 new_client1 = Client(user=new_user1, name='Jan',
                      last_name='Kowalski', weight=85, height=175, age=44)
 new_client1.save()
-
+new_dietician1 = Dietician(
+    user=new_user1, name='Jan', last_name='Kowalski')
+new_dietician1.save()
 
 user = MainUser.objects.create_user(
     username='mZalewski', password='Zalewski123')
 new_user2 = User(user=user, isAdmin=False, isDietician=True)
 new_user2.save()
-new_dietician1 = Dietician(
+new_dietician2 = Dietician(
     user=new_user2, name='Mateusz', last_name='Zalewski')
-new_dietician1.save()
+new_dietician2.save()
 
 
 user = MainUser.objects.create_user(
