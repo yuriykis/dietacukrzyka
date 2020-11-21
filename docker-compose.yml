@@ -25,6 +25,7 @@ services:
     volumes:
     - ./dietacukrzyka/run/etc:/code/run/etc
     - ./dietacukrzyka/run/static:/code/run/static
+    - ./dietacukrzyka/run/documents:/code/run/documents
     environment:
     - DB_HOST=postgres
     - DB_NAME=postgres
