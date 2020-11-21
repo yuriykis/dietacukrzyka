@@ -352,7 +352,7 @@ serekOwoce = Recipe(name='Serek wiejski z malinami, jagodami i bananem',
                     method='Serek wiejski wymieszać z owocami. ', calories=200, type='sniadanie')
 serekOwoce.save()
 jajkaSadzoneSzparagi = Recipe(name='Szparagi z jajkiem sadzonym ',
-                              method='Szparagi gotujemy w osolonej wodzie około 7 minut. Jajka rozbijamy na patelnie delikatnie zwilżoną olejem i smażymy pod przykryciem.', calories=200, type='sniadanie')
+                              method='Szparagi gotujemy w osolonej wodzie około 7 minut. Jajka rozbijamy na patelnie delikatnie zwilżoną oliwą i smażymy pod przykryciem. Podajemy z pokrojonym pomidorem i szpiorkiem.', calories=200, type='sniadanie')
 jajkaSadzoneSzparagi.save()
 kanapkaMasloOrzechowe = Recipe(name='Kanapka z masłem orzechowym i bananem',
                                method='Pieczywo posmaruj masłem orzechowym, nasęponie połóż pokrojonego w plastry banana.', calories=200, type='sniadanie')
@@ -747,11 +747,21 @@ new_recipeIngredient = RecipeIngredient(
     ingredient=banan, recipe=kanapkaMasloOrzechowe, massFraction=0.35)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
-    ingredient=jajka, recipe=jajkaSadzoneSzparagi, massFraction=0.4)
+    ingredient=jajka, recipe=jajkaSadzoneSzparagi, massFraction=0.3)
 new_recipeIngredient.save()
 new_recipeIngredient = RecipeIngredient(
-    ingredient=szparagi, recipe=jajkaSadzoneSzparagi, massFraction=0.6)
+    ingredient=szparagi, recipe=jajkaSadzoneSzparagi, massFraction=0.4)
 new_recipeIngredient.save()
+new_recipeIngredient = RecipeIngredient(
+    ingredient=szczypior, recipe=jajkaSadzoneSzparagi, massFraction=0.1)
+new_recipeIngredient.save()
+new_recipeIngredient = RecipeIngredient(
+    ingredient=pomidor, recipe=jajkaSadzoneSzparagi, massFraction=0.15)
+new_recipeIngredient.save()
+new_recipeIngredient = RecipeIngredient(
+    ingredient=oliwa, recipe=jajkaSadzoneSzparagi, massFraction=0.05)
+new_recipeIngredient.save()
+
 new_recipeIngredient = RecipeIngredient(
     ingredient=krewetki, recipe=krewetkiBrokulRyz, massFraction=0.25)
 new_recipeIngredient.save()
