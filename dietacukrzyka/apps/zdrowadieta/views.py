@@ -8,6 +8,8 @@ from django.contrib.auth.models import User as MainUser
 from datetime import datetime, date, timedelta
 from django.http import FileResponse
 from django.conf import settings
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 from .models import *
 from .serializers import *
@@ -296,6 +298,12 @@ class ClientDataGetView(APIView):
         except:
             pass
 
+        try:
+            dietician = Dietician.objects.get(user=user)
+            is_dietician = True
+        except:
+            is_dietician = False
+
         response = {
             'login': main_user.username,
             'email': main_user.email,
@@ -309,6 +317,7 @@ class ClientDataGetView(APIView):
             'preferred_ingredients': preferred_ingredients,
             'standard_ingredients': standard_ingredients,
             'client_allergens': client_allergens,
+            'is_dietician': is_dietician
         }
 
         return Response(response)
@@ -486,3 +495,48 @@ class MealView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         return Response(status=status.HTTP_200_OK)
+
+
+class RecipeImageView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        try:
+            data = request.data['file']
+            meals_folder = os.path.join(settings.IMAGES_DIR, "Dania")
+            result = os.path.join(
+                meals_folder, request.data['file_name'] + '.jpg')
+            default_storage.save(result, ContentFile(data.read()))
+            return Response(status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class RecipeView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        try:
+            name = request.data['name']
+            ingredients_names = request.data['ingredients']
+            description = request.data['description']
+            recipe_type = request.data['recipe_type']
+            mass_fractions = request.data['mass_fractions']
+
+            recipe = Recipe(name=name, method=description,
+                            calories=0, type=recipe_type)
+            recipe.save()
+
+            for ingredient_name in ingredients_names:
+                mass_fraction = float(mass_fractions[ingredient_name])
+                ingredient = Ingredient.objects.get(
+                    name=ingredient_name)
+                recipe_ingredient = RecipeIngredient(
+                    ingredient=ingredient, recipe=recipe, massFraction=mass_fraction)
+                recipe_ingredient.save()
+
+            return Response(status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)

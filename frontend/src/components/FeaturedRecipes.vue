@@ -2,9 +2,27 @@
   <v-container>
     <v-container>
       <v-row class="mb-2 no-gutters">
-        <v-col class="mt-10" cols="12" align="center" justify="center">
-          <h1 style="font-size: 60px;">Polecane Przepisy</h1>
-        </v-col>
+        <v-sheet
+          class="mx-auto rounded-corner"
+          elevation="8"
+          width="100%"
+          max-height="80"
+          color="rgba(116,34,60,0.8)"
+        >
+          <v-row>
+            <v-col cols="8">
+              <h2 class="ma-4">Polecane Przepisy</h2>
+            </v-col>
+            <v-col v-if="is_dietician">
+              <v-btn
+                @click="goToRecipeCreating"
+                color="#98AF4F"
+                class="ma-3 white--text"
+                >{{ 'Dodaj nowy przepis' }}</v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-sheet>
       </v-row>
     </v-container>
     <v-container v-for="(recipe, i) in getRecipes" :key="i">
@@ -45,21 +63,35 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'FeaturedRecipes',
   data: () => ({
     loading: true,
+    is_dietician: false,
   }),
-  computed: mapGetters(['getRecipes', 'getRecipeImageByName']),
+  computed: mapGetters([
+    'getRecipes',
+    'getRecipeImageByName',
+    'getClientInfoFromStore',
+  ]),
   methods: {
+    ...mapActions(['getClientInfoFromServer']),
     seeDetails(i) {
       this.$router.push({
         path: `/recipes_details/${i}`,
       })
     },
+    goToRecipeCreating() {
+      this.$router.push({
+        path: '/recipes/new/',
+      })
+    },
   },
-  async mounted() {},
+  async mounted() {
+    await this.getClientInfoFromServer()
+    this.is_dietician = this.getClientInfoFromStore.is_dietician
+  },
 }
 </script>
 
@@ -69,6 +101,10 @@ export default {
 }
 h3,
 h5 {
+  color: white;
+}
+h2,
+h4 {
   color: white;
 }
 </style>

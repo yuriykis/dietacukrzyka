@@ -290,7 +290,7 @@ export default {
     dialog: false,
     snackbar: false,
     color: '',
-    text: 'My timeout is set to 2000.',
+    text: '',
     y: 'top',
     tabs: null,
     data: {},
@@ -414,6 +414,7 @@ export default {
     async fetchData() {
       await this.getClientInfoFromServer()
       this.data = this.getClientInfoFromStore
+      console.log(this.data)
       this.preferred_ingredients = this.data.preferred_ingredients
       this.standard_ingredients = this.data.standard_ingredients
       this.allergens = this.data.client_allergens

@@ -11,6 +11,7 @@ import Profile from '@/components/Profile.vue'
 import MealDetails from '@/components/MealDetails.vue'
 import About from '@/components/About.vue'
 import RecipeDetails from '@/components/RecipeDetails.vue'
+import NewRecipe from '@/components/NewRecipe.vue'
 import { isValidAccessToken } from '@/services/auth'
 
 Vue.use(VueRouter)
@@ -85,6 +86,14 @@ Vue.use(VueRouter)
     path: '/recipes_details/:recipe_id/',
     name: 'RecipeDetails',
     component: RecipeDetails,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/recipes/new/',
+    name: 'NewRecipe',
+    component: NewRecipe,
     meta: {
       requiresAuth: true
     }
