@@ -248,8 +248,34 @@
                 <v-tab-item>
                   <v-card color="rgba(116,34,60)">
                     <v-row>
-                      <v-col> </v-col>
-                      <v-col> </v-col>
+                      <v-col class="mx-10">
+                        <v-progress-linear
+                          class="rounded-corner"
+                          :value="progress"
+                          color="#a8c256"
+                          height="40"
+                          dark
+                        >
+                          <strong>{{ progress }} %</strong>
+                        </v-progress-linear>
+                        <v-file-input
+                          class="rounded-corner"
+                          label="Wybierz dokument"
+                          background-color="light-green lighten-1"
+                          color="light-green darken-4"
+                          :height="field_height"
+                          v-model="file"
+                        ></v-file-input>
+                      </v-col>
+                    </v-row>
+                    <v-row justify="center">
+                      <v-btn
+                        :disabled="isFileLoading"
+                        @click="upload"
+                        color="orange"
+                        class="mb-3 white--text"
+                        >{{ 'Prześlij dokument' }}</v-btn
+                      >
                     </v-row>
                   </v-card>
                 </v-tab-item>
@@ -258,12 +284,14 @@
                 <v-col>
                   <v-row align="center" justify="center">
                     <v-btn
+                      :disabled="isFileLoading"
                       color="orange"
                       class="ma-3 white--text"
                       @click="saveNewDetails"
                       >{{ 'Zapisz' }}</v-btn
                     >
                     <v-btn
+                      :disabled="isFileLoading"
                       @click="dialog = true"
                       color="#98AF4F"
                       class="ma-3 white--text"
@@ -283,10 +311,13 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { uploadDocument } from '../services/api'
 import Loader from '@/components/Loader'
 export default {
   name: 'Menu',
   data: () => ({
+    file: null,
+    progress: 0,
     dialog: false,
     snackbar: false,
     color: '',
@@ -315,6 +346,7 @@ export default {
     ingredients_field_height: [70, 70, 70],
     field_row: [1, 1, 1],
     data_saved: false,
+    isFileLoading: false,
   }),
   components: {
     Loader,
@@ -332,6 +364,26 @@ export default {
       'obtainNewDiet',
     ]),
     ...mapMutations(['saveClientInfoInStore']),
+    async upload() {
+      if (!this.file) {
+        this.setSnackBar('Proszę wybrać plik', '#C62828')
+      } else {
+        this.isFileLoading = true
+        try {
+          await uploadDocument(this.file, (event) => {
+            this.progress = Math.round((100 * event.loaded) / event.total)
+          })
+          this.setSnackBar(
+            'Dokument został pomyślnie przesłany. Proszę czekać na odpowiedź',
+            '#2E7D32'
+          )
+        } catch (e) {
+          this.progress = 0
+          this.setSnackBar('Nie udało się przesłać pliku', '#C62828')
+        }
+        this.isFileLoading = false
+      }
+    },
     setSnackBar(text, color) {
       this.text = text
       this.color = color

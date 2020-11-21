@@ -21,6 +21,8 @@ PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 IMAGES_DIR = os.path.join(PROJECT_ROOT, 'images')
+RUN_DIR = os.path.join(PROJECT_ROOT, 'run')
+DOCUMENTS_DIR = os.path.join(RUN_DIR, 'documents')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 

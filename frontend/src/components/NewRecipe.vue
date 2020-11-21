@@ -135,7 +135,6 @@
                   color="light-green darken-4"
                   height="50"
                   v-model="file"
-                  @change="selectFile"
                 ></v-file-input>
               </v-col>
             </v-card>
@@ -155,7 +154,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { uploadFile, saveNewRecipe } from '../services/api'
+import { uploadRecipeImage, saveNewRecipe } from '../services/api'
 import Loader from '@/components/Loader'
 export default {
   name: 'NewRecipe',
@@ -196,7 +195,7 @@ export default {
         this.saveRecipe()
         try {
           const fileName = this.name.replaceAll(' ', '_').replaceAll(',', '')
-          await uploadFile(
+          await uploadRecipeImage(
             this.file,
             (event) => {
               this.progress = Math.round((100 * event.loaded) / event.total)
