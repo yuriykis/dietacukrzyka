@@ -23,9 +23,7 @@ services:
     expose: 
       - "8000"
     volumes:
-    - ./dietacukrzyka/run/etc:/code/run/etc
-    - ./dietacukrzyka/run/static:/code/run/static
-    - ./dietacukrzyka/run/documents:/code/run/documents
+    - ./dietacukrzyka/run/documents:/code/dietacukrzyka/run/documents
     environment:
     - DB_HOST=postgres
     - DB_NAME=postgres
