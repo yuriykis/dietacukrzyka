@@ -329,6 +329,9 @@ ingredient_allergen.save()
 ingredient_allergen = IngredientAllergen(
     ingredient=sledz, allergen=ryby_alerg)
 ingredient_allergen.save()
+ingredient_allergen = IngredientAllergen(
+    ingredient=orzechyN, allergen=orzechy_alerg)
+ingredient_allergen.save()
 
 # sniadania
 owsiankaPomarancza = Recipe(name='Owsianka z pomarańczą',
