@@ -13,5 +13,6 @@ urlpatterns = [
     path('recipe/image/', views.RecipeImageView.as_view()),
     path('recipe/new/', views.RecipeView.as_view()),
     path('ingredients/', views.IngredientsView.as_view()),
-    path('allergens/', views.AllergensView.as_view())
+    path('allergens/', views.AllergensView.as_view()),
+    path('documents/', views.DocumentsView.as_view())
 ]

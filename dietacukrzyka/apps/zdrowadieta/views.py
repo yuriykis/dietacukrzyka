@@ -540,3 +540,18 @@ class RecipeView(APIView):
             return Response(status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class DocumentsView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        try:
+            data = request.data['file']
+            file_name = str(data)    
+            result = os.path.join(settings.DOCUMENTS_DIR, file_name)
+            default_storage.save(result, ContentFile(data.read()))
+            return Response(status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
