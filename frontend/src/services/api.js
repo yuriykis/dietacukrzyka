@@ -72,3 +72,18 @@ export async function refresh (refToken) {
   export async function saveEatingInfo (info, date) {
     return api.post(`/app/client/meal/info/`, {info, date}, { headers: authenticationHeader() })
   }
+
+  export async function uploadFile (file, onUploadProgress, fileName) {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('file_name', fileName)
+    return api.post('app/recipe/image/', formData, {
+      headers: { Authorization: `Bearer ${getAccessToken()}`, 'Content-Type': 'multipart/form-data' },
+      onUploadProgress
+    })
+  }
+
+  export async function saveNewRecipe (recipe) {
+    return api.post('/app/recipe/new/', recipe, { headers: authenticationHeader() })
+  }
+  

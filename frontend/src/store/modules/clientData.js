@@ -30,7 +30,7 @@ export default {
                   commit('updateClientImages', imageObject)
                   await dispatch('fetchAllImages', ++index)
               } catch(e){
-                if (index < 55) {
+                if (index < 67) {
                   await dispatch('fetchAllImages', ++index)
                 }
               }
